@@ -1,0 +1,55 @@
+<!-- registro.component.html -->
+<div class="registro-container">
+    <h2>Registro</h2>
+    <form>
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required />
+      </div>
+      <div class="form-group">
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required />
+      </div>
+      <!-- registro.component.html -->
+    <div class="form-group">
+        <label for="rut">RUT:</label>
+        <input type="text" id="rut" name="rut" required
+           pattern="^\d{1,2}\.\d{3}\.\d{3}-\d{1}$"
+           title="Ingresa un RUT válido en formato XX.XXX.XXX-X" />
+    </div>
+  
+      <div class="form-group">
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" required />
+      </div>
+      <!-- registro.component.html -->
+    <div class="form-group">
+        <label for="telefono">Número de Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" required
+           pattern="^[2-9]\d{8}$"
+           title="Ingresa un número de teléfono válido de 9 dígitos" />
+    </div>
+  
+      <!-- registro.component.html -->
+    <div class="form-group">
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required
+           minlength="6" maxlength="20"
+           title="La contraseña debe tener entre 6 y 20 caracteres" />
+    </div>
+  
+    </form>
+  </div>
+<!-- registro.component.html -->
+<div class="registro-container">
+
+    <!-- Agrega un div para el mensaje de éxito -->
+    <div class="success-message" *ngIf="registroExitoso">
+      Usuario registrado exitosamente.
+    </div>
+    <form (submit)="onSubmit()">
+      <!-- Resto del formulario aquí -->
+      <button type="submit">Registrarse</button>
+    </form>
+  </div>
+  

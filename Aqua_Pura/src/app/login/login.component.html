@@ -1,22 +1,12 @@
-<button (click)="toggleLogin()">Mostrar/ocultar inicio de sesión</button>
-
-<div *ngIf="mostrarLogin"> <!-- Utiliza *ngIf para mostrar/ocultar el formulario -->
-  <h2>Iniciar sesión</h2>
-  <form (ngSubmit)="login()">
-    <!-- Campos de inicio de sesión aquí -->
+<!-- login.component.html -->
+<div class="login-container">
+  <h2>Iniciar Sesión</h2>
+  <form>
+    <input type="text" placeholder="Usuario" />
+    <input type="password" placeholder="Contraseña" />
+    <div class="button-container">
+      <button type="submit">Iniciar Sesión</button>
+      <button class="small-button" routerLink="/registro">Registrarse</button>
+    </div>
   </form>
 </div>
-
-<h2>Iniciar sesión</h2>
-<form (ngSubmit)="login()">
-  <div>
-    <label for="username">Nombre de usuario:</label>
-    <input type="text" id="username" [(ngModel)]="username" name="username" required>
-  </div>
-  <div>
-    <label for="password">Contraseña:</label>
-    <input type="password" id="password" [(ngModel)]="password" name="password" required>
-  </div>
-  <button type="submit">Iniciar sesión</button>
-</form>
-

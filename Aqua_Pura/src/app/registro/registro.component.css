@@ -1,0 +1,38 @@
+/* registro.component.css */
+.registro-container {
+    width: 300px; /* Ancho del formulario */
+    margin: 0 auto; /* Centrar horizontalmente */
+  }
+  
+  .form-group {
+    margin-bottom: 15px; /* Espacio entre grupos de campos */
+  }
+  
+  label {
+    display: block; /* Coloca las etiquetas en una línea separada */
+    margin-bottom: 5px; /* Espacio entre etiquetas y campos */
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 10px; /* Espacio entre campos */
+  }
+  
+  button {
+    background-color: #28a745; /* Color verde para el botón "Registrarse" */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #218838; /* Cambia a un tono más oscuro de verde al pasar el mouse */
+  }
+  

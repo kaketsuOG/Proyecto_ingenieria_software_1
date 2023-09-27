@@ -1,0 +1,107 @@
+/* login.component.css */
+.login-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  h2 {
+    color: #333;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  /* login.component.css */
+.small-button {
+    background-color: #28a745; /* Color verde para el botón "Registrarse" */
+    color: #fff; /* Texto en color blanco */
+    border: none;
+    padding: 5px 10px; /* Tamaño más pequeño */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .small-button:hover {
+    background-color: #218838; /* Cambia a un tono más oscuro de verde al pasar el mouse */
+  }
+  /* login.component.css */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px; /* Espacio entre los botones y los campos de entrada */
+  }
+  
+  .small-button {
+    background-color: #28a745; /* Color verde para el botón "Registrarse" */
+    color: #fff; /* Texto en color blanco */
+    border: none;
+    padding: 5px 10px; /* Tamaño más pequeño */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .small-button:hover {
+    background-color: #218838; /* Cambia a un tono más oscuro de verde al pasar el mouse */
+  }
+  
+  /* login.component.css */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px; /* Espacio entre los botones y los campos de entrada */
+  }
+  
+  /* Estilo para el botón "Iniciar Sesión" */
+  button[type="submit"] {
+    background-color: #007bff; /* Color azul */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 10px; /* Espacio entre los botones */
+  }
+  
+  /* Estilo para el botón "Registrarse" */
+  .small-button {
+    background-color: #28a745; /* Color verde para el botón "Registrarse" */
+    color: #fff;
+    border: none;
+    padding: 5px 10px; /* Tamaño más pequeño */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  

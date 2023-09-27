@@ -1,23 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  username: string = '';
-  password: string = '';
-  mostrarLogin: boolean = false; // Agrega esta propiedad
+export class LoginComponent implements OnInit {
 
-  toggleLogin() {
-    this.mostrarLogin = !this.mostrarLogin;
+  constructor() { }
+
+  ngOnInit(): void {
   }
 
-  login() {
-    // Implementa la lógica de autenticación aquí
-  }
 }
-
-
-
