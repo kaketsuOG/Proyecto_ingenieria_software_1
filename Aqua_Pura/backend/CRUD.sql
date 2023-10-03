@@ -1,486 +1,374 @@
 DELIMITER //
 
--- Procedimiento para VEHICULO
-CREATE PROCEDURE VEHICULO_CRUD(
-    IN OPCION VARCHAR(2),
-    IN COD_VEHICULO_P INT,
-    IN MARCA_VEHICULO_P VARCHAR(255),
-    IN PATENTE_P VARCHAR(255),
-    OUT MENSAJE VARCHAR(255)
+CREATE PROCEDURE CRUD_VEHICULO(
+    IN accion VARCHAR(10),
+    IN codVehiculo INT,
+    IN patente VARCHAR(10)
 )
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'VEHICULO') THEN
-        CREATE TABLE VEHICULO (
-            COD_VEHICULO INT,
-            MARCA_VEHICULO VARCHAR(255),
-            PATENTE VARCHAR(255)
-        );
-    END IF;
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO VEHICULO (PATENTE) VALUES (patente);
+        WHEN 'READ' THEN
+            SELECT * FROM VEHICULO WHERE COD_VEHICULO = codVehiculo;
+        WHEN 'UPDATE' THEN
+            UPDATE VEHICULO SET PATENTE = patente WHERE COD_VEHICULO = codVehiculo;
+        WHEN 'DELETE' THEN
+            DELETE FROM VEHICULO WHERE COD_VEHICULO = codVehiculo;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
 
-    IF (OPCION = 'C') THEN
-        INSERT INTO VEHICULO(COD_VEHICULO, MARCA_VEHICULO, PATENTE)
-        VALUES(COD_VEHICULO_P, MARCA_VEHICULO_P, PATENTE_P);
-        SET MENSAJE = 'Vehículo insertado correctamente';
-    END IF;
+DELIMITER ;
 
-    IF (OPCION = 'R') THEN
-        SELECT * FROM VEHICULO;
-        SET MENSAJE = 'Lectura de vehículos realizada correctamente';
-    END IF;
+DELIMITER //
 
-    IF (OPCION = 'U') THEN
-        UPDATE VEHICULO SET
-            MARCA_VEHICULO = MARCA_VEHICULO_P,
-            PATENTE = PATENTE_P
-            WHERE COD_VEHICULO = COD_VEHICULO_P;
-        SET MENSAJE = 'Vehículo actualizado correctamente';
-    END IF;
-
-    IF (OPCION = 'D') THEN
-        DELETE FROM VEHICULO WHERE COD_VEHICULO = COD_VEHICULO_P;
-        SET MENSAJE = 'Vehículo eliminado correctamente';
-    END IF;
-
-    -- Agregamos control de errores con SIGNAL SQLSTATE.
-    IF (OPCION NOT IN ('C','R', 'U', 'D')) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Opción no válida para VEHICULO_CRUD';
-    END IF;
-
-END;
-//
-
--- Procedimiento para USUARIO
-CREATE PROCEDURE USUARIO_CRUD(
-    IN OPCION VARCHAR(10),
-    IN RUT_P INT,
-    IN CONTRASEÑA_P VARCHAR(255),
-    IN NOMBRE_USUARIO_P VARCHAR(255),
-    IN APELLIDO_USUARIO_P VARCHAR(255),
-    IN COD_ROL_P INT,
-    OUT MENSAJE VARCHAR(255)
+CREATE PROCEDURE CRUD_USUARIO(
+    IN accion VARCHAR(10),
+    IN rutUsuario VARCHAR(10),
+    IN contraseña VARCHAR(30),
+    IN nombreUsuario VARCHAR(30),
+    IN apellido1Usuario VARCHAR(30),
+    IN apellido2Usuario VARCHAR(30),
+    IN codRol INT
 )
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'USUARIO') THEN
-        CREATE TABLE USUARIO (
-            RUT INT,
-            CONTRASEÑA VARCHAR(255),
-            NOMBRE_USUARIO VARCHAR(255),
-            APELLIDO_USUARIO VARCHAR(255),
-            COD_ROL INT
-        );
-    END IF;
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO USUARIO (RUT_USUARIO, CONTRASEÑA, NOMBRE_USUARIO, APELLIDO1_USUARIO, APELLIDO2_USUARIO, COD_ROL)
+            VALUES (rutUsuario, contraseña, nombreUsuario, apellido1Usuario, apellido2Usuario, codRol);
+        WHEN 'READ' THEN
+            SELECT * FROM USUARIO WHERE RUT_USUARIO = rutUsuario;
+        WHEN 'UPDATE' THEN
+            UPDATE USUARIO
+            SET CONTRASEÑA = contraseña, NOMBRE_USUARIO = nombreUsuario, APELLIDO1_USUARIO = apellido1Usuario,
+                APELLIDO2_USUARIO = apellido2Usuario, COD_ROL = codRol
+            WHERE RUT_USUARIO = rutUsuario;
+        WHEN 'DELETE' THEN
+            DELETE FROM USUARIO WHERE RUT_USUARIO = rutUsuario;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
 
-    IF (OPCION = 'C') THEN
-        INSERT INTO USUARIO(CONTRASEÑA, NOMBRE_USUARIO, APELLIDO_USUARIO, COD_ROL)
-        VALUES(CONTRASEÑA_P, NOMBRE_USUARIO_P, APELLIDO_USUARIO_P, COD_ROL_P);
-        SET MENSAJE = 'Usuario insertado correctamente';
-    END IF;
+DELIMITER ;
 
-    IF (OPCION = 'R') THEN
-        SELECT * FROM USUARIO;
-        SET MENSAJE = 'Lectura de usuarios realizada correctamente';
-    END IF;
+DELIMITER //
 
-    IF (OPCION = 'U') THEN
-        UPDATE USUARIO SET
-            CONTRASEÑA = CONTRASEÑA_P,
-            NOMBRE_USUARIO = NOMBRE_USUARIO_P,
-            APELLIDO_USUARIO = APELLIDO_USUARIO_P,
-            COD_ROL = COD_ROL_P
-            WHERE RUT = RUT_P;
-        SET MENSAJE = 'Usuario actualizado correctamente';
-    END IF;
-
-    IF (OPCION = 'D') THEN
-        DELETE FROM USUARIO WHERE RUT = RUT_P;
-        SET MENSAJE = 'Usuario eliminado correctamente';
-    END IF;
-
-    -- Agregamos control de errores con SIGNAL SQLSTATE.
-    IF (OPCION NOT IN ('C','R', 'U', 'D')) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Opción no válida para USUARIO_CRUD';
-    END IF;
-
-END;
-//
-
--- Procedimiento para DETALLE_USUARIO_VEHICULO
-CREATE PROCEDURE DETALLE_USUARIO_VEHICULO_CRUD(
-    IN OPCION VARCHAR(2),
-    IN COD_USUARIO_VEHICULO_P INT,
-    IN COD_USUARIO_P INT,
-    IN COD_VEHICULO_P INT,
-    OUT MENSAJE VARCHAR(255)
+CREATE PROCEDURE CRUD_DETALLE_USUARIO_VEHICULO(
+    IN accion VARCHAR(10),
+    IN codDetalleUsuarioVehiculo INT,
+    IN rutUsuario VARCHAR(10),
+    IN codVehiculo INT
 )
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'DETALLE_USUARIO_VEHICULO') THEN
-        CREATE TABLE DETALLE_USUARIO_VEHICULO (
-            COD_USUARIO_VEHICULO INT,
-            COD_USUARIO INT,
-            COD_VEHICULO INT
-        );
-    END IF;
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO DETALLE_USUARIO_VEHICULO (RUT_USUARIO, COD_VEHICULO)
+            VALUES (rutUsuario, codVehiculo);
+        WHEN 'READ' THEN
+            SELECT * FROM DETALLE_USUARIO_VEHICULO WHERE COD_USUARIO_VEHICULO = codDetalleUsuarioVehiculo;
+        WHEN 'UPDATE' THEN
+            UPDATE DETALLE_USUARIO_VEHICULO
+            SET RUT_USUARIO = rutUsuario, COD_VEHICULO = codVehiculo
+            WHERE COD_USUARIO_VEHICULO = codDetalleUsuarioVehiculo;
+        WHEN 'DELETE' THEN
+            DELETE FROM DETALLE_USUARIO_VEHICULO WHERE COD_USUARIO_VEHICULO = codDetalleUsuarioVehiculo;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
 
-    IF (OPCION = 'C') THEN
-        INSERT INTO DETALLE_USUARIO_VEHICULO(COD_USUARIO, COD_VEHICULO)
-        VALUES(COD_USUARIO_P, COD_VEHICULO_P);
-        SET MENSAJE = 'Detalle insertado correctamente';
-    END IF;
+DELIMITER ;
 
-    IF (OPCION = 'R') THEN
-        SELECT * FROM DETALLE_USUARIO_VEHICULO;
-        SET MENSAJE = 'Lectura de detalles de usuario y vehículo realizada correctamente';
-    END IF;
+DELIMITER //
 
-    IF (OPCION = 'U') THEN
-        UPDATE DETALLE_USUARIO_VEHICULO SET
-            COD_USUARIO = COD_USUARIO_P,
-            COD_VEHICULO = COD_VEHICULO_P
-            WHERE COD_USUARIO_VEHICULO = COD_USUARIO_VEHICULO_P;
-        SET MENSAJE = 'Detalle actualizado correctamente';
-    END IF;
-
-    IF (OPCION = 'D') THEN
-        DELETE FROM DETALLE_USUARIO_VEHICULO WHERE COD_USUARIO_VEHICULO = COD_USUARIO_VEHICULO_P;
-        SET MENSAJE = 'Detalle eliminado correctamente';
-    END IF;
-
-    -- Agregamos control de errores con SIGNAL SQLSTATE.
-    IF (OPCION NOT IN ('C','R', 'U', 'D')) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Opción no válida para DETALLE_USUARIO_VEHICULO_CRUD';
-    END IF;
-
-END;
-//
-
--- Procedimiento para PRODUCTO
-CREATE PROCEDURE PRODUCTO_CRUD(
-    IN OPCION VARCHAR(3),
-    IN COD_PRODUCTO_P INT,
-    IN NOMBRE_PRODUCTO_P VARCHAR(255),
-    IN PRECIO_P INT,
-    OUT MENSAJE VARCHAR(255)
+CREATE PROCEDURE CRUD_DISPONIBILIDAD_FECHA(
+    IN accion VARCHAR(10),
+    IN codDisponibilidad INT,
+    IN fechaEntrega DATE,
+    IN codHorarioEntrega INT
 )
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'PRODUCTO') THEN
-        CREATE TABLE PRODUCTO (
-            COD_PRODUCTO INT,
-            NOMBRE_PRODUCTO VARCHAR(255),
-            PRECIO INT
-        );
-    END IF;
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO DISPONIBILIDAD_FECHA (FECHA_ENTREGA, COD_HORARIO_ENTREGA)
+            VALUES (fechaEntrega, codHorarioEntrega);
+        WHEN 'READ' THEN
+            SELECT * FROM DISPONIBILIDAD_FECHA WHERE COD_DISPONIBILIDAD = codDisponibilidad;
+        WHEN 'UPDATE' THEN
+            UPDATE DISPONIBILIDAD_FECHA
+            SET FECHA_ENTREGA = fechaEntrega, COD_HORARIO_ENTREGA = codHorarioEntrega
+            WHERE COD_DISPONIBILIDAD = codDisponibilidad;
+        WHEN 'DELETE' THEN
+            DELETE FROM DISPONIBILIDAD_FECHA WHERE COD_DISPONIBILIDAD = codDisponibilidad;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
 
-    IF (OPCION = 'C') THEN
-        INSERT INTO PRODUCTO(NOMBRE_PRODUCTO, PRECIO)
-        VALUES(NOMBRE_PRODUCTO_P, PRECIO_P);
-        SET MENSAJE = 'Producto insertado correctamente';
-    END IF;
+DELIMITER ;
 
-    IF (OPCION = 'R') THEN
-        SELECT * FROM PRODUCTO;
-        SET MENSAJE = 'Lectura de productos realizada correctamente';
-    END IF;
+DELIMITER //
 
-    IF (OPCION = 'U') THEN
-        UPDATE PRODUCTO SET
-            NOMBRE_PRODUCTO = NOMBRE_PRODUCTO_P,
-            PRECIO = PRECIO_P
-            WHERE COD_PRODUCTO = COD_PRODUCTO_P;
-        SET MENSAJE = 'Producto actualizado correctamente';
-    END IF;
-
-    IF (OPCION = 'D') THEN
-        DELETE FROM PRODUCTO WHERE COD_PRODUCTO = COD_PRODUCTO_P;
-        SET MENSAJE = 'Producto eliminado correctamente';
-    END IF;
-
-    -- Agregamos control de errores con SIGNAL SQLSTATE.
-    IF (OPCION NOT IN ('C','R', 'U', 'D')) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Opción no válida para PRODUCTO_CRUD';
-    END IF;
-
-END;
-//
-
--- Procedimiento para SUCURSAL
-CREATE PROCEDURE SUCURSAL_CRUD(
-    IN OPCION VARCHAR(1),
-    IN COD_SUCURSAL_P INT,
-    IN NOMBRE_SUCURSAL_P VARCHAR(255),
-    IN COD_CIUDAD_SUCURSAL_P INT,
-    IN CALLE_SUCURSAL_P VARCHAR(255),
-    IN NRO_DIRECCION_SUCURSAL_P INT,
-    OUT MENSAJE VARCHAR(255)
+CREATE PROCEDURE CRUD_CLIENTE(
+    IN accion VARCHAR(10),
+    IN celularCliente INT,
+    IN nombreCliente VARCHAR(30),
+    IN apellido1Cliente VARCHAR(30),
+    IN apellido2Cliente VARCHAR(30),
+    IN direccionCliente VARCHAR(60)
 )
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'SUCURSAL') THEN
-        CREATE TABLE SUCURSAL (
-            COD_SUCURSAL INT,
-            NOMBRE_SUCURSAL VARCHAR(255),
-            COD_CIUDAD_SUCURSAL INT,
-            CALLE_SUCURSAL VARCHAR(255),
-            NRO_DIRECCION_SUCURSAL INT
-        );
-    END IF;
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO CLIENTE (CELULAR_CLIENTE, NOMBRE_CLIENTE, APELLIDO1_CLIENTE, APELLIDO2_CLIENTE, DIRECCION_CLIENTE)
+            VALUES (celularCliente, nombreCliente, apellido1Cliente, apellido2Cliente, direccionCliente);
+        WHEN 'READ' THEN
+            SELECT * FROM CLIENTE WHERE CELULAR_CLIENTE = celularCliente;
+        WHEN 'UPDATE' THEN
+            UPDATE CLIENTE
+            SET NOMBRE_CLIENTE = nombreCliente, APELLIDO1_CLIENTE = apellido1Cliente,
+                APELLIDO2_CLIENTE = apellido2Cliente, DIRECCION_CLIENTE = direccionCliente
+            WHERE CELULAR_CLIENTE = celularCliente;
+        WHEN 'DELETE' THEN
+            DELETE FROM CLIENTE WHERE CELULAR_CLIENTE = celularCliente;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
 
-    IF (OPCION = 'C') THEN
-        INSERT INTO SUCURSAL(NOMBRE_SUCURSAL, COD_CIUDAD_SUCURSAL, CALLE_SUCURSAL, NRO_DIRECCION_SUCURSAL)
-        VALUES(NOMBRE_SUCURSAL_P, COD_CIUDAD_SUCURSAL_P, CALLE_SUCURSAL_P, NRO_DIRECCION_SUCURSAL_P);
-        SET MENSAJE = 'Sucursal insertada correctamente';
-    END IF;
+DELIMITER ;
 
-    IF (OPCION = 'R') THEN
-        SELECT * FROM SUCURSAL;
-        SET MENSAJE = 'Lectura de sucursales realizada correctamente';
-    END IF;
+DELIMITER //
 
-    IF (OPCION = 'U') THEN
-        UPDATE SUCURSAL SET
-            NOMBRE_SUCURSAL = NOMBRE_SUCURSAL_P,
-            COD_CIUDAD_SUCURSAL = COD_CIUDAD_SUCURSAL_P,
-            CALLE_SUCURSAL = CALLE_SUCURSAL_P,
-            NRO_DIRECCION_SUCURSAL = NRO_DIRECCION_SUCURSAL_P
-            WHERE COD_SUCURSAL = COD_SUCURSAL_P;
-        SET MENSAJE = 'Sucursal actualizada correctamente';
-    END IF;
-
-    IF (OPCION = 'D') THEN
-        DELETE FROM SUCURSAL WHERE COD_SUCURSAL = COD_SUCURSAL_P;
-        SET MENSAJE = 'Sucursal eliminada correctamente';
-    END IF;
-
-    -- Agregamos control de errores con SIGNAL SQLSTATE.
-    IF (OPCION NOT IN ('C','R', 'U', 'D')) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Opción no válida para SUCURSAL_CRUD';
-    END IF;
-
-END;
-//
-
--- Procedimiento para INVENTARIO
-CREATE PROCEDURE INVENTARIO_CRUD(
-    IN OPCION VARCHAR(3),
-    IN COD_INVENTARIO_P INT,
-    IN COD_PRODUCTO_P INT,
-    IN COD_SUCURSAL_P INT,
-    IN CANTIDAD_TOTAL_P INT,
-    IN CANTIDAD_DISPONIBLE_P INT,
-    OUT MENSAJE VARCHAR(255)
+CREATE PROCEDURE CRUD_CIUDAD_SUCURSAL(
+    IN accion VARCHAR(10),
+    IN codCiudadSucursal INT,
+    IN nombreCiudad VARCHAR(100)
 )
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'INVENTARIO') THEN
-        CREATE TABLE INVENTARIO (
-            COD_INVENTARIO INT,
-            COD_PRODUCTO INT,
-            COD_SUCURSAL INT,
-            CANTIDAD_TOTAL INT,
-            CANTIDAD_DISPONIBLE INT
-        );
-    END IF;
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO CIUDAD_SUCURSAL (COD_CIUDAD_SUCURSAL, NOMBRE_CIUDAD)
+            VALUES (codCiudadSucursal, nombreCiudad);
+        WHEN 'READ' THEN
+            SELECT * FROM CIUDAD_SUCURSAL WHERE COD_CIUDAD_SUCURSAL = codCiudadSucursal;
+        WHEN 'UPDATE' THEN
+            UPDATE CIUDAD_SUCURSAL
+            SET NOMBRE_CIUDAD = nombreCiudad
+            WHERE COD_CIUDAD_SUCURSAL = codCiudadSucursal;
+        WHEN 'DELETE' THEN
+            DELETE FROM CIUDAD_SUCURSAL WHERE COD_CIUDAD_SUCURSAL = codCiudadSucursal;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
 
-    IF (OPCION = 'C') THEN
-        INSERT INTO INVENTARIO(COD_PRODUCTO, COD_SUCURSAL, CANTIDAD_TOTAL, CANTIDAD_DISPONIBLE)
-        VALUES(COD_PRODUCTO_P, COD_SUCURSAL_P, CANTIDAD_TOTAL_P, CANTIDAD_DISPONIBLE_P);
-        SET MENSAJE = 'Inventario insertado correctamente';
-    END IF;
+DELIMITER ;
 
-    IF (OPCION = 'R') THEN
-        SELECT * FROM INVENTARIO;
-        SET MENSAJE = 'Lectura de inventarios realizada correctamente';
-    END IF;
+DELIMITER //
 
-    IF (OPCION = 'U') THEN
-        UPDATE INVENTARIO SET
-            COD_PRODUCTO = COD_PRODUCTO_P,
-            COD_SUCURSAL = COD_SUCURSAL_P,
-            CANTIDAD_TOTAL = CANTIDAD_TOTAL_P,
-            CANTIDAD_DISPONIBLE = CANTIDAD_DISPONIBLE_P
-            WHERE COD_INVENTARIO = COD_INVENTARIO_P;
-        SET MENSAJE = 'Inventario actualizado correctamente';
-    END IF;
-
-    IF (OPCION = 'D') THEN
-        DELETE FROM INVENTARIO WHERE COD_INVENTARIO = COD_INVENTARIO_P;
-        SET MENSAJE = 'Inventario eliminado correctamente';
-    END IF;
-
-    -- Agregamos control de errores con SIGNAL SQLSTATE.
-    IF (OPCION NOT IN ('C','R', 'U', 'D')) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Opción no válida para INVENTARIO_CRUD';
-    END IF;
-
-END;
-//
-
--- Procedimiento para PEDIDO
-CREATE PROCEDURE PEDIDO_CRUD(
-    IN OPCION VARCHAR(20),
-    IN COD_PEDIDO_P INT,
-    IN COD_PRODUCTO_P INT,
-    IN CANTIDAD_SOLICITADA_P INT,
-    OUT MENSAJE VARCHAR(255)
+CREATE PROCEDURE CRUD_SUCURSAL(
+    IN accion VARCHAR(10),
+    IN codSucursal INT,
+    IN nombreSucursal VARCHAR(200),
+    IN calleSucursal VARCHAR(30),
+    IN nroDireccionSucursal INT,
+    IN codCiudadSucursal INT
 )
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'PEDIDO') THEN
-        CREATE TABLE PEDIDO (
-            COD_PEDIDO INT AUTO_INCREMENT PRIMARY KEY,
-            COD_PRODUCTO INT,
-            CANTIDAD_SOLICITADA INT
-        );
-    END IF;
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO SUCURSAL (COD_SUCURSAL, NOMBRE_SUCURSAL, CALLE_SUCURSAL, NRO_DIRECCION_SUCURSAL, COD_CIUDAD_SUCURSAL)
+            VALUES (codSucursal, nombreSucursal, calleSucursal, nroDireccionSucursal, codCiudadSucursal);
+        WHEN 'READ' THEN
+            SELECT * FROM SUCURSAL WHERE COD_SUCURSAL = codSucursal;
+        WHEN 'UPDATE' THEN
+            UPDATE SUCURSAL
+            SET NOMBRE_SUCURSAL = nombreSucursal, CALLE_SUCURSAL = calleSucursal,
+                NRO_DIRECCION_SUCURSAL = nroDireccionSucursal, COD_CIUDAD_SUCURSAL = codCiudadSucursal
+            WHERE COD_SUCURSAL = codSucursal;
+        WHEN 'DELETE' THEN
+            DELETE FROM SUCURSAL WHERE COD_SUCURSAL = codSucursal;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
 
-    IF (OPCION = 'C') THEN
-        INSERT INTO PEDIDO(COD_PRODUCTO, CANTIDAD_SOLICITADA)
-        VALUES(COD_PRODUCTO_P, CANTIDAD_SOLICITADA_P);
-        SET MENSAJE = 'Pedido insertado correctamente';
-    END IF;
+DELIMITER ;
 
-    IF (OPCION = 'R') THEN
-        SELECT * FROM PEDIDO;
-        SET MENSAJE = 'Lectura de pedidos realizada correctamente';
-    END IF;
+DELIMITER //
 
-    IF (OPCION = 'U') THEN
-        UPDATE PEDIDO SET
-            COD_PRODUCTO = COD_PRODUCTO_P,
-            CANTIDAD_SOLICITADA = CANTIDAD_SOLICITADA_P
-            WHERE COD_PEDIDO = COD_PEDIDO_P;
-        SET MENSAJE = 'Pedido actualizado correctamente';
-    END IF;
-
-    IF (OPCION = 'D') THEN
-        DELETE FROM PEDIDO WHERE COD_PEDIDO = COD_PEDIDO_P;
-        SET MENSAJE = 'Pedido eliminado correctamente';
-    END IF;
-
-    -- Agregamos control de errores con SIGNAL SQLSTATE.
-    IF (OPCION NOT IN ('C','R', 'U', 'D')) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Opción no válida para PEDIDO_CRUD';
-    END IF;
-
-END;
-//
-
--- Procedimiento para RESERVA
-CREATE PROCEDURE RESERVA_CRUD(
-    IN OPCION VARCHAR(20),
-    IN COD_RESERVA_P INT,
-    IN CELULAR_CLIENTE_P INT,
-    IN COD_PEDIDO_P INT,
-    IN COD_DISP_P INT,
-    IN COD_VEHICULO_P INT,
-    OUT ESTADO_P INT,
-    OUT TOTAL_P INT,
-    OUT MENSAJE VARCHAR(255)
+CREATE PROCEDURE CRUD_INVENTARIO(
+    IN accion VARCHAR(10),
+    IN codInventario INT,
+    IN cantidadTotal INT,
+    IN cantidadDisponible INT,
+    IN codSucursal INT
 )
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'RESERVA') THEN
-        CREATE TABLE RESERVA (
-            COD_RESERVA INT AUTO_INCREMENT PRIMARY KEY,
-            CELULAR_CLIENTE INT,
-            COD_PEDIDO INT,
-            COD_DISP INT,
-            COD_VEHICULO INT,
-            ESTADO INT,
-            TOTAL INT
-        );
-    END IF;
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO INVENTARIO (COD_INVENTARIO, CANTIDAD_TOTAL, CANTIDAD_DISPONIBLE, COD_SUCURSAL)
+            VALUES (codInventario, cantidadTotal, cantidadDisponible, codSucursal);
+        WHEN 'READ' THEN
+            SELECT * FROM INVENTARIO WHERE COD_INVENTARIO = codInventario;
+        WHEN 'UPDATE' THEN
+            UPDATE INVENTARIO
+            SET CANTIDAD_TOTAL = cantidadTotal, CANTIDAD_DISPONIBLE = cantidadDisponible, COD_SUCURSAL = codSucursal
+            WHERE COD_INVENTARIO = codInventario;
+        WHEN 'DELETE' THEN
+            DELETE FROM INVENTARIO WHERE COD_INVENTARIO = codInventario;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
 
-    IF (OPCION = 'C') THEN
-        INSERT INTO RESERVA(CELULAR_CLIENTE, COD_PEDIDO, COD_DISP, COD_VEHICULO, ESTADO, TOTAL)
-        VALUES(CELULAR_CLIENTE_P, COD_PEDIDO_P, COD_DISP_P, COD_VEHICULO_P, ESTADO_P, TOTAL_P);
-        SET MENSAJE = 'Reserva insertada correctamente';
-    END IF;
+DELIMITER ;
 
-    IF (OPCION = 'R') THEN
-        SELECT * FROM RESERVA;
-        SET MENSAJE = 'Lectura de reservas realizada correctamente';
-    END IF;
+DELIMITER //
 
-    IF (OPCION = 'U') THEN
-        UPDATE RESERVA SET
-            CELULAR_CLIENTE = CELULAR_CLIENTE_P,
-            COD_PEDIDO = COD_PEDIDO_P,
-            COD_DISP = COD_DISP_P,
-            COD_VEHICULO = COD_VEHICULO_P,
-            ESTADO = ESTADO_P,
-            TOTAL = TOTAL_P
-            WHERE COD_RESERVA = COD_RESERVA_P;
-        SET MENSAJE = 'Reserva actualizada correctamente';
-    END IF;
-
-    IF (OPCION = 'D') THEN
-        DELETE FROM RESERVA WHERE COD_RESERVA = COD_RESERVA_P;
-        SET MENSAJE = 'Reserva eliminada correctamente';
-    END IF;
-
-    -- Agregamos control de errores con SIGNAL SQLSTATE.
-    IF (OPCION NOT IN ('C','R', 'U', 'D')) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Opción no válida para RESERVA_CRUD';
-    END IF;
-
-END;
-//
-
--- Procedimiento para CLIENTE
-CREATE PROCEDURE CLIENTE_CRUD(
-    IN OPCION VARCHAR(100),
-    IN CELULAR_CLIENTE_P INT,
-    IN NOMBRE_CLIENTE_P VARCHAR(255),
-    IN APELLIDO_CLIENTE_P VARCHAR(255),
-    IN DIRECCION_CLIENTE_P VARCHAR(255),
-    OUT MENSAJE VARCHAR(255)
+CREATE PROCEDURE CRUD_PRODUCTO(
+    IN accion VARCHAR(10),
+    IN codProducto INT,
+    IN nombreProducto VARCHAR(30),
+    IN precioProducto INT,
+    IN codInventario INT
 )
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'CLIENTE') THEN
-        CREATE TABLE CLIENTE (
-            CELULAR_CLIENTE INT PRIMARY KEY,
-            NOMBRE_CLIENTE VARCHAR(255),
-            APELLIDO_CLIENTE VARCHAR(255),
-            DIRECCION_CLIENTE VARCHAR(255)
-        );
-    END IF;
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO PRODUCTO (COD_PRODUCTO, NOMBRE_PRODUCTO, PRECIO_PRODUCTO, COD_INVENTARIO)
+            VALUES (codProducto, nombreProducto, precioProducto, codInventario);
+        WHEN 'READ' THEN
+            SELECT * FROM PRODUCTO WHERE COD_PRODUCTO = codProducto;
+        WHEN 'UPDATE' THEN
+            UPDATE PRODUCTO
+            SET NOMBRE_PRODUCTO = nombreProducto, PRECIO_PRODUCTO = precioProducto, COD_INVENTARIO = codInventario
+            WHERE COD_PRODUCTO = codProducto;
+        WHEN 'DELETE' THEN
+            DELETE FROM PRODUCTO WHERE COD_PRODUCTO = codProducto;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
 
-    IF (OPCION = 'C') THEN
-        INSERT INTO CLIENTE(CELULAR_CLIENTE, NOMBRE_CLIENTE, APELLIDO_CLIENTE, DIRECCION_CLIENTE)
-        VALUES(CELULAR_CLIENTE_P, NOMBRE_CLIENTE_P, APELLIDO_CLIENTE_P, DIRECCION_CLIENTE_P);
-        SET MENSAJE = 'Cliente insertado correctamente';
-    END IF;
+DELIMITER ;
 
-    IF (OPCION = 'R') THEN
-        SELECT * FROM CLIENTE;
-        SET MENSAJE = 'Lectura de clientes realizada correctamente';
-    END IF;
+DELIMITER //
 
-    IF (OPCION = 'U') THEN
-        UPDATE CLIENTE SET
-            NOMBRE_CLIENTE = NOMBRE_CLIENTE_P,
-            APELLIDO_CLIENTE = APELLIDO_CLIENTE_P,
-            DIRECCION_CLIENTE = DIRECCION_CLIENTE_P
-            WHERE CELULAR_CLIENTE = CELULAR_CLIENTE_P;
-        SET MENSAJE = 'Cliente actualizado correctamente';
-    END IF;
+CREATE PROCEDURE CRUD_DET_ESTADO(
+    IN accion VARCHAR(10),
+    IN codDetEstado INT,
+    IN nombreEstado VARCHAR(10)
+)
+BEGIN
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO DET_ESTADO (COD_DET_ESTADO, NOMBRE_ESTADO)
+            VALUES (codDetEstado, nombreEstado);
+        WHEN 'READ' THEN
+            SELECT * FROM DET_ESTADO WHERE COD_DET_ESTADO = codDetEstado;
+        WHEN 'UPDATE' THEN
+            UPDATE DET_ESTADO
+            SET NOMBRE_ESTADO = nombreEstado
+            WHERE COD_DET_ESTADO = codDetEstado;
+        WHEN 'DELETE' THEN
+            DELETE FROM DET_ESTADO WHERE COD_DET_ESTADO = codDetEstado;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
 
-    IF (OPCION = 'D') THEN
-        DELETE FROM CLIENTE WHERE CELULAR_CLIENTE = CELULAR_CLIENTE_P;
-        SET MENSAJE = 'Cliente eliminado correctamente';
-    END IF;
+DELIMITER ;
 
-    -- Agregamos control de errores con SIGNAL SQLSTATE.
-    IF (OPCION NOT IN ('C','R', 'U', 'D')) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Opción no válida para CLIENTE_CRUD';
-    END IF;
+DELIMITER //
 
-END;
-//
+CREATE PROCEDURE CRUD_HISTORIAL(
+    IN accion VARCHAR(10),
+    IN codHistorial INT,
+    IN fechaHistorial DATE
+)
+BEGIN
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO HISTORIAL (COD_HISTORIAL, FECHA_HISTORIAL)
+            VALUES (codHistorial, fechaHistorial);
+        WHEN 'READ' THEN
+            SELECT * FROM HISTORIAL WHERE COD_HISTORIAL = codHistorial;
+        WHEN 'UPDATE' THEN
+            UPDATE HISTORIAL
+            SET FECHA_HISTORIAL = fechaHistorial
+            WHERE COD_HISTORIAL = codHistorial;
+        WHEN 'DELETE' THEN
+            DELETE FROM HISTORIAL WHERE COD_HISTORIAL = codHistorial;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE CRUD_RESERVA(
+    IN accion VARCHAR(10),
+    IN codReserva INT,
+    IN celularCliente INT,
+    IN codDisponibilidad INT,
+    IN codVehiculo INT,
+    IN codHistorial INT,
+    IN codDetEstado INT,
+    IN total INT,
+    IN fechaCreacion DATE
+)
+BEGIN
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO RESERVA (COD_RESERVA, CELULAR_CLIENTE, COD_DISPONIBILIDAD, COD_VEHICULO, COD_HISTORIAL, COD_DET_ESTADO, TOTAL, FECHA_CREACION)
+            VALUES (codReserva, celularCliente, codDisponibilidad, codVehiculo, codHistorial, codDetEstado, total, fechaCreacion);
+        WHEN 'READ' THEN
+            SELECT * FROM RESERVA WHERE COD_RESERVA = codReserva;
+        WHEN 'UPDATE' THEN
+            UPDATE RESERVA
+            SET CELULAR_CLIENTE = celularCliente, COD_DISPONIBILIDAD = codDisponibilidad, COD_VEHICULO = codVehiculo,
+                COD_HISTORIAL = codHistorial, COD_DET_ESTADO = codDetEstado, TOTAL = total, FECHA_CREACION = fechaCreacion
+            WHERE COD_RESERVA = codReserva;
+        WHEN 'DELETE' THEN
+            DELETE FROM RESERVA WHERE COD_RESERVA = codReserva;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE CRUD_PEDIDO(
+    IN accion VARCHAR(10),
+    IN codPedido INT,
+    IN codProducto INT,
+    IN codReserva INT
+)
+BEGIN
+    CASE accion
+        WHEN 'CREATE' THEN
+            INSERT INTO PEDIDO (COD_PEDIDO, COD_PRODUCTO, COD_RESERVA)
+            VALUES (codPedido, codProducto, codReserva);
+        WHEN 'READ' THEN
+            SELECT * FROM PEDIDO WHERE COD_PEDIDO = codPedido;
+        WHEN 'UPDATE' THEN
+            UPDATE PEDIDO
+            SET COD_PRODUCTO = codProducto, COD_RESERVA = codReserva
+            WHERE COD_PEDIDO = codPedido;
+        WHEN 'DELETE' THEN
+            DELETE FROM PEDIDO WHERE COD_PEDIDO = codPedido;
+        ELSE
+            SELECT 'Acción no válida' AS Resultado;
+    END CASE;
+END //
 
 DELIMITER ;
