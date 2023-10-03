@@ -1,9 +1,8 @@
-<!-- login.component.html -->
 <div class="login-container">
   <h2>Iniciar Sesión</h2>
-  <form>
-    <input type="text" placeholder="Usuario" />
-    <input type="password" placeholder="Contraseña" />
+  <form (submit)="iniciarSesion()">
+    <input type="text" placeholder="Usuario" [(ngModel)]="usuario" name="usuario" required />
+    <input type="password" placeholder="Contraseña" [(ngModel)]="contraseña" name="contraseña" required />
     <div class="button-container">
       <button type="submit">Iniciar Sesión</button>
       <button class="small-button" routerLink="/registro">Registrarse</button>
