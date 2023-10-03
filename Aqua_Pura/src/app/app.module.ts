@@ -9,6 +9,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { InformacionComponent } from './informacion/informacion.component';
 import { ProductosComponent } from './productos/productos.component';
 import { RegistroComponent } from './registro/registro.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { RegistroComponent } from './registro/registro.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],
