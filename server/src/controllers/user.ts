@@ -134,7 +134,6 @@ export const updateUser = async(req: Request, res: Response)=>{
     try{
         const {nombre_usuario,apellido1_usuario,apellido2_usuario,contrasena,cod_rol} = req.body;
         if (contrasena != null){
-            console.log("se cambia la contraseña")
             const hashedpassword = await bcrypt.hash(contrasena, 10)
             await User.update({
                 NOMBRE_USUARIO: nombre_usuario,
@@ -149,7 +148,6 @@ export const updateUser = async(req: Request, res: Response)=>{
                 msg: "Se ha actualizado al usuario: "+rut_usuario
             })
         } else{
-            console.log("no se cambia la contraseña")
             await User.update({
                 NOMBRE_USUARIO: nombre_usuario,
                 APELLIDO1_USUARIO: apellido1_usuario,

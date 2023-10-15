@@ -126,7 +126,6 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { nombre_usuario, apellido1_usuario, apellido2_usuario, contrasena, cod_rol } = req.body;
         if (contrasena != null) {
-            console.log("se cambia la contraseña");
             const hashedpassword = yield bcrypt_1.default.hash(contrasena, 10);
             yield user_1.User.update({
                 NOMBRE_USUARIO: nombre_usuario,
@@ -141,7 +140,6 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             });
         }
         else {
-            console.log("no se cambia la contraseña");
             yield user_1.User.update({
                 NOMBRE_USUARIO: nombre_usuario,
                 APELLIDO1_USUARIO: apellido1_usuario,
