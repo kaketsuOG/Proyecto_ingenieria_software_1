@@ -8,14 +8,14 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginComponent {
   usuario: string = '';
-  contraseña: string = '';
+  contrasena: string = '';
 
   constructor(private http: HttpClient) { }
 
   iniciarSesion() {
     const url = 'http://localhost:3000/login'; // Cambia la URL según la configuración de tu servidor Node.js
 
-    this.http.post(url, { usuario: this.usuario, contraseña: this.contraseña }).subscribe(
+    this.http.post(url, { usuario: this.usuario, contraseña: this.contrasena }).subscribe(
       (response: any) => {
         console.log(response);
         // Redirecciona o realiza acciones después del inicio de sesión exitoso
