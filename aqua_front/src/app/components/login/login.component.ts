@@ -34,8 +34,8 @@ export class LoginComponent implements OnInit {
 
     // Creamos el body
     const user: User = {
-      username: this.username,
-      password: this.password
+      usuario: this.username,
+      contrasena: this.password
     }
 
     this.loading = true;
