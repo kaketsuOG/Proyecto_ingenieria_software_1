@@ -8,13 +8,15 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 
 // Guards
 import { AuthGuard } from './utils/auth.guard';
+import { InicioComponent } from './components/inicio/inicio.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+  { path: 'inicio', component: InicioComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signIn', component: SignInComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: 'login', pathMatch: 'full' }
+  { path: '**', redirectTo: 'inicio', pathMatch: 'full' }
 ];
 
 @NgModule({
