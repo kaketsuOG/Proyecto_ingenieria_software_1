@@ -17,14 +17,14 @@ const user_1 = require("../models/user");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const newUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { rut_usuario, contraseña, nombre_usuario, apellido1_usuario, apellido2_usuario, cod_rol } = req.body;
+    const { rut_usuario, contrasena, nombre_usuario, apellido1_usuario, apellido2_usuario, cod_rol } = req.body;
     const usuario = yield user_1.User.findOne({ where: { RUT_USUARIO: rut_usuario } });
     if (usuario) {
         return res.status(400).json({
             msg: 'Ya existe un usuario con ese rut'
         });
     }
-    const hashedpassword = yield bcrypt_1.default.hash(contraseña, 10);
+    const hashedpassword = yield bcrypt_1.default.hash(contrasena, 10);
     try {
         yield user_1.User.create({
             "RUT_USUARIO": rut_usuario,
@@ -52,7 +52,7 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getUsers = getUsers;
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { rut_usuario, contraseña } = req.body;
+    const { rut_usuario, contrasena } = req.body;
     // validacion de usuario
     const usuario = yield user_1.User.findOne({ where: { RUT_USUARIO: rut_usuario } });
     if (!usuario) {
@@ -61,7 +61,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     //validacion del password
-    const passwordValida = yield bcrypt_1.default.compare(contraseña, usuario.CONTRASEÑA);
+    const passwordValida = yield bcrypt_1.default.compare(contrasena, usuario.CONTRASEÑA);
     if (!passwordValida) {
         return res.status(400).json({
             msg: 'Contraseña Incorrecta'
@@ -124,18 +124,33 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     try {
-        const { nombre_usuario, apellido1_usuario, apellido2_usuario, contraseña, cod_rol } = req.body;
-        yield user_1.User.update({
-            NOMBRE_USUARIO: nombre_usuario,
-            APELLIDO1_USUARIO: apellido1_usuario,
-            APELLIDO2_USUARIO: apellido2_usuario,
-            CONTRASEÑA: contraseña,
-            COD_ROL: cod_rol
-        }, { where: { RUT_USUARIO: rut_usuario }
-        });
-        res.json({
-            msg: "Se ha actualizado al usuario: " + rut_usuario
-        });
+        const { nombre_usuario, apellido1_usuario, apellido2_usuario, contrasena, cod_rol } = req.body;
+        if (contrasena != null) {
+            const hashedpassword = yield bcrypt_1.default.hash(contrasena, 10);
+            yield user_1.User.update({
+                NOMBRE_USUARIO: nombre_usuario,
+                APELLIDO1_USUARIO: apellido1_usuario,
+                APELLIDO2_USUARIO: apellido2_usuario,
+                CONTRASEÑA: hashedpassword,
+                COD_ROL: cod_rol
+            }, { where: { RUT_USUARIO: rut_usuario }
+            });
+            res.json({
+                msg: "Se ha actualizado al usuario: " + rut_usuario
+            });
+        }
+        else {
+            yield user_1.User.update({
+                NOMBRE_USUARIO: nombre_usuario,
+                APELLIDO1_USUARIO: apellido1_usuario,
+                APELLIDO2_USUARIO: apellido2_usuario,
+                COD_ROL: cod_rol
+            }, { where: { RUT_USUARIO: rut_usuario }
+            });
+            res.json({
+                msg: "Se ha actualizado al usuario: " + rut_usuario
+            });
+        }
     }
     catch (error) {
         res.status(400).json({

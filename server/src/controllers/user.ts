@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 export const newUser = async(req: Request, res: Response) =>{
 
-    const { rut_usuario, contraseña, nombre_usuario, apellido1_usuario, apellido2_usuario, cod_rol} =  req.body;
+    const { rut_usuario, contrasena, nombre_usuario, apellido1_usuario, apellido2_usuario, cod_rol} =  req.body;
 
     const usuario = await User.findOne({where: {RUT_USUARIO: rut_usuario}})
 
@@ -15,7 +15,7 @@ export const newUser = async(req: Request, res: Response) =>{
         })
     }
 
-    const hashedpassword = await bcrypt.hash(contraseña, 10)
+    const hashedpassword = await bcrypt.hash(contrasena, 10)
     
 
     try{
@@ -52,7 +52,7 @@ export const getUsers = async(req: Request, res: Response) =>{
 
 export const loginUser = async(req: Request, res: Response) =>{
 
-    const { rut_usuario, contraseña } = req.body;
+    const { rut_usuario, contrasena } = req.body;
 
     // validacion de usuario
     const usuario: any = await User.findOne({where: {RUT_USUARIO: rut_usuario}})
@@ -63,7 +63,7 @@ export const loginUser = async(req: Request, res: Response) =>{
         })
     }
     //validacion del password
-    const passwordValida = await bcrypt.compare(contraseña, usuario.CONTRASEÑA)
+    const passwordValida = await bcrypt.compare(contrasena, usuario.CONTRASEÑA)
     if(!passwordValida) {
         return res.status(400).json({
             msg: 'Contraseña Incorrecta'
@@ -132,19 +132,35 @@ export const updateUser = async(req: Request, res: Response)=>{
         })
     }
     try{
-        const {nombre_usuario,apellido1_usuario,apellido2_usuario,contraseña,cod_rol} = req.body;
-        await User.update({
-            NOMBRE_USUARIO: nombre_usuario,
-            APELLIDO1_USUARIO: apellido1_usuario,
-            APELLIDO2_USUARIO: apellido2_usuario,
-            CONTRASEÑA: contraseña,
-            COD_ROL:cod_rol
-
-        },{where: {RUT_USUARIO: rut_usuario}
-    })
-        res.json({
-            msg: "Se ha actualizado al usuario: "+rut_usuario
+        const {nombre_usuario,apellido1_usuario,apellido2_usuario,contrasena,cod_rol} = req.body;
+        if (contrasena != null){
+            const hashedpassword = await bcrypt.hash(contrasena, 10)
+            await User.update({
+                NOMBRE_USUARIO: nombre_usuario,
+                APELLIDO1_USUARIO: apellido1_usuario,
+                APELLIDO2_USUARIO: apellido2_usuario,
+                CONTRASEÑA: hashedpassword,
+                COD_ROL:cod_rol
+    
+            },{where: {RUT_USUARIO: rut_usuario}
         })
+            res.json({
+                msg: "Se ha actualizado al usuario: "+rut_usuario
+            })
+        } else{
+            await User.update({
+                NOMBRE_USUARIO: nombre_usuario,
+                APELLIDO1_USUARIO: apellido1_usuario,
+                APELLIDO2_USUARIO: apellido2_usuario,
+                COD_ROL:cod_rol
+    
+            },{where: {RUT_USUARIO: rut_usuario}
+        })
+            res.json({
+                msg: "Se ha actualizado al usuario: "+rut_usuario
+            })
+
+        }
     }catch (error){
         res.status(400).json({
             msg: "No se ha podido actualizar el usuario con rut: "+rut_usuario,
