@@ -16,7 +16,7 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
-import { AddTokenInterceptor } from './utils/add-token.interceptor';
+//import { AddTokenInterceptor } from './utils/add-token.interceptor'; restaurar
 import { InicioComponent } from './components/inicio/inicio.component';
 
 @NgModule({
@@ -42,7 +42,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
     }), // ToastrModule added
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }
+   // { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

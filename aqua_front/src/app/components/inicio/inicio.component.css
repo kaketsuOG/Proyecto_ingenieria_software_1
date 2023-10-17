@@ -1,0 +1,13 @@
+
+/* Estilos personalizados para el botón de inicio de sesión */
+.btn-outline-success-on-hover {
+    background-color: white; /* Fondo predeterminado (negro) */
+    color: black; /* Texto blanco */
+    transition: background-color 0.3s; /* Transición de color de fondo */
+  }
+  
+  .btn-outline-success-on-hover:hover {
+    background-color: #28a745; /* Fondo verde al pasar el cursor */
+    color: white; /* Texto blanco (puedes cambiar el color del texto según sea necesario) */
+  }
+  
