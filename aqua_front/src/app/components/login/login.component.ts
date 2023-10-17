@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
       this.toastr.error('Todos los campos son obligatorios', 'Error');
       return
     }
+    
 
     // Creamos el body
     const user: User = {
@@ -49,7 +50,21 @@ export class LoginComponent implements OnInit {
         this.loading = false
       }
     })
+    
   }
+  showPassword: boolean = false;
+
+togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+}
+
+capsLockOn: boolean = false;
+
+checkCapsLock(event: KeyboardEvent) {
+    this.capsLockOn = event.getModifierState('CapsLock');
+}
+
+
 
   
 

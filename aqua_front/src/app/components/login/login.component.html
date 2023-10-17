@@ -7,9 +7,17 @@
             <label>Usuario</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="password" [(ngModel)]="password" autocomplete="false" class="form-control" placeholder="Ingrese password">
+            <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" autocomplete="false" class="form-control" placeholder="Ingrese password" (keyup)="checkCapsLock($event)">
             <label>Password</label>
+            <span class="password-toggle" (click)="togglePasswordVisibility()">
+                {{ showPassword ? 'Ocultar' : 'Mostrar' }} Contraseña
+            </span>
+            <div *ngIf="capsLockOn" class="text-danger">¡Bloqueo de mayúsculas está activado!</div>
+
         </div>
+       
+        
+        
         <div class="d-grid gap-2">
             <button type="button" class="btn btn-primary btn-lg" (click)="login()">Aceptar</button>
         </div>
