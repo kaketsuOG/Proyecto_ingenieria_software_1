@@ -16,7 +16,7 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
-//import { AddTokenInterceptor } from './utils/add-token.interceptor'; restaurar
+import { AddTokenInterceptor } from './utils/add-token.interceptor';
 import { InicioComponent } from './components/inicio/inicio.component';
 
 @NgModule({
