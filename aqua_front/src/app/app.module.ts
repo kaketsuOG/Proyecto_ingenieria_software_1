@@ -18,6 +18,13 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { AddTokenInterceptor } from './utils/add-token.interceptor';
 import { InicioComponent } from './components/inicio/inicio.component';
+import { NavigatorComponent } from './components/navigator/navigator.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -27,7 +34,8 @@ import { InicioComponent } from './components/inicio/inicio.component';
     DashboardComponent,
     NavbarComponent,
     SpinnerComponent,
-    InicioComponent
+    InicioComponent,
+    NavigatorComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +47,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
       timeOut: 4000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
-    }), // ToastrModule added
+    }), LayoutModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, // ToastrModule added
   ],
   providers: [
    // { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }

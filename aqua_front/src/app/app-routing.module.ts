@@ -9,6 +9,7 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 // Guards
 //import { AuthGuard } from './utils/auth.guard';
 import { InicioComponent } from './components/inicio/inicio.component';
+import { NavigatorComponent } from './components/navigator/navigator.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -16,6 +17,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signIn', component: SignInComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'navigator', component: NavigatorComponent },
+
  //{ path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
 
 ];
