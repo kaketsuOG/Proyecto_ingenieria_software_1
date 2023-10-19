@@ -15,7 +15,28 @@ export class NavigatorComponent {
       map(result => result.matches),
       shareReplay()
     );
+showEmpleadosInfo = false;
+  showVehiculosInfo = false;
+  showInventarioInfo = false;
 
+  toggleEmpleadosInfo() {
+    this.showEmpleadosInfo = true;
+    this.showVehiculosInfo = false;
+    this.showInventarioInfo = false;
+  }
+
+  toggleVehiculosInfo() {
+    this.showEmpleadosInfo = false;
+    this.showVehiculosInfo = true;
+    this.showInventarioInfo = false;
+  }
+
+  toggleInventarioInfo() {
+    this.showEmpleadosInfo = false;
+    this.showVehiculosInfo = false;
+    this.showInventarioInfo = true;
+  }
   constructor(private breakpointObserver: BreakpointObserver) {}
 
+  
 }

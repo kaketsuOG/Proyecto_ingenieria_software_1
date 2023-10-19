@@ -5,14 +5,21 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Empleados</a>
-      <a mat-list-item href="#">Vehiculos</a>
-      <a mat-list-item href="#">Inventario/Stock</a>
+       <a mat-list-item  (click)="toggleEmpleadosInfo()" [class.active]="showEmpleadosInfo">Empleados</a>
+       <a mat-list-item  (click)="toggleVehiculosInfo()" [class.active]="showVehiculosInfo">Vehiculos</a>
+       <a mat-list-item  (click)="toggleInventarioInfo()" [class.active]="showInventarioInfo">Inventario/Stock</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
+    <app-dashboard></app-dashboard>
+    <div *ngIf="showEmpleadosInfo">Información de Empleados</div>
+      <div *ngIf="showEmpleadosInfo"> Boton de añadir empleado</div>
+  
+    <div *ngIf="showVehiculosInfo">Información de Vehículos</div>
+    <div *ngIf="showInventarioInfo">Información de Inventario/Stock</div>
+  <!-- Resto de tu contenido -->
    
     <!-- Add Content Here -->
-    <app-dashboard></app-dashboard>
+    
   </mat-sidenav-content>
 </mat-sidenav-container>
