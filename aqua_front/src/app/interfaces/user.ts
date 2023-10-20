@@ -1,4 +1,4 @@
 export interface User {
-    usuario: string,
+    rut_usuario: string,
     contrasena: string
 }

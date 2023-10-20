@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
 
     // Creamos el body
     const user: User = {
-      usuario: this.username,
+      rut_usuario: this.username,
       contrasena: this.password
     }
 
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     this._userService.login(user).subscribe({
       next: (token) => {
         localStorage.setItem('token', token);
-        this.router.navigate(['/dashboard'])
+        this.router.navigate(['/navigator'])
       },
       error: (e: HttpErrorResponse) => {
         this._errorService.msjError(e);

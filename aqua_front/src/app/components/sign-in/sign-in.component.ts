@@ -41,7 +41,7 @@ export class SignInComponent implements OnInit {
 
     // Creamos el objeto
     const user: User = {
-      usuario: this.username,
+      rut_usuario: this.username,
       contrasena: this.password
     }
 
