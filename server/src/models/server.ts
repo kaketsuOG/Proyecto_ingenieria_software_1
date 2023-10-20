@@ -2,8 +2,11 @@ import express, {Application} from 'express';
 import cors from 'cors';
 import routesRoles from '../routes/roles';
 import routesUser from '../routes/user';
+import routesProductos from '../routes/productos'
 import { Rol } from './rol';
 import { User } from './user';
+import { Inventario } from './inventario';
+import { Producto } from './producto';
 
 class Server {
     private app: Application;
@@ -28,6 +31,7 @@ class Server {
     routes(){
         this.app.use('/api/roles',routesRoles);
         this.app.use('/api/users', routesUser);
+        this.app.use('/api/productos', routesProductos)
     }
 
     midlewares() {
@@ -42,6 +46,8 @@ class Server {
 
     async dbConnect(){
         try{
+            await Inventario.sync()
+            await Producto.sync()
             await User.sync()
             await Rol.sync()
         }catch (error){
