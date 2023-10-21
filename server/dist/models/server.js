@@ -16,10 +16,11 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const roles_1 = __importDefault(require("../routes/roles"));
 const user_1 = __importDefault(require("../routes/user"));
+const inventario_1 = __importDefault(require("../routes/inventario"));
 const productos_1 = __importDefault(require("../routes/productos"));
 const rol_1 = require("./rol");
 const user_2 = require("./user");
-const inventario_1 = require("./inventario");
+const inventario_2 = require("./inventario");
 const producto_1 = require("./producto");
 class Server {
     constructor() {
@@ -38,6 +39,7 @@ class Server {
     routes() {
         this.app.use('/api/roles', roles_1.default);
         this.app.use('/api/users', user_1.default);
+        this.app.use('/api/inventraio', inventario_1.default);
         this.app.use('/api/productos', productos_1.default);
     }
     midlewares() {
@@ -49,7 +51,7 @@ class Server {
     dbConnect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield inventario_1.Inventario.sync();
+                yield inventario_2.Inventario.sync();
                 yield producto_1.Producto.sync();
                 yield user_2.User.sync();
                 yield rol_1.Rol.sync();

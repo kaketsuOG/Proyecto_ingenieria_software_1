@@ -2,6 +2,7 @@ import express, {Application} from 'express';
 import cors from 'cors';
 import routesRoles from '../routes/roles';
 import routesUser from '../routes/user';
+import routesInventario from '../routes/inventario'
 import routesProductos from '../routes/productos'
 import { Rol } from './rol';
 import { User } from './user';
@@ -31,17 +32,16 @@ class Server {
     routes(){
         this.app.use('/api/roles',routesRoles);
         this.app.use('/api/users', routesUser);
-        this.app.use('/api/productos', routesProductos)
+        this.app.use('/api/inventraio',routesInventario);
+        this.app.use('/api/productos', routesProductos);
     }
 
     midlewares() {
-
         //parseo body
         this.app.use(express.json());
 
         //cors
         this.app.use(cors());
-
     }
 
     async dbConnect(){
