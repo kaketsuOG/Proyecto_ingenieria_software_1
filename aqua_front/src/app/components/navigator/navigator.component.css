@@ -16,6 +16,6 @@
   z-index: 1;
 }
 .active {
-  background-color: #007bff; /* Cambia esto al color de resaltado que desees */
-  color: white;
+  background-color: #007bff !important; /* Cambia esto al color de resaltado que desees */
+  color: rgb(7, 7, 7);
 }
