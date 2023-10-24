@@ -10,6 +10,7 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 //import { AuthGuard } from './utils/auth.guard';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { NavigatorComponent } from './components/navigator/navigator.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -18,6 +19,10 @@ const routes: Routes = [
   { path: 'signIn', component: SignInComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'navigator', component: NavigatorComponent },
+  { path: 'usuarios', component: UsuariosComponent },
+
+
+
 
  //{ path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
 

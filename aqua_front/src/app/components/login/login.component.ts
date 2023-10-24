@@ -63,9 +63,4 @@ capsLockOn: boolean = false;
 checkCapsLock(event: KeyboardEvent) {
     this.capsLockOn = event.getModifierState('CapsLock');
 }
-
-
-
-  
-
 }
