@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { User } from 'src/app/interfaces/user';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -38,7 +39,11 @@ showEmpleadosInfo = false;
     this.showVehiculosInfo = false;
     this.showInventarioInfo = true;
   }
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver, private router: Router) {}
+
+  logOut() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login'])
 
   
-}
+}}
