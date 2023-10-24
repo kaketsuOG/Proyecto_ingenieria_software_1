@@ -30,12 +30,12 @@ const newRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             "NOMBRE_ROL": nombre_rol
         });
         return res.json({
-            msg: 'Rol creado correctamentee'
+            msg: 'Rol creado correctamente'
         });
     }
     catch (error) {
         res.status(400).json({
-            msg: 'Ocurrio un error al crear el roll',
+            msg: 'Ocurrio un error al crear el rol',
             error
         });
     }
