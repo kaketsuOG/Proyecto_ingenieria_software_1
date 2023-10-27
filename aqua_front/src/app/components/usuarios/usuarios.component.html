@@ -2,21 +2,7 @@
   <mat-toolbar>
     <span>Usuarios</span>
   </mat-toolbar>
-  <!-- <table border="1">
-    <thead>
-      <tr>
-        <th>RUT Usuario</th>
-        <th>Nombre Usuario</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of usuarios">
-        <td>{{ data.RUT_USUARIO }}</td>
-        <td>{{ data.NOMBRE_USUARIO }}</td>
-      </tr>
-    </tbody>
-  </table> -->
-
+ 
   <table 
     mat-table
     [dataSource]="usuarios"
@@ -39,6 +25,15 @@
       <th mat-header-cell *matHeaderCellDef>APELLIDO2 USUARIO</th>
       <td mat-cell *matCellDef="let element">{{ element.APELLIDO2_USUARIO }}</td>
     </ng-container>
+    <ng-container matColumnDef="acciones usuario">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let element"><button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+        <mat-icon>delete</mat-icon>
+      </button><button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+        <mat-icon>more_vert</mat-icon>
+      </button></td>
+    </ng-container>
+    
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
