@@ -8,16 +8,15 @@
         </div>
         <div class="form-floating mb-3">
             <input type="password" [(ngModel)]="password" class="form-control" placeholder="Ingrese password">
-            <label>Password</label>
+            <label>Contraseña</label>
         </div>
         <div class="form-floating mb-3">
             <input type="password" [(ngModel)]="confirmPassword" class="form-control" placeholder="Ingrese password de nuevo">
-            <label>Repetir Password</label>
+            <label>Repetir Contraseña</label>
         </div>
         <div class="d-grid gap-2 mb-3">
-            <button type="button" (click)="addUser()" class="btn btn-primary btn-lg">Aceptar</button>
-        </div>
-        <a routerLink="/login">Volver</a>
+            <button type="button" (click)="addUser()" class="btn btn-primary btn-lg">Registrar</button>
+        
     </div>
     <app-spinner *ngIf="loading"></app-spinner>
 </div>

@@ -25,6 +25,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { UsuarioService } from './components/usuarios/usuario.service';
+
+
+
 
 @NgModule({
   declarations: [
@@ -35,13 +44,23 @@ import { MatListModule } from '@angular/material/list';
     NavbarComponent,
     SpinnerComponent,
     InicioComponent,
-    NavigatorComponent
+    NavigatorComponent,
+    UsuariosComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    MatTableModule,
+    MatSortModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    CommonModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot({
       timeOut: 4000,
@@ -49,7 +68,7 @@ import { MatListModule } from '@angular/material/list';
       preventDuplicates: true,
     }), LayoutModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, // ToastrModule added
   ],
-  providers: [
+  providers: [UsuarioService
    // { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

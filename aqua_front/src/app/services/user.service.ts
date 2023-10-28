@@ -23,4 +23,17 @@ export class UserService {
    login(user: User): Observable<string> {
     return this.http.post<string>(`${this.myAppUrl}${this.myApiUrl}/login`, user)
    }
+
+   navigator(user: User): Observable<any> {
+    return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, user);
+   }
+   editarUsuario(usuario: any): Observable<any> {
+    const editUrl = `${this.myAppUrl}/usuarios/${usuario.id}`; // Reemplaza 'usuarios' con la ruta correcta de tu API
+    return this.http.put(editUrl, usuario); // Realiza una solicitud PUT al servidor
+  }
+  eliminarUsuario(userId: number): Observable<any> {
+    const deleteUrl = `${this.myAppUrl}/usuarios/${userId}`; // Reemplaza 'usuarios' con la ruta correcta de tu API
+    return this.http.delete(deleteUrl); // Realiza una solicitud DELETE al servidor
+  }
+
 }
