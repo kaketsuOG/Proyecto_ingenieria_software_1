@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 
-export const Sucursal = sequelize.define('Historial', {
+export const Historial = sequelize.define('Historial', {
     "COD_HISTORIAL": { type: DataTypes.INTEGER, primaryKey: true },
     "FECHA_HISTORIAL": { type: DataTypes.DATE }
 

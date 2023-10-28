@@ -3,7 +3,7 @@ import cors from 'cors';
 import routesRoles from '../routes/roles';
 import routesUser from '../routes/user';
 import routesInventario from '../routes/inventario'
-import routesProductos from '../routes/productos'
+import routesProducto from '../routes/producto'
 import { Rol } from './rol';
 import { User } from './user';
 import { Inventario } from './inventario';
@@ -25,7 +25,7 @@ class Server {
 
     listen(){
         this.app.listen(this.port, ()=> {
-            console.log('Corriendo en el puerto ' + this.port);
+            console.log('Corriendo en el puertoo ' + this.port);
         })
     }
 
@@ -33,7 +33,7 @@ class Server {
         this.app.use('/api/roles',routesRoles);
         this.app.use('/api/users', routesUser);
         this.app.use('/api/inventraio',routesInventario);
-        this.app.use('/api/productos', routesProductos);
+        this.app.use('/api/productos', routesProducto);
     }
 
     midlewares() {
@@ -51,7 +51,7 @@ class Server {
             await User.sync()
             await Rol.sync()
         }catch (error){
-            console.error('No se ha podido conectar a la base de datoos');
+            console.error('No se ha podido conectar a la base de datos');
         }
     }
 }
