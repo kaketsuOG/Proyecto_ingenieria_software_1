@@ -18,10 +18,12 @@ const roles_1 = __importDefault(require("../routes/roles"));
 const user_1 = __importDefault(require("../routes/user"));
 const inventario_1 = __importDefault(require("../routes/inventario"));
 const producto_1 = __importDefault(require("../routes/producto"));
+const vehiculo_1 = __importDefault(require("../routes/vehiculo"));
 const rol_1 = require("./rol");
 const user_2 = require("./user");
 const inventario_2 = require("./inventario");
 const producto_2 = require("./producto");
+const vehiculo_2 = require("./vehiculo");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -41,6 +43,7 @@ class Server {
         this.app.use('/api/users', user_1.default);
         this.app.use('/api/inventraio', inventario_1.default);
         this.app.use('/api/productos', producto_1.default);
+        this.app.use('/api/vehiculos', vehiculo_1.default);
     }
     midlewares() {
         //parseo body
@@ -55,6 +58,7 @@ class Server {
                 yield producto_2.Producto.sync();
                 yield user_2.User.sync();
                 yield rol_1.Rol.sync();
+                yield vehiculo_2.Vehiculo.sync();
             }
             catch (error) {
                 console.error('No se ha podido conectar a la base de datos');
