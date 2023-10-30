@@ -13,6 +13,10 @@ export class UsuarioService {
   getUsuarios(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/list`);
   }
+  deleteUsuario(rut_usuario: any): Observable<any> {
+    const url = `${this.apiUrl}/${rut_usuario}`;
+    return this.http.delete<any>(url);
+  }
   
 
   // Agrega otros métodos según tus necesidades, como crear, actualizar o eliminar usuarios

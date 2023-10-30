@@ -27,11 +27,16 @@
     </ng-container>
     <ng-container matColumnDef="acciones usuario">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
-      <td mat-cell *matCellDef="let element"><button (click)="eliminarUsuario(element.RUT_USUARIO)" mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
-        <mat-icon>delete</mat-icon>
-      </button><button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
-        <mat-icon>more_vert</mat-icon>
-      </button></td>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button (click)="eliminarUsuario(element.RUT_USUARIO)" mat-mini-fab class="boton-rojo"
+            aria-label="Example icon button with a delete icon">
+          <mat-icon>delete</mat-icon>
+        </button>
+      
+    </td>
     </ng-container>
     
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
