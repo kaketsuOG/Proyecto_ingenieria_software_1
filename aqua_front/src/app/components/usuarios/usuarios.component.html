@@ -1,6 +1,6 @@
 <div class="container">
   <mat-toolbar>
-    <span>Usuarios</span>
+    <span>Lista de empleados</span>
   </mat-toolbar>
  
   <table 
@@ -10,28 +10,33 @@
     style="width: 100%"
   >
     <ng-container matColumnDef="rut">
-      <th mat-header-cell *matHeaderCellDef>RUT USUARIO</th>
+      <th mat-header-cell *matHeaderCellDef>RUT EMPLEADO</th>
       <td mat-cell *matCellDef="let element">{{ element.RUT_USUARIO }}</td>
     </ng-container>
     <ng-container matColumnDef="nombre">
-      <th mat-header-cell *matHeaderCellDef>NOMBRE USUARIO</th>
+      <th mat-header-cell *matHeaderCellDef>NOMBRE</th>
       <td mat-cell *matCellDef="let element">{{ element.NOMBRE_USUARIO }}</td>
     </ng-container>
     <ng-container matColumnDef="apellido1 usuario">
-      <th mat-header-cell *matHeaderCellDef>APELLIDO1 USUARIO</th>
+      <th mat-header-cell *matHeaderCellDef>APELLIDO PATERNO </th>
       <td mat-cell *matCellDef="let element">{{ element.APELLIDO1_USUARIO }}</td>
     </ng-container>
     <ng-container matColumnDef="apellido2 usuario">
-      <th mat-header-cell *matHeaderCellDef>APELLIDO2 USUARIO</th>
+      <th mat-header-cell *matHeaderCellDef>APELLIDO MATERNO</th>
       <td mat-cell *matCellDef="let element">{{ element.APELLIDO2_USUARIO }}</td>
     </ng-container>
     <ng-container matColumnDef="acciones usuario">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
-      <td mat-cell *matCellDef="let element"><button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
-        <mat-icon>delete</mat-icon>
-      </button><button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
-        <mat-icon>more_vert</mat-icon>
-      </button></td>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button (click)="eliminarUsuario(element.RUT_USUARIO)" mat-mini-fab class="boton-rojo"
+            aria-label="Example icon button with a delete icon">
+          <mat-icon>delete</mat-icon>
+        </button>
+      
+    </td>
     </ng-container>
     
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

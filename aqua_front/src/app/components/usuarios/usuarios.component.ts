@@ -56,9 +56,22 @@ export class UsuariosComponent implements OnInit {
   }
 
   // Método para eliminar un usuario
-  eliminarUsuario(usuario: any) {
-    // Aquí puedes implementar la lógica para eliminar un usuario
-    console.log('Eliminar usuario:', usuario);
+  eliminarUsuario(rut_usuario: any) {
+    if (confirm('¿Seguro que deseas eliminar este usuario?')) {
+      this.usuarioService.deleteUsuario(rut_usuario).subscribe(() => {
+        console.log('Usuario eliminado exitosamente');
+        this.actualizarListaDeUsuarios();
+      },
+      (error) => {
+        console.error('Error al eliminar usuario:', error);
+      });
+    }
+  }
+  actualizarListaDeUsuarios() {
+    // Actualiza la lista de usuarios después de eliminar uno o editar
+    this.usuarioService.getUsuarios().subscribe((data: any) => {
+      this.usuarios = data;
+    });
   }
 }
 

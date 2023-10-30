@@ -44,7 +44,7 @@ export const newUser = async(req: Request, res: Response) =>{
 
 export const getUsers = async(req: Request, res: Response) =>{
     
-    const listUsers = await User.findAll({attributes:['RUT_USUARIO','NOMBRE_USUARIO','APELLIDO1_USUARIO','APELLIDO2_USUARIO']});
+    const listUsers = await User.findAll({attributes:['RUT_USUARIO','NOMBRE_USUARIO','APELLIDO1_USUARIO','APELLIDO2_USUARIO','CONTRASEÑA']});
 
     res.json(listUsers)
 

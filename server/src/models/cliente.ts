@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 
-export const Sucursal = sequelize.define('Cliente', {
+export const Cliente = sequelize.define('Cliente', {
     "CELULAR_CLIENTE": { type: DataTypes.INTEGER, primaryKey: true },
     "NOMBRE_CLIENTE": { type: DataTypes.STRING },
     "APELLIDO1_CLIENTE": { type: DataTypes.STRING },

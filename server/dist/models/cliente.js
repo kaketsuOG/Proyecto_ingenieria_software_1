@@ -3,10 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sucursal = void 0;
+exports.Cliente = void 0;
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../db/connection"));
-exports.Sucursal = connection_1.default.define('Cliente', {
+exports.Cliente = connection_1.default.define('Cliente', {
     "CELULAR_CLIENTE": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true },
     "NOMBRE_CLIENTE": { type: sequelize_1.DataTypes.STRING },
     "APELLIDO1_CLIENTE": { type: sequelize_1.DataTypes.STRING },
