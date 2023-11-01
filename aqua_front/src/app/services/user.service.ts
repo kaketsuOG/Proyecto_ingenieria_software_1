@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
   private myAppUrl: string;
   private myApiUrl: string;
@@ -35,5 +35,11 @@ export class UserService {
     const deleteUrl = `${this.myAppUrl}/usuarios/${userId}`; // Reemplaza 'usuarios' con la ruta correcta de tu API
     return this.http.delete(deleteUrl); // Realiza una solicitud DELETE al servidor
   }
+  
+
+}
+export interface User {
+  rut_usuario: string,
+  contrasena: string,
 
 }

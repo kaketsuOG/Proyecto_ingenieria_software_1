@@ -29,3 +29,11 @@ section {
     justify-content: center;
     width: 120px;
   }
+  .mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .filler {
+    flex: 1;
+  }
