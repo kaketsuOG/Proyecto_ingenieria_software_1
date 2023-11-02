@@ -7,7 +7,7 @@ exports.Inventario = void 0;
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../db/connection"));
 exports.Inventario = connection_1.default.define('inventario', {
-    "COD_INVENTARIO": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true },
+    "COD_INVENTARIO": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     "COD_SUCURSAL": { type: sequelize_1.DataTypes.INTEGER },
     "CANTIDAD_TOTAL": { type: sequelize_1.DataTypes.INTEGER },
     "CANTIDAD_DISPONIBLE": { type: sequelize_1.DataTypes.INTEGER }
