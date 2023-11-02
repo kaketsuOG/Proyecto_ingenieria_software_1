@@ -1,0 +1,49 @@
+<div class="container">
+    <mat-toolbar>
+      <span>Lista de Inventario</span>
+      <span class="filler"></span>
+      <button mat-button class="mat-primary">Registrar</button>
+    </mat-toolbar>
+   
+    <table 
+      mat-table
+      [dataSource]="inventario"
+      class="mat-elevation-z8"
+      style="width: 100%"
+    >
+      <ng-container matColumnDef="rut">
+        <th mat-header-cell *matHeaderCellDef>CODIGO PRODUCTO</th>
+        <td mat-cell *matCellDef="let element">{{ element.CODIGO_PRODUCTO }}</td>
+      </ng-container>
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>NOMBRE PRODUCTO</th>
+        <td mat-cell *matCellDef="let element">{{ element.NOMBRE_PRODUCTO }}</td>
+      </ng-container>
+      <ng-container matColumnDef="apellido1 usuario">
+        <th mat-header-cell *matHeaderCellDef>PRECIO PRODUCTO </th>
+        <td mat-cell *matCellDef="let element">{{ element.PRECIO_PRODUCTO }}</td>
+      </ng-container>
+      <ng-container matColumnDef="apellido2 usuario">
+        <th mat-header-cell *matHeaderCellDef>CANTIDAD DISPONIBLE</th>
+        <td mat-cell *matCellDef="let element">{{ element.CANTIDAD_DISPONIBLE }}</td>
+      </ng-container>
+      <ng-container matColumnDef="acciones usuario">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button (click)="eliminar_inventario(element.CODIGO_PRODUCTO)" mat-mini-fab class="boton-rojo"
+              aria-label="Example icon button with a delete icon">
+            <mat-icon>delete</mat-icon>
+          </button>
+        
+      </td>
+      </ng-container>
+
+       
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  

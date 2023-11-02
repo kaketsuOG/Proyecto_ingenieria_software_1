@@ -31,6 +31,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { UsuarioService } from './components/usuarios/usuario.service';
+import { InventarioIndexComponent } from './components/inventario/index/index.component';
+import { UsuariosEditComponent } from './components/usuarios/edit/edit.component';
 
 
 
@@ -45,7 +47,9 @@ import { UsuarioService } from './components/usuarios/usuario.service';
     SpinnerComponent,
     InicioComponent,
     NavigatorComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    InventarioIndexComponent,
+    UsuariosEditComponent,
 
   ],
   imports: [

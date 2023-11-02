@@ -5,6 +5,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { IndexComponent } from './index/index.component';
+import { EditComponent } from './edit/edit.component';
 
 
 
@@ -12,7 +14,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    IndexComponent,
+    EditComponent
+  ],
   imports: [
     CommonModule,
     MatTableModule, 

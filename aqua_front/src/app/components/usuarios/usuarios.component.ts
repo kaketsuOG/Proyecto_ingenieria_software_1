@@ -53,7 +53,7 @@ export class UsuariosComponent implements OnInit {
   // Método para editar un usuario
   editarUsuario(usuario: any) {
     // Aquí puedes implementar la lógica para editar un usuario
-    console.log('Editar usuario:', usuario);
+    this.router.navigate(['usuarios/edit',usuario]);
   }
 
   // Método para eliminar un usuario
