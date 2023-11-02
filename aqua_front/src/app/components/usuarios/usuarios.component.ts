@@ -5,6 +5,7 @@ import { UsuarioService } from './usuario.service';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
+import { Router } from '@angular/router';
 
 
 export interface PeriodicElement {
@@ -39,7 +40,7 @@ export class UsuariosComponent implements OnInit {
   usuarios: any[] = [];
   displayedColumns: any[] = ['rut', 'nombre', 'apellido1 usuario', 'apellido2 usuario','acciones usuario'];
 
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(private usuarioService: UsuarioService, private router: Router) {}
 
   ngOnInit() {
     // Cuando se inicia el componente, obtén los usuarios del servicio
@@ -52,7 +53,7 @@ export class UsuariosComponent implements OnInit {
   // Método para editar un usuario
   editarUsuario(usuario: any) {
     // Aquí puedes implementar la lógica para editar un usuario
-    console.log('Editar usuario:', usuario);
+    this.router.navigate(['usuarios/edit',usuario]);
   }
 
   // Método para eliminar un usuario
@@ -72,6 +73,10 @@ export class UsuariosComponent implements OnInit {
     this.usuarioService.getUsuarios().subscribe((data: any) => {
       this.usuarios = data;
     });
+  }
+  redirectToSignIn() {
+    // Redirige a la página de registro (reemplaza 'nombre-de-ruta' con la ruta real)
+    this.router.navigate(['/signIn']);
   }
 }
 

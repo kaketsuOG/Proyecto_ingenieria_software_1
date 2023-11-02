@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
   private myAppUrl: string;
   private myApiUrl: string;
@@ -28,12 +28,22 @@ export class UserService {
     return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, user);
    }
    editarUsuario(usuario: any): Observable<any> {
-    const editUrl = `${this.myAppUrl}/usuarios/${usuario.id}`; // Reemplaza 'usuarios' con la ruta correcta de tu API
+    const editUrl = `${this.myAppUrl}${this.myApiUrl}/${usuario.rut_usuario}`; // Reemplaza 'usuarios' con la ruta correcta de tu API
     return this.http.put(editUrl, usuario); // Realiza una solicitud PUT al servidor
+  }
+  obtenerUsuario(usuario: any): Observable<any> {
+    const editUrl = `${this.myAppUrl}${this.myApiUrl}/${usuario}`; // Reemplaza 'usuarios' con la ruta correcta de tu API
+    return this.http.get<any[]>(editUrl); // Realiza una solicitud PUT al servidor
   }
   eliminarUsuario(userId: number): Observable<any> {
     const deleteUrl = `${this.myAppUrl}/usuarios/${userId}`; // Reemplaza 'usuarios' con la ruta correcta de tu API
     return this.http.delete(deleteUrl); // Realiza una solicitud DELETE al servidor
   }
+  
+
+}
+export interface User {
+  rut_usuario: string,
+  contrasena: string,
 
 }
