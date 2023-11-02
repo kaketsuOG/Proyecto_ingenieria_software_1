@@ -1,8 +1,7 @@
-import { INTEGER } from "sequelize";
+import { json } from "sequelize";
 import { Inventario } from "../models/inventario";
 import { Producto } from "../models/producto";
 import {Request, Response} from 'express';
-import {} from '../controllers/producto'
 
 export const newInventario = async(req: Request, res: Response) =>{
     const { cod_sucursal,cantidad_total} =  req.body;
@@ -70,11 +69,16 @@ export const agregarProductos = async(req: Request, res: Response) =>{
     try{
         const cantidadInt = parseInt(cantidad, 10);
         for (let i = 1; i < cantidadInt+1; i++) {
-            const cantidadDisponible = await Inventario.findOne({attributes:['CANTIDAD_DISPONIBLE'],where: {COD_INVENTARIO: cod_inventario}});
-            const cantidadDisponible2 = cantidadDisponible?.dataValues.CANTIDAD_DISPONIBLE + 1
-            
+            const cantidades = await Inventario.findOne({attributes:['CANTIDAD_DISPONIBLE','CANTIDAD_TOTAL'],where: {COD_INVENTARIO: cod_inventario}});
+            const cantidadDisponible = cantidades?.dataValues.CANTIDAD_DISPONIBLE + 1
+            const cantidadTotal = cantidades?.dataValues.CANTIDAD_TOTAL
+            if (cantidadDisponible>cantidadTotal){
+                return res.status(400).json({
+                    msg: 'Has superado la maxima capacidad del inventario',
+                })
+            }
             await Inventario.update({
-                CANTIDAD_DISPONIBLE: cantidadDisponible2
+                CANTIDAD_DISPONIBLE: cantidadDisponible
                 },
                 {where: {COD_INVENTARIO: cod_inventario}}
             )
@@ -111,11 +115,16 @@ export const quitarProductos = async(req: Request, res: Response) =>{
     try{
         const cantidadInt = parseInt(cantidad, 10);
         for (let i = 1; i < cantidadInt+1; i++) {
-            const cantidadDisponible = await Inventario.findOne({attributes:['CANTIDAD_DISPONIBLE'],where: {COD_INVENTARIO: cod_inventario}});
-            const cantidadDisponible2 = cantidadDisponible?.dataValues.CANTIDAD_DISPONIBLE - 1
+            const cantidades = await Inventario.findOne({attributes:['CANTIDAD_DISPONIBLE','CANTIDAD_TOTAL'],where: {COD_INVENTARIO: cod_inventario}});
+            const cantidadDisponible = cantidades?.dataValues.CANTIDAD_DISPONIBLE - 1
+            if (cantidadDisponible<0){
+                return res.status(400).json({
+                    msg: 'Inventario vacio',
+                })
+            }
             
             await Inventario.update({
-                CANTIDAD_DISPONIBLE: cantidadDisponible2
+                CANTIDAD_DISPONIBLE: cantidadDisponible
                 },
                 {where: {COD_INVENTARIO: cod_inventario}}
             )

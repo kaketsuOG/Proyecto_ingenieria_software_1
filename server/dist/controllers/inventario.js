@@ -75,10 +75,16 @@ const agregarProductos = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const cantidadInt = parseInt(cantidad, 10);
         for (let i = 1; i < cantidadInt + 1; i++) {
-            const cantidadDisponible = yield inventario_1.Inventario.findOne({ attributes: ['CANTIDAD_DISPONIBLE'], where: { COD_INVENTARIO: cod_inventario } });
-            const cantidadDisponible2 = (cantidadDisponible === null || cantidadDisponible === void 0 ? void 0 : cantidadDisponible.dataValues.CANTIDAD_DISPONIBLE) + 1;
+            const cantidades = yield inventario_1.Inventario.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_INVENTARIO: cod_inventario } });
+            const cantidadDisponible = (cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_DISPONIBLE) + 1;
+            const cantidadTotal = cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_TOTAL;
+            if (cantidadDisponible > cantidadTotal) {
+                return res.status(400).json({
+                    msg: 'Has superado la maxima capacidad del inventario',
+                });
+            }
             yield inventario_1.Inventario.update({
-                CANTIDAD_DISPONIBLE: cantidadDisponible2
+                CANTIDAD_DISPONIBLE: cantidadDisponible
             }, { where: { COD_INVENTARIO: cod_inventario } });
         }
         return res.json({
@@ -111,10 +117,15 @@ const quitarProductos = (req, res) => __awaiter(void 0, void 0, void 0, function
     try {
         const cantidadInt = parseInt(cantidad, 10);
         for (let i = 1; i < cantidadInt + 1; i++) {
-            const cantidadDisponible = yield inventario_1.Inventario.findOne({ attributes: ['CANTIDAD_DISPONIBLE'], where: { COD_INVENTARIO: cod_inventario } });
-            const cantidadDisponible2 = (cantidadDisponible === null || cantidadDisponible === void 0 ? void 0 : cantidadDisponible.dataValues.CANTIDAD_DISPONIBLE) - 1;
+            const cantidades = yield inventario_1.Inventario.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_INVENTARIO: cod_inventario } });
+            const cantidadDisponible = (cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_DISPONIBLE) - 1;
+            if (cantidadDisponible < 0) {
+                return res.status(400).json({
+                    msg: 'Inventario vacio',
+                });
+            }
             yield inventario_1.Inventario.update({
-                CANTIDAD_DISPONIBLE: cantidadDisponible2
+                CANTIDAD_DISPONIBLE: cantidadDisponible
             }, { where: { COD_INVENTARIO: cod_inventario } });
         }
         return res.json({
