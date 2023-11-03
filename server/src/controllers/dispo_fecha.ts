@@ -1,6 +1,6 @@
 
 import { Request, Response } from 'express';
-import { Disponibilidad_fecha } from '../models/dispo_fecha'; // Asegúrate de importar el modelo correcto
+import { Disponibilidad_fecha } from '../models/dispo_fecha';
 
 export const getDisponibilidad_fechas = async (req: Request, res: Response) => {
     const listDisponibilidad_fechas = await Disponibilidad_fecha.findAll({ attributes: ['COD_DISPONIBILIDAD', 'FECHA_ENTREGA', 'COD_HORARIO_ENTREGA'] });
