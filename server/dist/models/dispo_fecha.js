@@ -10,6 +10,7 @@ exports.Disponibilidad_fecha = connection_1.default.define('Disponibilidad_fecha
     "COD_DISPONIBILIDAD": {
         type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
     },
     "FECHA_ENTREGA": {
         type: sequelize_1.DataTypes.DATE

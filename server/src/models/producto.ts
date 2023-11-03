@@ -1,6 +1,7 @@
 
 import { DATE, DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
+import { Inventario } from './inventario';
 
 export const Producto = sequelize.define('producto',{
     "COD_PRODUCTO": {type: DataTypes.INTEGER,primaryKey:true,autoIncrement: true},
@@ -16,4 +17,4 @@ export const Producto = sequelize.define('producto',{
     
 
 }
-)
+);

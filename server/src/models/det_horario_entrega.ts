@@ -5,6 +5,7 @@ export const Detalle_horario_entrega = sequelize.define('DETALLE_HORARIO_ENTREGA
     "COD_HORARIO_ENTREGA":{
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement:true
     },
     "HORA_ENTREGA":{
         type: DataTypes.TIME

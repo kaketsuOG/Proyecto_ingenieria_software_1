@@ -7,7 +7,7 @@ exports.Rol = void 0;
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../db/connection"));
 exports.Rol = connection_1.default.define('rol_usuarios', {
-    "COD_ROL": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true },
+    "COD_ROL": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     "NOMBRE_ROL": { type: sequelize_1.DataTypes.STRING }
 }, {
     freezeTableName: true,

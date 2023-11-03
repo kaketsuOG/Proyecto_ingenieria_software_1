@@ -7,7 +7,7 @@ exports.Vehiculo = void 0;
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../db/connection"));
 exports.Vehiculo = connection_1.default.define('Vehiculo', {
-    "PATENTE_COD_VEHICULO": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true },
+    "PATENTE_COD_VEHICULO": { type: sequelize_1.DataTypes.STRING, primaryKey: true },
     "MARCA": { type: sequelize_1.DataTypes.STRING },
     "MODELO": { type: sequelize_1.DataTypes.INTEGER },
     "COLOR": { type: sequelize_1.DataTypes.STRING },
