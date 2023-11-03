@@ -37,6 +37,7 @@ import { UsuariosEditComponent } from './components/usuarios/edit/edit.component
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +51,7 @@ import { UsuariosEditComponent } from './components/usuarios/edit/edit.component
     UsuariosComponent,
     InventarioIndexComponent,
     UsuariosEditComponent,
+    
 
   ],
   imports: [

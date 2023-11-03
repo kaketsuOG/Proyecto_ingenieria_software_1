@@ -1,7 +1,13 @@
-
+*{margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
 /* Estilos personalizados para el botón de inicio de sesión */
 .btn-outline-success-on-hover {
-    background-color: rgb(255, 255, 255); /* Fondo predeterminado (negro) */
+    margin-right: 1rem;
+    background-color:white; /* Fondo predeterminado (negro) */
     color: black; /* Texto blanco */
     transition: background-color 0.3s; /* Transición de color de fondo */
   }
@@ -10,4 +16,145 @@
     background-color: #28a745; /* Fondo verde al pasar el cursor */
     color: swhite; /* Texto blanco (puedes cambiar el color del texto según sea necesario) */
   }
+
+  .nav-b{
+    color: #ffffff;
+    height: 2.5rem;
+    width: 8.5rem;
+    background:#1acaf1;
+    text-decoration: none;
+    border-radius: 2rem;
+    margin-left: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  body{
+    text-align: center;
+    font-family:sans-serif;
+  }
+  
+  .header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header{
+    height: 65vh !important;
+    background: url(../../../assets/img/fondoAqua.png) no-repeat center;
+    background-size: cover;
+    background-position-y: top;
+  }
+
+  .tittle{
+    margin-top: -200px;
+    margin-bottom: 20px;
+    font-size: 60px;
+    font-weight: 600;
+  }
+
+  .content{
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .prod{
+    padding: 30px;
+    background: #b1daf7;
+  }
+
+  .tittleP{
+    margin-top: 58rem;
+    margin-bottom: 1rem;
+    font-size: 60px;
+    font-weight: 600;
+  }
+
+  .box-container{
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .box-container .box1{
+    height: 22.1rem;
+    width: 18rem;
+    /*background:#4294e7;*/
+    text-align: center;
+    border-radius: 1rem;
+    margin: 1rem;
+  }
+
+  .box-container .box2{
+    height: 18rem;
+    width: 24rem;
+    /*background:#4294e7;*/
+    text-align: center;
+    border-radius: 1rem;
+    margin: 1rem;
+  }
+  
+  .About{
+    padding: 30px;
+    background: #b1daf7;
+    height: 170vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .tittleN{
+    margin-top: 55rem;
+    margin-bottom: 20px;
+    font-size: 60px;
+    font-weight: 600;
+  }
+  
+  .p{
+    text-align: center;
+  }
+
+  .Contact{
+    height: 70%;
+    background: #000000f9;
+  }
+  .tittleC{
+    margin-bottom: 20px;
+    font-size: 60px;
+    font-weight: 600;
+    color: #fffffff9;
+  }
+
+  .parrafoC{
+    color: #ffffff;
+    margin-bottom: 1rem;
+  }
+  
+  .cont{
+    margin-top: 30px;
+  }
+
+  .fa-brands{
+    color: #36e15e;
+  }
+
+  .fa-regular{
+    color: #1acaf1;
+  }
+
+
+
+
+ 
+
   

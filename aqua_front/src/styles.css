@@ -21,5 +21,12 @@ html, body {
     width: 100%;
     text-align: center;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.navbar{
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.navbar-nav .nav-link{
+    margin-right:30px;
+}
