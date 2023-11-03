@@ -46,7 +46,7 @@ export const getUsers = async(req: Request, res: Response) =>{
     
     const listUsers = await User.findAll({attributes:['RUT_USUARIO','NOMBRE_USUARIO','APELLIDO1_USUARIO','APELLIDO2_USUARIO','CONTRASEÑA']});
 
-    res.json(listUsers)
+    return res.json(listUsers)
 
 }
 
@@ -81,7 +81,7 @@ export const loginUser = async(req: Request, res: Response) =>{
 }
 
 export const getUser = async(req: Request, res: Response) =>{
-    const {rut_usuario} = req.params; 
+    const {rut_usuario} = req.params;
     const idUser = await User.findOne({where:{RUT_USUARIO: rut_usuario}})
 
     if(!idUser) {
