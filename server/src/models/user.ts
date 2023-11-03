@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
+import {Rol} from './rol';
 
 export const User = sequelize.define('Usuarios',{
     "RUT_USUARIO": {type: DataTypes.STRING,primaryKey: true},

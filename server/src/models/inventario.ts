@@ -1,6 +1,7 @@
 import { DATE, DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
-import { User } from './user';
+import { Sucursal } from './sucursal';
+
 
 export const Inventario = sequelize.define('inventario',{
     "COD_INVENTARIO": {type: DataTypes.INTEGER,primaryKey:true,autoIncrement: true},
@@ -14,4 +15,4 @@ export const Inventario = sequelize.define('inventario',{
     timestamps: false,
 
 }
-)
+);

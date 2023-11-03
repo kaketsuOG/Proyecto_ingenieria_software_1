@@ -5,11 +5,13 @@ import routesUser from '../routes/user';
 import routesInventario from '../routes/inventario';
 import routesProducto from '../routes/producto';
 import routesVehiculo from '../routes/vehiculo';
+import routesSucursal from '../routes/sucursal';
 import { Rol } from './rol';
 import { User } from './user';
 import { Inventario } from './inventario';
 import { Producto } from './producto';
 import { Vehiculo } from './vehiculo';
+import {Sucursal} from './sucursal';
 
 class Server {
     private app: Application;
@@ -27,7 +29,7 @@ class Server {
 
     listen(){
         this.app.listen(this.port, ()=> {
-            console.log('Corriendo en el puertoo ' + this.port);
+            console.log('Corriendo en el puerto ' + this.port);
         })
     }
 
@@ -37,23 +39,29 @@ class Server {
         this.app.use('/api/inventario',routesInventario);
         this.app.use('/api/productos', routesProducto);
         this.app.use('/api/vehiculos', routesVehiculo);
+        this.app.use('/api/sucursal',routesSucursal);
     }
 
     midlewares() {
-        //parseo body
-        this.app.use(express.json());
 
-        //cors
+        this.app.use(express.json());
         this.app.use(cors());
     }
 
     async dbConnect(){
         try{
+            await Vehiculo.sync()
+            await Rol.sync()
+            await User.sync()
+            await Sucursal.sync()
             await Inventario.sync()
             await Producto.sync()
-            await User.sync()
-            await Rol.sync()
-            await Vehiculo.sync()
+            
+
+            
+            
+
+
         }catch (error){
             console.error('No se ha podido conectar a la base de datos');
         }

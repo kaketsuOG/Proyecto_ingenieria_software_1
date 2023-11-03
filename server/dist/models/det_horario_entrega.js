@@ -10,6 +10,7 @@ exports.Detalle_horario_entrega = connection_1.default.define('DETALLE_HORARIO_E
     "COD_HORARIO_ENTREGA": {
         type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
     },
     "HORA_ENTREGA": {
         type: sequelize_1.DataTypes.TIME

@@ -7,7 +7,7 @@ exports.Ciudad_sucursal = void 0;
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../db/connection"));
 exports.Ciudad_sucursal = connection_1.default.define('Ciudad_sucursales', {
-    "COD_CIUDAD_SUCURSAL": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true },
+    "COD_CIUDAD_SUCURSAL": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     "NOMBRE_CIUDAD": { type: sequelize_1.DataTypes.STRING }
 }, {
     timestamps: false,
