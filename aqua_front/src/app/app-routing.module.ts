@@ -12,6 +12,9 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { NavigatorComponent } from './components/navigator/navigator.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { UsuariosEditComponent } from './components/usuarios/edit/edit.component';
+import { NosotrosComponent } from './components/nosotros/nosotros.component';
+import { ProductosComponent } from './components/productos/productos.component';
+import { ReservaComponent } from './components/reserva/reserva.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -22,6 +25,9 @@ const routes: Routes = [
   { path: 'navigator', component: NavigatorComponent },
   { path: 'usuarios', component: UsuariosComponent },
   { path: 'usuarios/edit/:id', component: UsuariosEditComponent },
+  { path: 'nosotros', component: NosotrosComponent },
+  { path: 'productos', component: ProductosComponent },
+  { path: 'reserva', component: ReservaComponent },
 
 
 

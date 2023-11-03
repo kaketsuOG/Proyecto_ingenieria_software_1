@@ -51,14 +51,14 @@
   }
 
   .tittle{
-    margin-top: -200px;
-    margin-bottom: 20px;
-    font-size: 60px;
+    margin-top: -17rem;
+    margin-bottom: 4rem;
+    font-size: 80px;
     font-weight: 600;
   }
 
   .content{
-    height: 50vh;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -71,9 +71,9 @@
   }
 
   .tittleP{
-    margin-top: 58rem;
-    margin-bottom: 1rem;
-    font-size: 60px;
+    margin-top: 60rem;
+    margin-bottom: 4rem;
+    font-size: 80px;
     font-weight: 600;
   }
 
@@ -86,8 +86,8 @@
   }
 
   .box-container .box1{
-    height: 22.1rem;
-    width: 18rem;
+    height: 30rem;
+    width: 26rem;
     /*background:#4294e7;*/
     text-align: center;
     border-radius: 1rem;
@@ -96,11 +96,11 @@
 
   .box-container .box2{
     height: 18rem;
-    width: 24rem;
+    width: 35rem;
     /*background:#4294e7;*/
     text-align: center;
     border-radius: 1rem;
-    margin: 1rem;
+    margin: 2rem;
   }
   
   .About{
@@ -115,13 +115,14 @@
 
   .tittleN{
     margin-top: 55rem;
-    margin-bottom: 20px;
-    font-size: 60px;
+    margin-bottom: 4rem;
+    font-size: 80px;
     font-weight: 600;
   }
   
   .p{
     text-align: center;
+    font-size: 18px;
   }
 
   .Contact{
@@ -129,8 +130,8 @@
     background: #000000f9;
   }
   .tittleC{
-    margin-bottom: 20px;
-    font-size: 60px;
+    margin-bottom: 4rem;
+    font-size: 80px;
     font-weight: 600;
     color: #fffffff9;
   }
@@ -138,6 +139,7 @@
   .parrafoC{
     color: #ffffff;
     margin-bottom: 1rem;
+    font-size: 18px;
   }
   
   .cont{
