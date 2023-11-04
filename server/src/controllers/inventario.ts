@@ -2,6 +2,9 @@ import { json } from "sequelize";
 import { Inventario } from "../models/inventario";
 import { Producto } from "../models/producto";
 import {Request, Response} from 'express';
+import sequelize from "sequelize";
+import { Sucursal } from "../models/sucursal";
+
 
 export const newInventario = async(req: Request, res: Response) =>{
     const { cod_sucursal,cantidad_total} =  req.body;
@@ -145,7 +148,18 @@ export const quitarProductos = async(req: Request, res: Response) =>{
 
 export const getInventario = async(req: Request, res: Response) =>{
     const { cod_inventario} =  req.params;
-    const idInventario = await Inventario.findOne({where: {COD_INVENTARIO: cod_inventario}})
+    const idInventario = await Inventario.findOne({
+        attributes: [
+            'COD_INVENTARIO',
+            'CANTIDAD_TOTAL',
+            'CANTIDAD_DISPONIBLE',
+            [sequelize.col('Sucursal.NOMBRE_SUCURSAL'), 'NOMBRE_SUCURSAL']
+        ],
+        include: {
+            model: Sucursal,
+            attributes: []
+        },where: {COD_INVENTARIO: cod_inventario}
+    });
     if (!idInventario) {
         return res.status(400).json({
             msg: "El id: " + cod_inventario + " de inventario no existe"
@@ -157,13 +171,24 @@ export const getInventario = async(req: Request, res: Response) =>{
 
         }catch (error){
             return res.status(400).json({
-                msg: 'Ha ocurrido un error al encontrar el inventarioo: '+cod_inventario,
+                msg: 'Ha ocurrido un error al encontrar el inventario: '+cod_inventario,
                 error
             })
 
         }
 }
 export const getInventarios = async(req: Request, res: Response) =>{  
-    const listInventarios = await Producto.findAll();
+    const listInventarios = await Inventario.findAll({
+        attributes: [
+            'COD_INVENTARIO',
+            'CANTIDAD_TOTAL',
+            'CANTIDAD_DISPONIBLE',
+            [sequelize.col('Sucursal.NOMBRE_SUCURSAL'), 'NOMBRE_SUCURSAL']
+        ],
+        include: {
+            model: Sucursal,
+            attributes:[]
+        }
+    });
     res.json(listInventarios)
 }

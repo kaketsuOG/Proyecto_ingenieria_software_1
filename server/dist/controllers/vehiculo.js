@@ -115,4 +115,3 @@ const updateVehiculo = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.updateVehiculo = updateVehiculo;
-vehiculo_1.Vehiculo.sync();

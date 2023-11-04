@@ -1,8 +1,11 @@
 import {Request, Response} from 'express';
 import { Sucursal } from '../models/sucursal';
+
+
 export const getSucursales = async(req: Request, res: Response) =>{  
     const listSucursal = await Sucursal.findAll();
     res.json(listSucursal)
+    
 }
 export const newSucursal = async(req: Request, res: Response) =>{
     const { nombre_sucursal, cod_ciudad_sucursal,calle_sucursal,nro_direccion_sucursal} =  req.body;

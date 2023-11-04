@@ -16,6 +16,8 @@ exports.updateUser = exports.deleteUser = exports.getUser = exports.loginUser = 
 const user_1 = require("../models/user");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const rol_1 = require("../models/rol");
+const sequelize_1 = __importDefault(require("sequelize"));
 const newUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { rut_usuario, contrasena, nombre_usuario, apellido1_usuario, apellido2_usuario, cod_rol } = req.body;
     const usuario = yield user_1.User.findOne({ where: { RUT_USUARIO: rut_usuario } });
@@ -47,7 +49,20 @@ const newUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.newUser = newUser;
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listUsers = yield user_1.User.findAll({ attributes: ['RUT_USUARIO', 'NOMBRE_USUARIO', 'APELLIDO1_USUARIO', 'APELLIDO2_USUARIO', 'CONTRASEÑA'] });
+    const listUsers = yield user_1.User.findAll({
+        attributes: [
+            'RUT_USUARIO',
+            'NOMBRE_USUARIO',
+            'APELLIDO1_USUARIO',
+            'APELLIDO2_USUARIO',
+            'CONTRASEÑA',
+            [sequelize_1.default.col('Rol.NOMBRE_ROL'), 'NOMBRE_ROL']
+        ],
+        include: {
+            model: rol_1.Rol,
+            attributes: [],
+        }
+    });
     return res.json(listUsers);
 });
 exports.getUsers = getUsers;
@@ -76,7 +91,20 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.loginUser = loginUser;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { rut_usuario } = req.params;
-    const idUser = yield user_1.User.findOne({ where: { RUT_USUARIO: rut_usuario } });
+    const idUser = yield user_1.User.findOne({
+        attributes: [
+            'RUT_USUARIO',
+            'NOMBRE_USUARIO',
+            'APELLIDO1_USUARIO',
+            'APELLIDO2_USUARIO',
+            'CONTRASEÑA',
+            [sequelize_1.default.col('Rol.NOMBRE_ROL'), 'NOMBRE_ROL']
+        ],
+        include: {
+            model: rol_1.Rol,
+            attributes: []
+        }, where: { RUT_USUARIO: rut_usuario }
+    });
     if (!idUser) {
         return res.status(400).json({
             msg: "El rut de usuario indicado no existe"
@@ -160,4 +188,3 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updateUser = updateUser;
-user_1.User.sync();

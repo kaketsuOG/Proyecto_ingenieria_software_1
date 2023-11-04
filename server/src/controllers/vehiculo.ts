@@ -111,5 +111,3 @@ export const updateVehiculo = async (req: Request, res: Response) => {
         });
     }
 };
-
-Vehiculo.sync();
