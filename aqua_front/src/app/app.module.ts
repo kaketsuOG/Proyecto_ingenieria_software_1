@@ -33,6 +33,9 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { UsuarioService } from './components/usuarios/usuario.service';
 import { InventarioIndexComponent } from './components/inventario/index/index.component';
 import { UsuariosEditComponent } from './components/usuarios/edit/edit.component';
+import { VehiculoComponent } from './components/vehiculo/vehiculo.component';
+import { SignInVehiculoComponent } from './sign-in-vehiculo/sign-in-vehiculo.component';
+import { EditVehiculoComponent } from './components/vehiculo/edit-vehiculo/edit-vehiculo.component';
 
 
 
@@ -51,6 +54,9 @@ import { UsuariosEditComponent } from './components/usuarios/edit/edit.component
     UsuariosComponent,
     InventarioIndexComponent,
     UsuariosEditComponent,
+    VehiculoComponent,
+    SignInVehiculoComponent,
+    EditVehiculoComponent,
     
 
   ],
