@@ -9,6 +9,7 @@
        <a mat-list-item  (click)="toggleEmpleadosInfo()" [class.active]="showEmpleadosInfo">Empleados</a>
        <a mat-list-item  (click)="toggleVehiculosInfo()" [class.active]="showVehiculosInfo">Vehiculos</a>
        <a mat-list-item  (click)="toggleInventarioInfo()" [class.active]="showInventarioInfo">Inventario/Stock</a>
+       <a mat-list-item  (click)="toggleHistorialInfo()" [class.active]="showHistorialInfo">Historial de pedidos</a>
        <div class="d-flex flex-column align-items-center">
         <button mat-raised-button class="btn btn-outline-success mb-3 bottom-button" 
         (click)="logOut()" type="button" aria-label="Example icon button with a singout icon">Cerrar Sesión <mat-icon>open_in_new</mat-icon></button>
@@ -23,6 +24,7 @@
     <div *ngIf="showEmpleadosInfo"><app-usuarios></app-usuarios></div>
     <div *ngIf="showVehiculosInfo"><app-vehiculo></app-vehiculo></div>
     <div *ngIf="showInventarioInfo"><app-index></app-index></div>
+    <div *ngIf="showHistorialInfo"><app-index></app-index></div>
   <!-- Resto de tu contenido -->
    
     <!-- Add Content Here -->

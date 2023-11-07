@@ -1,6 +1,5 @@
 "use strict";
-<<<<<<< HEAD
-=======
+
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -193,4 +192,4 @@ const getInventarios = (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.json(listInventarios);
 });
 exports.getInventarios = getInventarios;
->>>>>>> b2896a23437fdae6e11e94255f4964bb9c029203
+
