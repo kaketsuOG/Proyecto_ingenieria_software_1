@@ -75,7 +75,7 @@ export class VehiculoComponent implements OnInit {
   }
   redirectToSignInVehiculos() {
     // Redirige a la página de registro (reemplaza 'nombre-de-ruta' con la ruta real)
-    this.router.navigate(['/signInVehiculo']);
+    this.router.navigate(['/sing-in-vehiculo']);
   }
 }
 

@@ -15,6 +15,8 @@ import { UsuariosEditComponent } from './components/usuarios/edit/edit.component
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { ProductosComponent } from './components/productos/productos.component';
 import { ReservaComponent } from './components/reserva/reserva.component';
+import { VehiculoComponent } from './components/vehiculo/vehiculo.component';
+import { SignInVehiculoComponent } from './sign-in-vehiculo/sign-in-vehiculo.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -28,6 +30,9 @@ const routes: Routes = [
   { path: 'nosotros', component: NosotrosComponent },
   { path: 'productos', component: ProductosComponent },
   { path: 'reserva', component: ReservaComponent },
+  { path: 'vehiculo', component: VehiculoComponent },
+  { path: 'sing-in-vehiculo', component: SignInVehiculoComponent },
+
 
 
 

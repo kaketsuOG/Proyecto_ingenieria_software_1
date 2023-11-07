@@ -15,8 +15,8 @@ import { EditVehiculoComponent } from './edit-vehiculo/edit-vehiculo.component';
 
 @NgModule({
   declarations: [
-    //IndexComponent,
-    //EditVehiculoComponent,
+    IndexComponent,
+    EditVehiculoComponent,
   ],
   imports: [
     CommonModule,
