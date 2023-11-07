@@ -2,6 +2,8 @@ import {Request, Response} from 'express';
 import { User } from '../models/user';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { Rol } from '../models/rol';
+import sequelize from 'sequelize';
 
 export const newUser = async(req: Request, res: Response) =>{
 
@@ -44,9 +46,22 @@ export const newUser = async(req: Request, res: Response) =>{
 
 export const getUsers = async(req: Request, res: Response) =>{
     
-    const listUsers = await User.findAll({attributes:['RUT_USUARIO','NOMBRE_USUARIO','APELLIDO1_USUARIO','APELLIDO2_USUARIO','CONTRASEÑA']});
+    const listUsers = await User.findAll({
+        attributes: [
+            'RUT_USUARIO',
+            'NOMBRE_USUARIO',
+            'APELLIDO1_USUARIO',
+            'APELLIDO2_USUARIO',
+            'CONTRASEÑA',
+            [sequelize.col('Rol.NOMBRE_ROL'), 'NOMBRE_ROL']
+        ],
+        include: {
+            model: Rol,
+            attributes: [],
+        }
+    });
 
-    res.json(listUsers)
+    return res.json(listUsers);
 
 }
 
@@ -81,9 +96,21 @@ export const loginUser = async(req: Request, res: Response) =>{
 }
 
 export const getUser = async(req: Request, res: Response) =>{
-    const {rut_usuario} = req.params; 
-    const idUser = await User.findOne({where:{RUT_USUARIO: rut_usuario}})
-
+    const {rut_usuario} = req.params;
+    const idUser = await User.findOne({
+        attributes: [
+            'RUT_USUARIO',
+            'NOMBRE_USUARIO',
+            'APELLIDO1_USUARIO',
+            'APELLIDO2_USUARIO',
+            'CONTRASEÑA',
+            [sequelize.col('Rol.NOMBRE_ROL'), 'NOMBRE_ROL']
+        ],
+        include: {
+            model: Rol,
+            attributes: []
+        },where: {RUT_USUARIO: rut_usuario}
+    });
     if(!idUser) {
         return res.status(400).json({
             msg: "El rut de usuario indicado no existe"
@@ -168,4 +195,3 @@ export const updateUser = async(req: Request, res: Response)=>{
         })
     }
 }
-User.sync();

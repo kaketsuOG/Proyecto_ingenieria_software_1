@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 
 export const Historial = sequelize.define('Historial', {
-    "COD_HISTORIAL": { type: DataTypes.INTEGER, primaryKey: true },
+    "COD_HISTORIAL": { type: DataTypes.INTEGER, primaryKey: true,autoIncrement:true },
     "FECHA_HISTORIAL": { type: DataTypes.DATE }
 
 },

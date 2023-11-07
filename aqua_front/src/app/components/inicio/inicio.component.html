@@ -1,10 +1,96 @@
-<nav class="navbar navbar-expand-lg bg-primary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Aqua</a>
-      <button class="btn btn-outline-dark btn-outline-success-on-hover" (click)="logOut()" type="button">Iniciar Sesión</button>
-    </div>
-  </nav>
+<body>
+  <!-- conexión con font awesome para utilizar iconos-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
-<p>Aqui ira la informacion</p>
+  <!--barra de navegación-->
+  <nav class="navbar navbar-expand-lg bg-light navbar-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src = "../../../assets/img/logoAqua.png" alt = "Aqua Logo" width="70" >
+        </a>
+        <div class="navbar-nav mx-auto">
+          <a class="nav-b" routerLink="/reserva">HAZ TU PEDIDO</a>
+        </div>
+        <div class="navbar-nav mr-auto">
+          <a class="nav-link" routerLink="/productos">Productos</a>
+          <a class="nav-link" routerLink="/nosotros">Nosotros</a>
+          <button class="btn btn-outline-dark btn-outline-success-on-hover" (click)="logOut()" type="button">Iniciar Sesión</button>
+        </div>
+      </div>    
+  </nav>
 
+  <!--Encabezado (nombre de empresa + descripción)-->
+  <header class="content header">
+    <h2 class="tittle">Aqua Pura</h2>
+    <p class="p">
+      Somos una empresa dedicada al servicio de distribución de agua
+    </p>
+  </header>
+
+  <!--sección de productos-->
+  <section class="content prod">
+    <h2 class="tittleP">Productos</h2>
+    <p class="p">Estos son algunos de nuestros productos más vendidos. Ingresa a la sección productos para conocer muchos más.</p>
+    
+    <!--box principal para mostrar productos-->
+    <div class="box-container">
+
+      <!--tipo de box para imagenes de productos cuadradas(desde producto 1 a 3)-->
+      <div class="box1">
+        <h3>P1</h3>
+        <img src="../../../assets/img/p1.png" alt="producto 1" width="380">
+        <p></p>
+      </div>
+      <div class="box1">
+        <h3>P2</h3>
+        <img src="../../../assets/img/p2.png" alt="producto 2" width="380">
+        <p></p>
+      </div>
+      <div class="box1">
+        <h3>P3</h3>
+        <img src="../../../assets/img/p6.png" alt="producto 6" width="380">
+        <p></p>
+      </div>
+      
+      <!--tipo de box para imagenes de productos rectangulares(desde producto 4 a 7)-->
+      <div class="box2">
+        <h3>P4</h3>
+        <img src="../../../assets/img/p3.png" alt="producto 3" width="560" height="270">
+        <p></p>
+      </div>
+      <div class="box2">
+        <h3>P5</h3>
+        <img src="../../../assets/img/p4.png" alt="producto 4" width="560" height="270">
+        <p></p>
+      </div>
+      <div class="box2">
+        <h3>P6</h3>
+        <img src="../../../assets/img/p5.png" alt="producto 5" width="560" height="270">
+        <p></p>
+      </div>
+      <div class="box2">
+        <h3>P7</h3>
+        <img src="../../../assets/img/p7.png" alt="producto 7" width="640" height="270">
+        <p></p>
+      </div>
+    </div>
+  </section>
+
+  <!--sección apartado nosotros-->
+  <section class="content About">
+    <h2 class="tittleN">Nosotros</h2>
+    <p class="p"> Nuestra agua proviene de la red pública, la cual ya cuenta con un tratamiento elemental; 
+      sin embargo, la sometemos a procesos adicionales de filtrado, osmosis inversa, desinfección etc., para cumplir con los exigentes estándares de calidad que requiere nuestro rubro, para poder entregarte a ti y a tu familia un agua más rica, sana y pura.</p>
+  </section>
+
+  <!--sección contacto de la empresa-->
+  <section class="content Contact">
+    <h2 class="tittleC">Contacto</h2>
+    <p class="parrafoC"><i class="fa-brands fa-whatsapp"></i> +56936860576</p>
+    <p class="parrafoC"><i class="fa-regular fa-envelope"></i> aquapura.eirl@gmail.com</p>
+    <figure class="cont">
+      <img src="/../../assets/img/logoLetras.png" height="220px" width="100%" alt="contacto">
+    </figure>
+  </section>
+</body>
 

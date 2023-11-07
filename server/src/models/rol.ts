@@ -2,8 +2,8 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 
-export const Rol = sequelize.define('rol_usuarios',{
-    "COD_ROL": {type: DataTypes.INTEGER,primaryKey:true},
+export const Rol = sequelize.define('rol',{
+    "COD_ROL": {type: DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
     "NOMBRE_ROL": {type: DataTypes.STRING}
 
 },
@@ -13,3 +13,4 @@ export const Rol = sequelize.define('rol_usuarios',{
 
 }
 )
+

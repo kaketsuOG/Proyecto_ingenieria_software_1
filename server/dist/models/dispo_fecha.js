@@ -6,10 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Disponibilidad_fecha = void 0;
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../db/connection"));
-exports.Disponibilidad_fecha = connection_1.default.define('Disponibilidad_fechas', {
+exports.Disponibilidad_fecha = connection_1.default.define('Disponibilidad_fecha', {
     "COD_DISPONIBILIDAD": {
         type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true
     },
     "FECHA_ENTREGA": {
         type: sequelize_1.DataTypes.DATE

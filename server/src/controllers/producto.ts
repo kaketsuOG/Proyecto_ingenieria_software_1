@@ -1,8 +1,11 @@
 import {Request, Response} from 'express';
 import { Producto } from '../models/producto';
+
+
 export const getProductos = async(req: Request, res: Response) =>{  
     const listProductos = await Producto.findAll({attributes:['COD_PRODUCTO','NOMBRE_PRODUCTO','PRECIO','COD_INVENTARIO']});
     res.json(listProductos)
+
 }
 export const newProducto = async(req: Request, res: Response) =>{
     const { nombre_producto,precio,cod_inventario} =  req.body;
