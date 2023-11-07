@@ -34,7 +34,7 @@ class Server {
     routes(){
         this.app.use('/api/roles',routesRoles);
         this.app.use('/api/users', routesUser);
-        this.app.use('/api/inventraio',routesInventario);
+        this.app.use('/api/inventario',routesInventario);
         this.app.use('/api/productos', routesProducto);
         this.app.use('/api/vehiculos', routesVehiculo);
     }

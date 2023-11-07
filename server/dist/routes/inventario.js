@@ -1,5 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const inventario_1 = require("../controllers/inventario");
 const router = (0, express_1.Router)();
+router.post('/', inventario_1.newInventario);
+router.put('/:cod_inventario', inventario_1.updateInventario);
+router.patch('/agregar/:cod_inventario', inventario_1.agregarProductos);
+router.patch('/quitar/:cod_inventario', inventario_1.quitarProductos);
+router.get('/:cod_inventario', inventario_1.getInventario);
+router.get('/list', inventario_1.getInventarios);
 exports.default = router;
