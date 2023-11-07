@@ -16,7 +16,8 @@ import { Cliente } from './cliente';
 import routesCliente from '../routes/cliente';
 import { Historial } from './historial';
 import routesHistorial from '../routes/historial';
-
+import { Det_usuario_vehiculo } from './det_usuario_vehiculo';
+import routesDet_usuario_vehiculo from '../routes/det_usuario_vehiculo';
 
 
 
@@ -57,7 +58,7 @@ class Server {
         this.app.use('/api/productos', routesProducto);
         this.app.use('/api/cliente', routesCliente);
         this.app.use('/api/historial', routesHistorial);
-        
+        this.app.use('/api/det_usuario_vehiculo', routesDet_usuario_vehiculo);
         
         
     }
@@ -78,6 +79,7 @@ class Server {
             await Producto.sync()
             await Cliente.sync()
             await Historial.sync()
+            await Det_usuario_vehiculo.sync()
 
             
             
