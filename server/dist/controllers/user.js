@@ -56,6 +56,7 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             'APELLIDO1_USUARIO',
             'APELLIDO2_USUARIO',
             'CONTRASEÑA',
+            'COD_ROL',
             [sequelize_1.default.col('Rol.NOMBRE_ROL'), 'NOMBRE_ROL']
         ],
         include: {
@@ -98,6 +99,7 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             'APELLIDO1_USUARIO',
             'APELLIDO2_USUARIO',
             'CONTRASEÑA',
+            'COD_ROL',
             [sequelize_1.default.col('Rol.NOMBRE_ROL'), 'NOMBRE_ROL']
         ],
         include: {
