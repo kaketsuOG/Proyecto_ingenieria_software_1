@@ -24,6 +24,8 @@ const det_horario_entrega_1 = __importDefault(require("../routes/det_horario_ent
 const user_2 = require("./user");
 const dispo_fecha_2 = require("./dispo_fecha");
 const det_horario_entrega_2 = require("./det_horario_entrega");
+const producto_2 = require("./producto");
+const vehiculo_2 = require("./vehiculo");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -54,10 +56,10 @@ class Server {
     dbConnect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield Vehiculo.sync();
+                yield vehiculo_2.Vehiculo.sync();
                 yield rol_1.Rol.sync();
                 yield user_2.User.sync();
-                yield Producto.sync();
+                yield producto_2.Producto.sync();
                 yield dispo_fecha_2.Disponibilidad_fecha.sync();
                 yield det_horario_entrega_2.Detalle_horario_entrega.sync();
             }
