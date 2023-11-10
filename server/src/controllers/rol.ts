@@ -8,10 +8,6 @@ export const getRol = async(req: Request, res: Response) =>{
 }
 export const newRol = async(req: Request, res: Response) =>{
     const { nombre_rol} =  req.body;
-<<<<<<< HEAD
-=======
-
->>>>>>> 4500967e0e888fc8a1c5d49772043cbc1ee12f57
     try{
          await Rol.create({
             "NOMBRE_ROL": nombre_rol
