@@ -11,7 +11,7 @@ exports.Vehiculo = connection_1.default.define('Vehiculo', {
     "MARCA": { type: sequelize_1.DataTypes.STRING },
     "MODELO": { type: sequelize_1.DataTypes.INTEGER },
     "COLOR": { type: sequelize_1.DataTypes.STRING },
-    "ANO": { type: sequelize_1.DataTypes.INTEGER }
+    "ANO": { type: sequelize_1.DataTypes.INTEGER },
 }, {
     timestamps: false,
     freezeTableName: true
