@@ -3,7 +3,7 @@ import { Producto } from '../models/producto';
 
 
 export const getProductos = async(req: Request, res: Response) =>{  
-    const listProductos = await Producto.findAll({attributes:['COD_PRODUCTO','NOMBRE_PRODUCTO','PRECIO','CANTIDAD_TOTAL','CANTIDAD_DISPONIBLE']});
+    const listProductos = await Producto.findAll({attributes:['COD_PRODUCTO','NOMBRE_PRODUCTO','PRECIO_PRODUCTO','CANTIDAD_TOTAL','CANTIDAD_DISPONIBLE']});
     res.json(listProductos)
 
 }
@@ -12,7 +12,7 @@ export const newProducto = async(req: Request, res: Response) =>{
     try{
          await Producto.create({
             "NOMBRE_PRODUCTO": nombre_producto,
-            "PRECIO":precio,
+            "PRECIO_PRODUCTO":precio,
             "CANTIDAD_TOTAL":cantidad_total,
             "CANTIDAD_DISPONIBLE":cantidad_disponible
         })
@@ -38,7 +38,7 @@ export const updateProducto = async(req: Request, res: Response) => {
         const {nombre_producto,precio,cantidad_total,cantidad_disponible} = req.body;
         await Producto.update({
             NOMBRE_PRODUCTO: nombre_producto,
-            PRECIO: precio,
+            PRECIO_PRODUCTO: precio,
             CANTIDAD_TOTAL:cantidad_total,
             CANTIDAD_DISPONIBLE:cantidad_disponible
             },

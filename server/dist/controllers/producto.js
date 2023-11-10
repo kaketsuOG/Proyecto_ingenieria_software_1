@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.agregarProductos = exports.venderProductos = exports.deleteProducto = exports.getProducto = exports.updateProducto = exports.newProducto = exports.getProductos = void 0;
 const producto_1 = require("../models/producto");
 const getProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listProductos = yield producto_1.Producto.findAll({ attributes: ['COD_PRODUCTO', 'NOMBRE_PRODUCTO', 'PRECIO', 'CANTIDAD_TOTAL', 'CANTIDAD_DISPONIBLE'] });
+    const listProductos = yield producto_1.Producto.findAll({ attributes: ['COD_PRODUCTO', 'NOMBRE_PRODUCTO', 'PRECIO_PRODUCTO', 'CANTIDAD_TOTAL', 'CANTIDAD_DISPONIBLE'] });
     res.json(listProductos);
 });
 exports.getProductos = getProductos;
@@ -21,7 +21,7 @@ const newProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         yield producto_1.Producto.create({
             "NOMBRE_PRODUCTO": nombre_producto,
-            "PRECIO": precio,
+            "PRECIO_PRODUCTO": precio,
             "CANTIDAD_TOTAL": cantidad_total,
             "CANTIDAD_DISPONIBLE": cantidad_disponible
         });
@@ -49,7 +49,7 @@ const updateProducto = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const { nombre_producto, precio, cantidad_total, cantidad_disponible } = req.body;
         yield producto_1.Producto.update({
             NOMBRE_PRODUCTO: nombre_producto,
-            PRECIO: precio,
+            PRECIO_PRODUCTO: precio,
             CANTIDAD_TOTAL: cantidad_total,
             CANTIDAD_DISPONIBLE: cantidad_disponible
         }, { where: { COD_PRODUCTO: cod_producto } });

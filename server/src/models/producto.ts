@@ -7,7 +7,7 @@ export const Producto = sequelize.define('producto',{
     "CANTIDAD_TOTAL": {type: DataTypes.INTEGER},
     "CANTIDAD_DISPONIBLE": {type: DataTypes.INTEGER},
     "NOMBRE_PRODUCTO": {type: DataTypes.STRING},
-    "PRECIO": {type: DataTypes.INTEGER}
+    "PRECIO_PRODUCTO": {type: DataTypes.INTEGER}
 },
     {
         freezeTableName: true,

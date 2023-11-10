@@ -31,7 +31,11 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { UsuarioService } from './components/usuarios/usuario.service';
+
 import { InventarioIndexComponent } from './components/inventario/index/index.component';
+import { InventarioEditComponent } from './components/inventario/edit/edit.component';
+import { InventarioCreateComponent } from './components/inventario/create/create.component';
+
 import { UsuariosEditComponent } from './components/usuarios/edit/edit.component';
 import { VehiculoComponent } from './components/vehiculo/vehiculo.component';
 import { SignInVehiculoComponent } from './sign-in-vehiculo/sign-in-vehiculo.component';
@@ -57,8 +61,8 @@ import { EditVehiculoComponent } from './components/vehiculo/edit-vehiculo/edit-
     VehiculoComponent,
     SignInVehiculoComponent,
     EditVehiculoComponent,
-    
-
+    InventarioCreateComponent,
+    InventarioEditComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,51 +1,35 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventarioService {
 
-  private inventario: any[] = [
-    {
-      CODIGO_PRODUCTO : "1",
-      NOMBRE_PRODUCTO: "AGUA 25 LITROS",
-      PRECIO_PRODUCTO: 10000,
-      CANTIDAD_DISPONIBLE: 10
-    },
-    {
-      CODIGO_PRODUCTO : "2",
-      NOMBRE_PRODUCTO: "AGUA 15 LITROS",
-      PRECIO_PRODUCTO: 5000,
-      CANTIDAD_DISPONIBLE: 10
-    },
-    {
-      CODIGO_PRODUCTO : "3",
-      NOMBRE_PRODUCTO: "AGUA 2.5 LITROS",
-      PRECIO_PRODUCTO: 1500,
-      CANTIDAD_DISPONIBLE: 10
-    },
-    {
-      CODIGO_PRODUCTO : "4",
-      NOMBRE_PRODUCTO: "AGUA 2 LITROS",
-      PRECIO_PRODUCTO: 1000,
-      CANTIDAD_DISPONIBLE: 10
-    },
-    {
-      CODIGO_PRODUCTO : "5",
-      NOMBRE_PRODUCTO: "AGUA 1 LITROS",
-      PRECIO_PRODUCTO: 800,
-      CANTIDAD_DISPONIBLE: 10
-    }
-]
+  private apiUrl = 'http://localhost:3000/api/productos'; // Reemplaza con la URL de tu API
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
 
   getInventario() {
-    return this.inventario;
+    return this.http.get<any[]>(`${this.apiUrl}/list`);
   }
-  removeInventario(id: number) {
-    this.inventario.splice(id, 1);
+  removeInventario(id: number): Observable<any> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete<any>(url);
   }
 
+  createInventario(inventario: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, inventario);
+   }
 
+   editInventario(inventario: any): Observable<any> {
+    const editUrl = `${this.apiUrl}/${inventario.cod_producto}`; // Reemplaza 'usuarios' con la ruta correcta de tu API
+    return this.http.put(editUrl, inventario); // Realiza una solicitud PUT al servidor
+  }
+
+  obtenerInventario(inventario: any): Observable<any> {
+    const editUrl = `${this.apiUrl}/${inventario}`; // Reemplaza 'usuarios' con la ruta correcta de tu API
+    return this.http.get<any[]>(editUrl); // Realiza una solicitud PUT al servidor
+  }
 }
