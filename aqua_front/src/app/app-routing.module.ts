@@ -17,8 +17,10 @@ import { ProductosComponent } from './components/productos/productos.component';
 import { ReservaComponent } from './components/reserva/reserva.component';
 import { VehiculoComponent } from './components/vehiculo/vehiculo.component';
 import { SignInVehiculoComponent } from './sign-in-vehiculo/sign-in-vehiculo.component';
-import { InventarioCreateComponent } from './components/inventario/create/create.component';
-import { InventarioEditComponent } from './components/inventario/edit/edit.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { EmpleadoComponent } from './components/empleado/empleado.component';
+import { UempleadosComponent } from './components/uempleados/usuarios.component';
+import { VempleadosComponent } from './components/vempleados/vehiculo.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -34,10 +36,10 @@ const routes: Routes = [
   { path: 'reserva', component: ReservaComponent },
   { path: 'vehiculo', component: VehiculoComponent },
   { path: 'sing-in-vehiculo', component: SignInVehiculoComponent },
-  { path: 'inventario/create', component: InventarioCreateComponent },
-  { path: 'inventario/edit/:id', component: InventarioEditComponent },
-
-
+  { path: 'admin', component: AdminComponent},
+  { path: 'empleado', component: EmpleadoComponent},
+  { path: 'uempleados', component: UempleadosComponent},
+  { path: 'vempleados', component: VempleadosComponent},
 
 
 

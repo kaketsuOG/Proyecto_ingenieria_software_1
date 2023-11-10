@@ -5,20 +5,19 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
-  private apiUrl = 'http://localhost:3000/api/users'; // Reemplaza con la URL de tu API
+export class VempleadoService {
+  private apiUrl = 'http://localhost:3000/api/vehiculos'; // Reemplaza con la URL de tu API
 
   constructor(private http: HttpClient) {}
 
-
-  getUsuarios(): Observable<any[]> {
+  getVehiculos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/list`);
   }
-  getUsuario(rut_usuario: any): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/${rut_usuario}`);
+  getVehiculo(patente_cod_vehiculo: any): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${patente_cod_vehiculo}`);
   }
-  deleteUsuario(rut_usuario: any): Observable<any> {
-    const url = `${this.apiUrl}/${rut_usuario}`;
+  deleteVehiculo(patente_cod_vehiculo: any): Observable<any> {
+    const url = `${this.apiUrl}/${patente_cod_vehiculo}`;
     return this.http.delete<any>(url);
   }
   
