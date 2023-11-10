@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { getDispoFecha, getDisponibilidad_fechas, newDispoFecha, updateDispoFecha, deleteDispoFecha } from "../controllers/dispo_fecha";
-import validateToken from "./validate-token";
 
 const router = Router();
 

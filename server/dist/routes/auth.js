@@ -4,10 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const validateToken = (req, res, next) => {
+const auth = (req, res, next) => {
     const headerToken = req.headers['authorization'];
     if (headerToken != undefined && headerToken.startsWith('Bearer ')) {
-        // Tiene token
         try {
             const bearerToken = headerToken.slice(7);
             jsonwebtoken_1.default.verify(bearerToken, process.env.SECRET_KEY || 'PRUEBA1');
@@ -25,4 +24,4 @@ const validateToken = (req, res, next) => {
         });
     }
 };
-exports.default = validateToken;
+exports.default = auth;

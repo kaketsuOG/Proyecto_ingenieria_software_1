@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const vehiculo_1 = require("../controllers/vehiculo");
-// import validateToken from './validate-token'; // Comenta temporalmente la importación del middleware de validación de token
 const router = (0, express_1.Router)();
 // Ruta para crear un nuevo vehículo (requiere token)
 router.post('/', vehiculo_1.newVehiculo); // Comenta temporalmente la validación de token
