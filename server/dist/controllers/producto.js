@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.agregarProductos = exports.venderProductos = exports.deleteProducto = exports.getProducto = exports.updateProducto = exports.newProducto = exports.getProductos = void 0;
 const producto_1 = require("../models/producto");
 const getProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listProductos = yield producto_1.Producto.findAll({ attributes: ['COD_PRODUCTO', 'NOMBRE_PRODUCTO', 'PRECIO', 'CANTIDAD DISPONIBLE', 'CANTIDAD_TOTAL'] });
+    const listProductos = yield producto_1.Producto.findAll({ attributes: ['COD_PRODUCTO', 'NOMBRE_PRODUCTO', 'PRECIO', 'CANTIDAD_TOTAL', 'CANTIDAD_DISPONIBLE'] });
     res.json(listProductos);
 });
 exports.getProductos = getProductos;
@@ -46,11 +46,12 @@ const updateProducto = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     try {
-        const { nombre_producto, precio, cod_inventario } = req.body;
+        const { nombre_producto, precio, cantidad_total, cantidad_disponible } = req.body;
         yield producto_1.Producto.update({
             NOMBRE_PRODUCTO: nombre_producto,
             PRECIO: precio,
-            COD_INVENTARIO: cod_inventario
+            CANTIDAD_TOTAL: cantidad_total,
+            CANTIDAD_DISPONIBLE: cantidad_disponible
         }, { where: { COD_PRODUCTO: cod_producto } });
         return res.json({
             msg: 'Producto ' + cod_producto + ' actualizado correctamente'
@@ -141,8 +142,8 @@ const venderProductos = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.venderProductos = venderProductos;
 const agregarProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { cod_inventario } = req.params;
-    const { cod_producto, cantidad } = req.body;
+    const { cod_producto } = req.params;
+    const { cantidad } = req.body;
     const idProducto = yield producto_1.Producto.findOne({ where: { COD_PRODUCTO: cod_producto } });
     if (!idProducto) {
         return res.status(400).json({
@@ -162,7 +163,7 @@ const agregarProductos = (req, res) => __awaiter(void 0, void 0, void 0, functio
             }
             yield producto_1.Producto.update({
                 CANTIDAD_DISPONIBLE: cantidadDisponible
-            }, { where: { COD_INVENTARIO: cod_inventario } });
+            }, { where: { COD_PRODUCTO: cod_producto } });
         }
         return res.json({
             msg: "Se han añadido " + cantidad + " de productos"

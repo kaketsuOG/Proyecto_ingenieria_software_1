@@ -3,7 +3,7 @@ import { Producto } from '../models/producto';
 
 
 export const getProductos = async(req: Request, res: Response) =>{  
-    const listProductos = await Producto.findAll({attributes:['COD_PRODUCTO','NOMBRE_PRODUCTO','PRECIO','CANTIDAD DISPONIBLE','CANTIDAD_TOTAL']});
+    const listProductos = await Producto.findAll({attributes:['COD_PRODUCTO','NOMBRE_PRODUCTO','PRECIO','CANTIDAD_TOTAL','CANTIDAD_DISPONIBLE']});
     res.json(listProductos)
 
 }
@@ -35,11 +35,12 @@ export const updateProducto = async(req: Request, res: Response) => {
         })
     }
     try{
-        const {nombre_producto,precio,cod_inventario} = req.body;
+        const {nombre_producto,precio,cantidad_total,cantidad_disponible} = req.body;
         await Producto.update({
             NOMBRE_PRODUCTO: nombre_producto,
             PRECIO: precio,
-            COD_INVENTARIO: cod_inventario
+            CANTIDAD_TOTAL:cantidad_total,
+            CANTIDAD_DISPONIBLE:cantidad_disponible
             },
             {where: {COD_PRODUCTO: cod_producto}}
         )
@@ -138,8 +139,8 @@ export const venderProductos = async(req: Request, res: Response) =>{
 }
 
 export const agregarProductos = async(req: Request, res: Response) =>{
-    const { cod_inventario} =  req.params;
-    const {cod_producto, cantidad} = req.body;
+    const { cod_producto} =  req.params;
+    const {cantidad} = req.body;
     const idProducto = await Producto.findOne({where: {COD_PRODUCTO: cod_producto}})
     if (!idProducto){
         return res.status(400).json({
@@ -160,7 +161,7 @@ export const agregarProductos = async(req: Request, res: Response) =>{
             await Producto.update({
                 CANTIDAD_DISPONIBLE: cantidadDisponible
                 },
-                {where: {COD_INVENTARIO: cod_inventario}}
+                {where: {COD_PRODUCTO: cod_producto}}
             )
         }
         return res.json({

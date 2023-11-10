@@ -8,4 +8,6 @@ router.post('/', producto_1.newProducto);
 router.get('/:cod_producto', producto_1.getProducto);
 router.delete('/:cod_producto', producto_1.deleteProducto);
 router.put('/:cod_producto', producto_1.updateProducto);
+router.patch('/agregar/:cod_producto', producto_1.agregarProductos);
+router.patch('/vender/:cod_producto', producto_1.venderProductos);
 exports.default = router;
