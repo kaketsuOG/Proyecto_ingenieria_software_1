@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Inventario = void 0;
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../db/connection"));
+const sucursal_1 = require("./sucursal");
 exports.Inventario = connection_1.default.define('inventario', {
     "COD_INVENTARIO": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     "COD_SUCURSAL": { type: sequelize_1.DataTypes.INTEGER },
@@ -15,3 +16,4 @@ exports.Inventario = connection_1.default.define('inventario', {
     freezeTableName: true,
     timestamps: false,
 });
+exports.Inventario.belongsTo(sucursal_1.Sucursal, { foreignKey: 'COD_SUCURSAL' });

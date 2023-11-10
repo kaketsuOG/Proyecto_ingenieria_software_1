@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 
-export const Disponibilidad_fecha = sequelize.define('Disponibilidad_fechas',{
+export const Disponibilidad_fecha = sequelize.define('Disponibilidad_fecha',{
     "COD_DISPONIBILIDAD":{
         type: DataTypes.INTEGER,
         primaryKey:true,

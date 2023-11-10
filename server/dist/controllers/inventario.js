@@ -8,10 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getInventarios = exports.getInventario = exports.quitarProductos = exports.agregarProductos = exports.updateInventario = exports.newInventario = void 0;
 const inventario_1 = require("../models/inventario");
 const producto_1 = require("../models/producto");
+const sequelize_1 = __importDefault(require("sequelize"));
+const sucursal_1 = require("../models/sucursal");
 const newInventario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_sucursal, cantidad_total } = req.body;
     try {
@@ -142,7 +147,18 @@ const quitarProductos = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.quitarProductos = quitarProductos;
 const getInventario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_inventario } = req.params;
-    const idInventario = yield inventario_1.Inventario.findOne({ where: { COD_INVENTARIO: cod_inventario } });
+    const idInventario = yield inventario_1.Inventario.findOne({
+        attributes: [
+            'COD_INVENTARIO',
+            'CANTIDAD_TOTAL',
+            'CANTIDAD_DISPONIBLE',
+            [sequelize_1.default.col('Sucursal.NOMBRE_SUCURSAL'), 'NOMBRE_SUCURSAL']
+        ],
+        include: {
+            model: sucursal_1.Sucursal,
+            attributes: []
+        }, where: { COD_INVENTARIO: cod_inventario }
+    });
     if (!idInventario) {
         return res.status(400).json({
             msg: "El id: " + cod_inventario + " de inventario no existe"
@@ -153,14 +169,25 @@ const getInventario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
     catch (error) {
         return res.status(400).json({
-            msg: 'Ha ocurrido un error al encontrar el inventarioo: ' + cod_inventario,
+            msg: 'Ha ocurrido un error al encontrar el inventario: ' + cod_inventario,
             error
         });
     }
 });
 exports.getInventario = getInventario;
 const getInventarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listInventarios = yield producto_1.Producto.findAll();
+    const listInventarios = yield inventario_1.Inventario.findAll({
+        attributes: [
+            'COD_INVENTARIO',
+            'CANTIDAD_TOTAL',
+            'CANTIDAD_DISPONIBLE',
+            [sequelize_1.default.col('Sucursal.NOMBRE_SUCURSAL'), 'NOMBRE_SUCURSAL']
+        ],
+        include: {
+            model: sucursal_1.Sucursal,
+            attributes: []
+        }
+    });
     res.json(listInventarios);
 });
 exports.getInventarios = getInventarios;

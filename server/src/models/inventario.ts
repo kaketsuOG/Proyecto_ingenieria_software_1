@@ -1,6 +1,7 @@
 import { DATE, DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 import { Sucursal } from './sucursal';
+import { Producto } from './producto';
 
 
 export const Inventario = sequelize.define('inventario',{
@@ -16,3 +17,5 @@ export const Inventario = sequelize.define('inventario',{
 
 }
 );
+Inventario.belongsTo(Sucursal, { foreignKey: 'COD_SUCURSAL' });
+

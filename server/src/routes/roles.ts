@@ -1,5 +1,3 @@
-
-
 import {Router} from 'express';
 import {getRol,newRol,updateRol,deleteRol,getOneRol} from '../controllers/rol';
 import validateToken from './validate-token';

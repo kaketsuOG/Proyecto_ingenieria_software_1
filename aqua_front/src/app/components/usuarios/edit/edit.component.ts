@@ -42,7 +42,7 @@ export class UsuariosEditComponent implements OnInit {
   updateUser() {
 
     // Validamos que el usuario ingrese valores
-    if (this.username == '' || this.name == '' || this.password == '' || this.confirmPassword == '' || this.apellido1 == '' || this.apellido2 == '') {
+    if (this.username == '' || this.name == '' || this.apellido1 == '' || this.apellido2 == '') {
       this.toastr.error('Todos los campos son obligatorios', 'Error');
       return;
     }
@@ -56,7 +56,7 @@ export class UsuariosEditComponent implements OnInit {
     // Creamos el objeto
     const user: User = {
       rut_usuario: this.username,
-      contrasena: this.password,
+
       nombre_usuario: this.name,
       apellido1_usuario: this.apellido1,
       apellido2_usuario: this.apellido2
@@ -80,7 +80,7 @@ export class UsuariosEditComponent implements OnInit {
 }
 export interface User {
   rut_usuario: string,
-  contrasena: string,
+
   nombre_usuario: string,
   apellido1_usuario: string,
   apellido2_usuario: string

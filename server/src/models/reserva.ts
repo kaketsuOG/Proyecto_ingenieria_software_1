@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 
-export const Reserva = sequelize.define('Reservas',{
+export const Reserva = sequelize.define('Reserva',{
     "COD_RESERVA": {
         type: DataTypes.INTEGER,
         primaryKey:true,
