@@ -6,7 +6,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { IndexComponent } from './index/index.component';
-import { EditVehiculoComponent } from './edit-vehiculo/edit-vehiculo.component';
+import { EditComponent } from './edit/edit.component';
 
 
 
@@ -16,7 +16,7 @@ import { EditVehiculoComponent } from './edit-vehiculo/edit-vehiculo.component';
 @NgModule({
   declarations: [
     IndexComponent,
-    EditVehiculoComponent,
+    EditComponent
   ],
   imports: [
     CommonModule,
@@ -30,4 +30,5 @@ import { EditVehiculoComponent } from './edit-vehiculo/edit-vehiculo.component';
     MatTableModule,
   ],
 })
-export class VehiculoModule {}
+export class UsuariosModule {}
+

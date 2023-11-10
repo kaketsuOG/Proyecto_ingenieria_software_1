@@ -26,6 +26,10 @@ const producto_1 = require("./producto");
 const producto_2 = __importDefault(require("../routes/producto"));
 const vehiculo_1 = require("./vehiculo");
 const vehiculo_2 = __importDefault(require("../routes/vehiculo"));
+const cliente_1 = require("./cliente");
+const cliente_2 = __importDefault(require("../routes/cliente"));
+const historial_1 = require("./historial");
+const historial_2 = __importDefault(require("../routes/historial"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -47,6 +51,8 @@ class Server {
         this.app.use('/api/sucursal', sucursal_2.default);
         this.app.use('/api/inventario', inventario_2.default);
         this.app.use('/api/productos', producto_2.default);
+        this.app.use('/api/cliente', cliente_2.default);
+        this.app.use('/api/historial', historial_2.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
@@ -61,6 +67,8 @@ class Server {
                 yield sucursal_1.Sucursal.sync();
                 yield inventario_1.Inventario.sync();
                 yield producto_1.Producto.sync();
+                yield cliente_1.Cliente.sync();
+                yield historial_1.Historial.sync();
             }
             catch (error) {
                 console.error('No se ha podido conectar a la base de datos');

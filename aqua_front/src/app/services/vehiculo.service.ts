@@ -13,7 +13,7 @@ export class VehiculoService {
 
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint;
-    this.myApiUrl = 'api/vehiculo'
+    this.myApiUrl = 'api/vehiculos'
    }
 
    signInVehiculo(vehiculo: Vehiculo): Observable<any> {

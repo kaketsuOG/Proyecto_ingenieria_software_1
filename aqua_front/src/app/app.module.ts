@@ -36,6 +36,11 @@ import { UsuariosEditComponent } from './components/usuarios/edit/edit.component
 import { VehiculoComponent } from './components/vehiculo/vehiculo.component';
 import { SignInVehiculoComponent } from './sign-in-vehiculo/sign-in-vehiculo.component';
 import { EditVehiculoComponent } from './components/vehiculo/edit-vehiculo/edit-vehiculo.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { EmpleadoComponent } from './components/empleado/empleado.component';
+import { UempleadosComponent } from './components/uempleados/usuarios.component';
+import { VempleadosComponent } from './components/vempleados/vehiculo.component';
+
 
 
 
@@ -57,8 +62,10 @@ import { EditVehiculoComponent } from './components/vehiculo/edit-vehiculo/edit-
     VehiculoComponent,
     SignInVehiculoComponent,
     EditVehiculoComponent,
-    
-
+    AdminComponent,
+    EmpleadoComponent,
+    UempleadosComponent,
+    VempleadosComponent,
   ],
   imports: [
     BrowserModule,
