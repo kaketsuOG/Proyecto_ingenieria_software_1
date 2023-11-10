@@ -1,10 +1,10 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 
-export const Reserva = sequelize.define('Reserva',{
+export const Reserva = sequelize.define('Reserva', {
     "COD_RESERVA": {
         type: DataTypes.INTEGER,
-        primaryKey:true,
+        primaryKey: true,
         autoIncrement: true,
     },
     "CELULAR_CLIENTE": {
@@ -27,9 +27,12 @@ export const Reserva = sequelize.define('Reserva',{
     },
     "FECHA_CREACION": {
         type: DataTypes.DATE
+    },
+    "COD_PEDIDO": {
+        type: DataTypes.DATE
     }
 },
-{
-    freezeTableName: true,
-    timestamps: false,
-});
+    {
+        freezeTableName: true,
+        timestamps: false,
+    });

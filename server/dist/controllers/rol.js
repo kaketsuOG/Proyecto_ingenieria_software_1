@@ -40,7 +40,7 @@ const updateRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const idRol = yield rol_1.Rol.findOne({ where: { COD_ROL: cod_rol } });
     if (!idRol) {
         return res.status(400).json({
-            msg: "El id del rol no existe"
+            msg: "El id del rol no exist"
         });
     }
     try {
