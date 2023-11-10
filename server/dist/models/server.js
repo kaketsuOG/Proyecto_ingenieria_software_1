@@ -27,7 +27,6 @@ const det_horario_entrega_2 = require("./det_horario_entrega");
 const producto_2 = require("./producto");
 const vehiculo_2 = require("./vehiculo");
 const cliente_1 = require("./cliente");
-const historial_1 = require("./historial");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -65,7 +64,6 @@ class Server {
                 yield dispo_fecha_2.Disponibilidad_fecha.sync();
                 yield det_horario_entrega_2.Detalle_horario_entrega.sync();
                 yield cliente_1.Cliente.sync();
-                yield historial_1.Historial.sync();
             }
             catch (error) {
                 console.error('No se ha podido conectar a la base de datos');
