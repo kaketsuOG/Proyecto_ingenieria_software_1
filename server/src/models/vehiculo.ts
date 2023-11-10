@@ -6,7 +6,7 @@ export const Vehiculo = sequelize.define('Vehiculo', {
     "MARCA": { type: DataTypes.STRING },
     "MODELO": { type: DataTypes.INTEGER },
     "COLOR": { type: DataTypes.STRING },
-    "ANO": { type: DataTypes.INTEGER }
+    "ANO": { type: DataTypes.INTEGER },
 
 },
     {
