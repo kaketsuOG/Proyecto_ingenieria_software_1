@@ -6,12 +6,17 @@ import routesInventario from '../routes/inventario';
 import routesProducto from '../routes/producto';
 import routesVehiculo from '../routes/vehiculo';
 import routesSucursal from '../routes/sucursal';
+import routesDispo_fecha from '../routes/dispo_fecha';
+import routesDet_horario_entrega from '../routes/det_horario_entrega'
 import { Rol } from './rol';
 import { User } from './user';
 import { Inventario } from './inventario';
 import { Producto } from './producto';
 import { Vehiculo } from './vehiculo';
 import {Sucursal} from './sucursal';
+import { Disponibilidad_fecha } from './dispo_fecha';
+import { Detalle_horario_entrega} from './det_horario_entrega'
+
 
 class Server {
     private app: Application;
@@ -40,6 +45,8 @@ class Server {
         this.app.use('/api/productos', routesProducto);
         this.app.use('/api/vehiculos', routesVehiculo);
         this.app.use('/api/sucursal',routesSucursal);
+        this.app.use('/api/dispo_fechas',routesDispo_fecha);
+        this.app.use('/api/det_horario_entrega',routesDet_horario_entrega)
     }
 
     midlewares() {
@@ -56,6 +63,8 @@ class Server {
             await Sucursal.sync()
             await Inventario.sync()
             await Producto.sync()
+            await Disponibilidad_fecha.sync()
+            await Detalle_horario_entrega.sync()
             
 
             
