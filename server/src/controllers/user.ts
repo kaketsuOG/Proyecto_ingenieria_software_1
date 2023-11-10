@@ -53,6 +53,7 @@ export const getUsers = async(req: Request, res: Response) =>{
             'APELLIDO1_USUARIO',
             'APELLIDO2_USUARIO',
             'CONTRASEÑA',
+            'COD_ROL',
             [sequelize.col('Rol.NOMBRE_ROL'), 'NOMBRE_ROL']
         ],
         include: {
@@ -104,6 +105,7 @@ export const getUser = async(req: Request, res: Response) =>{
             'APELLIDO1_USUARIO',
             'APELLIDO2_USUARIO',
             'CONTRASEÑA',
+            'COD_ROL',
             [sequelize.col('Rol.NOMBRE_ROL'), 'NOMBRE_ROL']
         ],
         include: {
