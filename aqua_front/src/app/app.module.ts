@@ -40,6 +40,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { EmpleadoComponent } from './components/empleado/empleado.component';
 import { UempleadosComponent } from './components/uempleados/usuarios.component';
 import { VempleadosComponent } from './components/vempleados/vehiculo.component';
+import { ClienteComponent } from './components/reserva/cliente/cliente.component';
 
 
 
@@ -66,6 +67,7 @@ import { VempleadosComponent } from './components/vempleados/vehiculo.component'
     EmpleadoComponent,
     UempleadosComponent,
     VempleadosComponent,
+    ClienteComponent,
   ],
   imports: [
     BrowserModule,

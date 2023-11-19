@@ -1,0 +1,30 @@
+<div class="wrapper">
+    <div *ngIf="!loading" class="body">
+        
+        <h3>Registrar cliente</h3>
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" [(ngModel)]="celular" class="form-control" placeholder="Ingrese numero de celular">
+            <label>celular </label>
+        </div>
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" [(ngModel)]="name" class="form-control" placeholder="Ingrese su nombre">
+            <label>Nombre </label>
+        </div>
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" [(ngModel)]="apellido1" class="form-control" placeholder="Ingrese primer apellido">
+            <label>Apellido Paterno </label>
+        </div>
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" [(ngModel)]="apellido2" class="form-control" placeholder="Ingrese segundo apellido">
+            <label>Apellido Materno </label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" [(ngModel)]="direccion" class="form-control" placeholder="Ingrese direccion de domicilio">
+            <label>direccion</label>
+        </div>
+        <div class="d-grid gap-2 mb-3">
+            <button type="button" (click)="addCliente()" class="btn btn-primary btn-lg">Registrar</button>
+        
+    </div>
+    <app-spinner *ngIf="loading"></app-spinner>
+</div>
