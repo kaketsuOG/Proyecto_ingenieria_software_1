@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { getDetalle_horario_entregas, getHorarioEntrega, newHorarioEntrega, updateHorarioEntrega, deleteHorarioEntrega } from "../controllers/det_horario_entrega";
-import validateToken from "./validate-token";
 
 const router = Router();
 

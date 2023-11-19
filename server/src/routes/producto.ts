@@ -1,7 +1,7 @@
 
 import {Router} from 'express';
-import { deleteProducto, getProducto, getProductos, newProducto, updateProducto } from '../controllers/producto';
-import validateToken from './validate-token';
+import { agregarProductos, deleteProducto, getProducto, getProductos, newProducto, updateProducto, venderProductos } from '../controllers/producto';
+import validateToken from './auth';
 
 const router = Router();
 
@@ -10,6 +10,8 @@ router.post('/',newProducto);
 router.get('/:cod_producto',getProducto);
 router.delete('/:cod_producto',deleteProducto);
 router.put('/:cod_producto',updateProducto);
+router.patch('/agregar/:cod_producto',agregarProductos);
+router.patch('/vender/:cod_producto',venderProductos);
 
 
 export default router;

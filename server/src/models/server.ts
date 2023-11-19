@@ -1,34 +1,26 @@
-import express, {Application} from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
-import {Rol } from './rol';
+import { Rol } from './rol';
 import routesRoles from '../routes/roles';
-import { User } from './user';
 import routesUser from '../routes/user';
-import {Sucursal} from './sucursal';
-import routesSucursal from '../routes/sucursal';
-import { Inventario } from './inventario';
-import routesInventario from '../routes/inventario';
-import { Producto } from './producto';
 import routesProducto from '../routes/producto';
-import { Vehiculo } from './vehiculo';
 import routesVehiculo from '../routes/vehiculo';
+import routesDispo_fecha from '../routes/dispo_fecha';
+import routesDet_horario_entrega from '../routes/det_horario_entrega'
+import { User } from './user';
+import { Disponibilidad_fecha } from './dispo_fecha';
+import { Detalle_horario_entrega } from './det_horario_entrega'
+import { Producto } from './producto';
+import { Vehiculo } from './vehiculo';
 import { Cliente } from './cliente';
-import routesCliente from '../routes/cliente';
 import { Historial } from './historial';
-import routesHistorial from '../routes/historial';
-
-
-
-
-
-
 
 
 class Server {
     private app: Application;
-    private port: string ;
+    private port: string;
 
-    constructor(){
+    constructor() {
         this.app = express();
         this.port = process.env.PORT || '3000';
 
@@ -38,26 +30,23 @@ class Server {
         this.dbConnect();
         this.routes();
 
-        
+
     }
 
-    listen(){
-        this.app.listen(this.port, ()=> {
+    listen() {
+        this.app.listen(this.port, () => {
             console.log('Corriendo en el puerto ' + this.port);
         })
     }
 
-    routes(){
+    routes() {
         this.app.use('/api/vehiculos', routesVehiculo);
-        this.app.use('/api/roles',routesRoles);
+        this.app.use('/api/roles', routesRoles);
         this.app.use('/api/users', routesUser);
-        this.app.use('/api/sucursal',routesSucursal);
-        this.app.use('/api/inventario',routesInventario);
         this.app.use('/api/productos', routesProducto);
-        this.app.use('/api/cliente', routesCliente);
-        this.app.use('/api/historial', routesHistorial);
-        
-        
+        this.app.use('/api/vehiculos', routesVehiculo);
+        this.app.use('/api/dispo_fechas', routesDispo_fecha);
+        this.app.use('/api/det_horario_entrega', routesDet_horario_entrega)
     }
 
     midlewares() {
@@ -66,22 +55,22 @@ class Server {
         this.app.use(cors());
     }
 
-    async dbConnect(){
-        try{
+    async dbConnect() {
+        try {
             await Vehiculo.sync()
             await Rol.sync()
             await User.sync()
-            await Sucursal.sync()
-            await Inventario.sync()
             await Producto.sync()
+            await Disponibilidad_fecha.sync()
+            await Detalle_horario_entrega.sync()
             await Cliente.sync()
-            await Historial.sync()
-
-            
-            
 
 
-        }catch (error){
+
+
+
+
+        } catch (error) {
             console.error('No se ha podido conectar a la base de datos');
         }
     }

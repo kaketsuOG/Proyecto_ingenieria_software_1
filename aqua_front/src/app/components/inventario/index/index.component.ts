@@ -5,6 +5,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import { InventarioService } from '../inventario.service';
+import { Router } from '@angular/router';
+
 
 export interface PeriodicElement {
   name: string;
@@ -37,19 +39,41 @@ export class InventarioIndexComponent implements OnInit {
   inventario: any[] = [];
   displayedColumns: any[] = ['rut', 'nombre', 'apellido1 usuario', 'apellido2 usuario','acciones usuario'];
 
-  constructor(private inventarioService: InventarioService) {
+  constructor(private inventarioService: InventarioService, private router: Router) {}
 
-    this.inventario = inventarioService.getInventario()
-   }
+  ngOnInit() {
+    // Cuando se inicia el componente, obtén los usuarios del servicio
+    this.actualizarListaDeInventario()
+  }
 
-  ngOnInit(): void {
+  crearInventario() {
+    // Aquí puedes implementar la lógica para editar un usuario
+    this.router.navigate(['inventario/create']);
+  }
+
+  editarInventario(inventario: any) {
+    // Aquí puedes implementar la lógica para editar un usuario
+    this.router.navigate(['inventario/edit',inventario]);
   }
 
   eliminar_inventario(codigo_inventario: any) {
     if (confirm('¿Seguro que deseas eliminar este producto?')) {
-      const index = this.inventario.map(object => object.CODIGO_PRODUCTO).indexOf(codigo_inventario);
-      this,this.inventarioService.removeInventario(index)
+      this.inventarioService.removeInventario(codigo_inventario).subscribe(() => {
+        console.log('Producto eliminado exitosamente');
+        this.actualizarListaDeInventario();
+      },
+      (error) => {
+        console.error('Error al eliminar usuario:', error);
+      });
     }
+  }
+
+  actualizarListaDeInventario() {
+    // Actualiza la lista de usuarios después de eliminar uno o editar
+    this.inventarioService.getInventario().subscribe((data: any) => {
+      console.log(data)
+      this.inventario = data;
+    });
   }
 
 }

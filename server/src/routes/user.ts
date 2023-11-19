@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import {  loginUser, newUser, getUsers,getUser,deleteUser, updateUser } from '../controllers/user';
-import validateToken from './validate-token';
+import validateToken from './auth';
 
 const router = Router();
 

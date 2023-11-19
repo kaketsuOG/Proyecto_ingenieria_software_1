@@ -8,7 +8,6 @@ export const getRol = async(req: Request, res: Response) =>{
 }
 export const newRol = async(req: Request, res: Response) =>{
     const { nombre_rol} =  req.body;
-
     try{
          await Rol.create({
             "NOMBRE_ROL": nombre_rol
@@ -29,7 +28,7 @@ export const updateRol = async(req: Request, res: Response) => {
     const idRol = await Rol.findOne({where: {COD_ROL: cod_rol}})
     if (!idRol) {
         return res.status(400).json({
-            msg: "El id del rol no existe"
+            msg: "El id del rol no exist"
         })
     }
     try{

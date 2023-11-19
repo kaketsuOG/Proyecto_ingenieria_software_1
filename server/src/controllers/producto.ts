@@ -3,17 +3,18 @@ import { Producto } from '../models/producto';
 
 
 export const getProductos = async(req: Request, res: Response) =>{  
-    const listProductos = await Producto.findAll({attributes:['COD_PRODUCTO','NOMBRE_PRODUCTO','PRECIO','COD_INVENTARIO']});
+    const listProductos = await Producto.findAll({attributes:['COD_PRODUCTO','NOMBRE_PRODUCTO','PRECIO_PRODUCTO','CANTIDAD_TOTAL','CANTIDAD_DISPONIBLE']});
     res.json(listProductos)
 
 }
 export const newProducto = async(req: Request, res: Response) =>{
-    const { nombre_producto,precio,cod_inventario} =  req.body;
+    const { nombre_producto,precio,cantidad_total,cantidad_disponible} =  req.body;
     try{
          await Producto.create({
             "NOMBRE_PRODUCTO": nombre_producto,
-            "PRECIO":precio,
-            "COD_INVENTARIO": cod_inventario
+            "PRECIO_PRODUCTO":precio,
+            "CANTIDAD_TOTAL":cantidad_total,
+            "CANTIDAD_DISPONIBLE":cantidad_disponible
         })
         return res.json({
             msg: 'Producto creado correctamente'       
@@ -34,11 +35,12 @@ export const updateProducto = async(req: Request, res: Response) => {
         })
     }
     try{
-        const {nombre_producto,precio,cod_inventario} = req.body;
+        const {nombre_producto,precio,cantidad_total,cantidad_disponible} = req.body;
         await Producto.update({
             NOMBRE_PRODUCTO: nombre_producto,
-            PRECIO: precio,
-            COD_INVENTARIO: cod_inventario
+            PRECIO_PRODUCTO: precio,
+            CANTIDAD_TOTAL:cantidad_total,
+            CANTIDAD_DISPONIBLE:cantidad_disponible
             },
             {where: {COD_PRODUCTO: cod_producto}}
         )
@@ -95,3 +97,85 @@ export const deleteProducto = async(req: Request, res: Response) =>{
 
         }
 }
+
+export const venderProductos = async(req: Request, res: Response) =>{
+    const { cod_producto} =  req.params;
+    const {cantidad} = req.body;
+    const idProducto = await Producto.findOne({where: {COD_PRODUCTO: cod_producto}})
+    if (!idProducto){
+        return res.status(400).json({
+            msg: "El producto ingresado no existe"
+        })
+    }
+    try{
+        const cantidadInt = parseInt(cantidad, 10);
+        for (let i = 1; i < cantidadInt+1; i++) {
+            const cantidades = await Producto.findOne({attributes:['CANTIDAD_DISPONIBLE','CANTIDAD_TOTAL'],where: {COD_PRODUCTO: cod_producto}});
+            const cantidadDisponible = cantidades?.dataValues.CANTIDAD_DISPONIBLE - 1
+            if (cantidadDisponible<0){
+                return res.status(400).json({
+                    msg: 'No hay Stock',
+                })
+            }
+            
+            await Producto.update({
+                CANTIDAD_DISPONIBLE: cantidadDisponible
+                },
+                {where: {COD_PRODUCTO: cod_producto}}
+            )
+        }
+        return res.json({
+            msg: "Se han quitado "+ cantidad + " de productos"
+        })
+
+
+    } catch(error){
+        return res.status(400).json({
+            msg: 'Ha ocurrido un error al quitar los productos',
+            error
+
+    })
+}
+}
+
+export const agregarProductos = async(req: Request, res: Response) =>{
+    const { cod_producto} =  req.params;
+    const {cantidad} = req.body;
+    const idProducto = await Producto.findOne({where: {COD_PRODUCTO: cod_producto}})
+    if (!idProducto){
+        return res.status(400).json({
+            msg: "El producto ingresado no existe"
+        })
+    }
+    try{
+        const cantidadInt = parseInt(cantidad, 10);
+        for (let i = 1; i < cantidadInt+1; i++) {
+            const cantidades = await Producto.findOne({attributes:['CANTIDAD_DISPONIBLE','CANTIDAD_TOTAL'],where: {COD_PRODUCTO: cod_producto}});
+            const cantidadDisponible = cantidades?.dataValues.CANTIDAD_DISPONIBLE + 1
+            const cantidadTotal = cantidades?.dataValues.CANTIDAD_TOTAL
+            if (cantidadDisponible>cantidadTotal){
+                return res.status(400).json({
+                    msg: 'Has superado la maxima capacidad de Stock',
+                })
+            }
+            await Producto.update({
+                CANTIDAD_DISPONIBLE: cantidadDisponible
+                },
+                {where: {COD_PRODUCTO: cod_producto}}
+            )
+        }
+        return res.json({
+            msg: "Se han añadido "+ cantidad + " de productos"
+        })
+
+
+    } catch(error){
+        return res.status(400).json({
+            msg: 'Ha ocurrido un error al añadir los productos',
+            error
+
+    })
+}
+}
+
+

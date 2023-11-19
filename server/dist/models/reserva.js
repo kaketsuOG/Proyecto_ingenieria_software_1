@@ -32,6 +32,9 @@ exports.Reserva = connection_1.default.define('Reserva', {
     },
     "FECHA_CREACION": {
         type: sequelize_1.DataTypes.DATE
+    },
+    "COD_PEDIDO": {
+        type: sequelize_1.DataTypes.DATE
     }
 }, {
     freezeTableName: true,

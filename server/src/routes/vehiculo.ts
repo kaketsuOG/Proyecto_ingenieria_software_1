@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { newVehiculo, getVehiculos, getVehiculo, deleteVehiculo, updateVehiculo } from '../controllers/vehiculo';
-// import validateToken from './validate-token'; // Comenta temporalmente la importación del middleware de validación de token
 
 const router = Router();
 
