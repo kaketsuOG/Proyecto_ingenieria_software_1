@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', token);
         
         // Verifica el rut y redirige al componente correspondiente
-      if (this.username === '20660173-6') {
+      if (this.username === '1111') {
         this.router.navigate(['/admin']);
       } else {
         this.router.navigate(['/empleado']);
