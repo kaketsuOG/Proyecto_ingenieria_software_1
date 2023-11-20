@@ -18,3 +18,5 @@ export const Disponibilidad_fecha = sequelize.define('Disponibilidad_fecha',{
     freezeTableName: true,
     timestamps: false,
 });
+
+Disponibilidad_fecha.belongsTo(Detalle_horario_entrega, { foreignKey: 'COD_HORARIO_ENTREGA' });
