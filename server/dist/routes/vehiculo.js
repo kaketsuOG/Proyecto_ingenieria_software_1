@@ -8,9 +8,9 @@ router.post('/', vehiculo_1.newVehiculo); // Comenta temporalmente la validació
 // Ruta para obtener la lista de vehículos (requiere token)
 router.get('/list', vehiculo_1.getVehiculos); // Comenta temporalmente la validación de token
 // Ruta para obtener un vehículo por su patente (requiere token)
-router.get('/:patente_cod_vehiculo', vehiculo_1.getVehiculo); // Comenta temporalmente la validación de token
+router.get('/:patente_vehiculo', vehiculo_1.getVehiculo); // Comenta temporalmente la validación de token
 // Ruta para eliminar un vehículo por su patente (requiere token)
-router.delete('/:patente_cod_vehiculo', vehiculo_1.deleteVehiculo); // Comenta temporalmente la validación de token
+router.delete('/:patente_vehiculo', vehiculo_1.deleteVehiculo); // Comenta temporalmente la validación de token
 // Ruta para actualizar los datos de un vehículo por su patente (requiere token)
-router.put('/:patente_cod_vehiculo', vehiculo_1.updateVehiculo); // Comenta temporalmente la validación de token
+router.put('/:patente_vehiculo', vehiculo_1.updateVehiculo); // Comenta temporalmente la validación de token
 exports.default = router;

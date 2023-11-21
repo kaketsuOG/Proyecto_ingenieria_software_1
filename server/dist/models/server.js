@@ -21,12 +21,16 @@ const producto_1 = __importDefault(require("../routes/producto"));
 const vehiculo_1 = __importDefault(require("../routes/vehiculo"));
 const dispo_fecha_1 = __importDefault(require("../routes/dispo_fecha"));
 const det_horario_entrega_1 = __importDefault(require("../routes/det_horario_entrega"));
+const reserva_1 = __importDefault(require("../routes/reserva"));
 const user_2 = require("./user");
 const dispo_fecha_2 = require("./dispo_fecha");
 const det_horario_entrega_2 = require("./det_horario_entrega");
 const producto_2 = require("./producto");
 const vehiculo_2 = require("./vehiculo");
 const cliente_1 = require("./cliente");
+const reserva_2 = require("./reserva");
+const det_estado_1 = require("./det_estado");
+const det_reserva_producto_1 = require("./det_reserva_producto");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -49,6 +53,7 @@ class Server {
         this.app.use('/api/vehiculos', vehiculo_1.default);
         this.app.use('/api/dispo_fechas', dispo_fecha_1.default);
         this.app.use('/api/det_horario_entrega', det_horario_entrega_1.default);
+        this.app.use('/api/reserva', reserva_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
@@ -61,9 +66,12 @@ class Server {
                 yield rol_1.Rol.sync();
                 yield user_2.User.sync();
                 yield producto_2.Producto.sync();
-                yield dispo_fecha_2.Disponibilidad_fecha.sync();
                 yield det_horario_entrega_2.Detalle_horario_entrega.sync();
+                yield dispo_fecha_2.Disponibilidad_fecha.sync();
                 yield cliente_1.Cliente.sync();
+                yield det_estado_1.det_estado.sync();
+                yield reserva_2.Reserva.sync();
+                yield det_reserva_producto_1.Pedido.sync();
             }
             catch (error) {
                 console.error('No se ha podido conectar a la base de datos');

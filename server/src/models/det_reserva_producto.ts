@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
+import { Reserva } from './reserva';
+import { Producto } from './producto';
 
 export const Pedido = sequelize.define('Pedido', {
     "COD_PEDIDO": { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -13,3 +15,6 @@ export const Pedido = sequelize.define('Pedido', {
         timestamps: false,
         freezeTableName: true
     });
+
+Pedido.belongsTo(Reserva, {foreignKey: 'COD_RESERVA'});
+Pedido.belongsTo(Producto, {foreignKey: 'COD_PRODUCTO'});

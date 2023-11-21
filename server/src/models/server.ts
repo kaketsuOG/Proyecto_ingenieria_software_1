@@ -7,13 +7,16 @@ import routesProducto from '../routes/producto';
 import routesVehiculo from '../routes/vehiculo';
 import routesDispo_fecha from '../routes/dispo_fecha';
 import routesDet_horario_entrega from '../routes/det_horario_entrega'
+import routesReserva from '../routes/reserva'
 import { User } from './user';
 import { Disponibilidad_fecha } from './dispo_fecha';
 import { Detalle_horario_entrega } from './det_horario_entrega'
 import { Producto } from './producto';
 import { Vehiculo } from './vehiculo';
 import { Cliente } from './cliente';
-import { Historial } from './historial';
+import { Reserva } from './reserva';
+import { det_estado } from './det_estado';
+import { Pedido } from './det_reserva_producto';
 
 
 class Server {
@@ -47,6 +50,7 @@ class Server {
         this.app.use('/api/vehiculos', routesVehiculo);
         this.app.use('/api/dispo_fechas', routesDispo_fecha);
         this.app.use('/api/det_horario_entrega', routesDet_horario_entrega)
+        this.app.use('/api/reserva',routesReserva)
     }
 
     midlewares() {
@@ -61,14 +65,12 @@ class Server {
             await Rol.sync()
             await User.sync()
             await Producto.sync()
-            await Disponibilidad_fecha.sync()
             await Detalle_horario_entrega.sync()
+            await Disponibilidad_fecha.sync()
             await Cliente.sync()
-
-
-
-
-
+            await det_estado.sync()
+            await Reserva.sync()
+            await Pedido.sync()
 
         } catch (error) {
             console.error('No se ha podido conectar a la base de datos');

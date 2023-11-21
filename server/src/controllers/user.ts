@@ -19,7 +19,6 @@ export const newUser = async(req: Request, res: Response) =>{
 
     const hashedpassword = await bcrypt.hash(contrasena, 10)
     
-
     try{
          await User.create({
             "RUT_USUARIO": rut_usuario,

@@ -4,8 +4,8 @@ import { Producto } from '../models/producto';
 
 export const getProductos = async(req: Request, res: Response) =>{  
     const listProductos = await Producto.findAll({attributes:['COD_PRODUCTO','NOMBRE_PRODUCTO','PRECIO_PRODUCTO','CANTIDAD_TOTAL','CANTIDAD_DISPONIBLE']});
+    const fecha = new Date()
     res.json(listProductos)
-
 }
 export const newProducto = async(req: Request, res: Response) =>{
     const { nombre_producto,precio,cantidad_total,cantidad_disponible} =  req.body;

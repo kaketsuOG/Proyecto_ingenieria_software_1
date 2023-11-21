@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
 import { Detalle_horario_entrega } from './det_horario_entrega';
+import { Reserva } from './reserva';
 
 
 export const Disponibilidad_fecha = sequelize.define('Disponibilidad_fecha',{

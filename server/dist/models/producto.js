@@ -8,10 +8,10 @@ const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../db/connection"));
 exports.Producto = connection_1.default.define('producto', {
     "COD_PRODUCTO": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    "CANTIDAD_TOTAL": { type: sequelize_1.DataTypes.INTEGER },
-    "CANTIDAD_DISPONIBLE": { type: sequelize_1.DataTypes.INTEGER },
     "NOMBRE_PRODUCTO": { type: sequelize_1.DataTypes.STRING },
-    "PRECIO_PRODUCTO": { type: sequelize_1.DataTypes.INTEGER }
+    "PRECIO_PRODUCTO": { type: sequelize_1.DataTypes.INTEGER },
+    "CANTIDAD_TOTAL": { type: sequelize_1.DataTypes.INTEGER },
+    "CANTIDAD_DISPONIBLE": { type: sequelize_1.DataTypes.INTEGER }
 }, {
     freezeTableName: true,
     timestamps: false,
