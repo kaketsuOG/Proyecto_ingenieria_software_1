@@ -15,6 +15,7 @@ export const Reserva = sequelize.define('Reserva', {
     "COD_DET_ESTADO": {type: DataTypes.INTEGER},
     "TOTAL": {type: DataTypes.INTEGER},
     "FECHA_CREACION": {type: DataTypes.DATE},
+    
 },
     {
         freezeTableName: true,

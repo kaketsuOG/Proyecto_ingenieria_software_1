@@ -7,6 +7,7 @@ export const newReserva = async(req:Request,res:Response) =>{
     const fechaFormateada = fechaActual.toISOString().split('T')[0];
 
     try{
+        
         await Reserva.create({
             CELULAR_CLIENTE: celular_cliente,
             COD_DISPONIBILIDAD: cod_disponibilidad,
