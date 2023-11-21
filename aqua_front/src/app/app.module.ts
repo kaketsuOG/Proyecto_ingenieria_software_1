@@ -43,6 +43,7 @@ import { VempleadosComponent } from './components/vempleados/vehiculo.component'
 import { ReservaService } from './services/reserva.service';
 import { FormsModule } from '@angular/forms';
 import { ReservaComponent } from './components/reserva/reserva.component';
+import { ReservaModule } from './components/reserva/reserva.module';
 
 
 
@@ -68,7 +69,7 @@ import { ReservaComponent } from './components/reserva/reserva.component';
     EmpleadoComponent,
     UempleadosComponent,
     VempleadosComponent,
-    ReservaComponent
+    ReservaComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,6 +84,7 @@ import { ReservaComponent } from './components/reserva/reserva.component';
     MatSortModule,
     MatPaginatorModule,
     CommonModule,
+    ReservaModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot({
       timeOut: 4000,
