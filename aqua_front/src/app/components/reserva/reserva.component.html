@@ -1,1 +1,12 @@
-<p>Sección de reserva</p>
+<!-- Asegúrate de importar FormsModule en tu módulo para que ngModel funcione correctamente -->
+<div *ngIf="productosSeleccionados && productosSeleccionados.length > 0">
+  <ul>
+    <li *ngFor="let productoSeleccionado of productosSeleccionados">
+      {{ productoSeleccionado.producto.nombre_producto }}
+      <input type="number" [(ngModel)]="productoSeleccionado.cantidad" />
+    </li>
+  </ul>
+</div>
+
+<!-- Asegúrate de que productosSeleccionados esté definido antes de intentar acceder a su propiedad cantidad -->
+<button *ngIf="productosSeleccionados && productosSeleccionados.length > 0" (click)="realizarPedido()">Realizar Pedido</button>

@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 
 // Modulos
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+
 import { ToastrModule } from 'ngx-toastr';
 
 // Componentes
@@ -40,8 +40,9 @@ import { AdminComponent } from './components/admin/admin.component';
 import { EmpleadoComponent } from './components/empleado/empleado.component';
 import { UempleadosComponent } from './components/uempleados/usuarios.component';
 import { VempleadosComponent } from './components/vempleados/vehiculo.component';
-import { ClienteComponent } from './components/reserva/cliente/cliente.component';
-
+import { ReservaService } from './services/reserva.service';
+import { FormsModule } from '@angular/forms';
+import { ReservaComponent } from './components/reserva/reserva.component';
 
 
 
@@ -67,7 +68,7 @@ import { ClienteComponent } from './components/reserva/cliente/cliente.component
     EmpleadoComponent,
     UempleadosComponent,
     VempleadosComponent,
-    ClienteComponent,
+    ReservaComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +90,7 @@ import { ClienteComponent } from './components/reserva/cliente/cliente.component
       preventDuplicates: true,
     }), LayoutModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, // ToastrModule added
   ],
-  providers: [UsuarioService
+  providers: [UsuarioService, ReservaService,
    // { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
