@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReservaService, Producto, Cliente, Pedido } from 'src/app/services/reserva.service';
+import { ReservaService } from 'src/app/services/reserva.service';
 
 @Component({
   selector: 'app-reserva',
@@ -7,40 +7,62 @@ import { ReservaService, Producto, Cliente, Pedido } from 'src/app/services/rese
   styleUrls: ['./reserva.component.css'],
 })
 export class ReservaComponent implements OnInit {
-  productos: Producto[] = [];
-  productosSeleccionados: { producto: Producto; cantidad: number }[] = [];
-  cliente: Cliente = { nombre: '', direccion: '', ciudad: '' };
+  productos: any[] = [];
+  displayedColumns: any[] = ['SELECCIONAR','NOMBRE_PRODUCTO', 'PRECIO_PRODUCTO', 'CANTIDAD_PEDIDO'];
+  cantidades: number[] = [0, 1, 2, 3, 4, 5];
+  nombreCliente: string = '';
+  telefonoCliente: string = '';
+  direccionCliente: string = '';
+  ciudadCliente: string = '';
 
   constructor(private reservaService: ReservaService) {}
 
   ngOnInit(): void {
     this.reservaService.getProductos().subscribe((data) => {
-      this.productos = data;
+      this.productos = data.map((producto) => ({
+        ...producto,
+        cantidadPedido: 0,
+        seleccionado: false,
+      }));
     });
   }
 
-  agregarProducto(producto: Producto): void {
-    const index = this.productosSeleccionados.findIndex((p) => p.producto.cod_producto === producto.cod_producto);
-
-    if (index === -1) {
-      this.productosSeleccionados.push({ producto, cantidad: 0 });
+  resetCantidad(element: any): void {
+    element.cantidadPedido = 0;
+  }
+  realizarPedido(): void {
+    // Validación de campos vacíos
+    if (this.productos.some((producto) => producto.seleccionado && producto.cantidadPedido === 0)) {
+      alert('La cantidad debe ser mayor que 0 para los productos seleccionados.');
+      return;
+    }
+    if (!this.nombreCliente || !this.telefonoCliente || !this.direccionCliente || !this.ciudadCliente) {
+      alert('Todos los campos del cliente son obligatorios.');
+      return;
+    }
+  
+    // Obtener solo los productos seleccionados
+    const productosSeleccionados = this.productos.filter((producto) => producto.seleccionado);
+  
+    // Realizar el pedido solo si hay productos seleccionados
+    if (productosSeleccionados.length > 0) {
+      // Llamar al servicio de pedido
+      this.reservaService.realizarPedido({
+        productos: productosSeleccionados,
+        nombrePersona: this.nombreCliente,
+        direccionPersona: this.direccionCliente,
+        ciudadCliente: this.ciudadCliente,
+      });
+  
+      // Restablecer campos después de realizar el pedido
+      this.nombreCliente = '';
+      this.telefonoCliente = '';
+      this.direccionCliente = '';
+      this.ciudadCliente = '';
+      this.productos.forEach((producto) => (producto.cantidadPedido = 0));
+    } else {
+      alert('Selecciona al menos un producto para realizar el pedido.');
     }
   }
-
-  realizarPedido(): void {
-    // Envía la solicitud de pedido directamente sin confirmar con la base de datos
-    const pedido: Pedido = {
-      productos: this.productosSeleccionados,
-      cliente: this.cliente,
-    };
-
-    this.reservaService.realizarPedido(pedido).subscribe(
-      (respuesta: any) => {
-        console.log('Pedido realizado con éxito:', respuesta);
-      },
-      (error: any) => {
-        console.error('Error al realizar el pedido:', error);
-      }
-    );
-  }
+  
 }
