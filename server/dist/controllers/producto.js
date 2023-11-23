@@ -13,7 +13,6 @@ exports.agregarProductos = exports.venderProductos = exports.deleteProducto = ex
 const producto_1 = require("../models/producto");
 const getProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listProductos = yield producto_1.Producto.findAll({ attributes: ['COD_PRODUCTO', 'NOMBRE_PRODUCTO', 'PRECIO_PRODUCTO', 'CANTIDAD_TOTAL', 'CANTIDAD_DISPONIBLE'] });
-    const fecha = new Date();
     res.json(listProductos);
 });
 exports.getProductos = getProductos;
