@@ -21,6 +21,8 @@ import { AdminComponent } from './components/admin/admin.component';
 import { EmpleadoComponent } from './components/empleado/empleado.component';
 import { UempleadosComponent } from './components/uempleados/usuarios.component';
 import { VempleadosComponent } from './components/vempleados/vehiculo.component';
+import { InventarioCreateComponent } from './components/inventario/create/create.component';
+import { InventarioEditComponent } from './components/inventario/edit/edit.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -40,6 +42,8 @@ const routes: Routes = [
   { path: 'empleado', component: EmpleadoComponent},
   { path: 'uempleados', component: UempleadosComponent},
   { path: 'vempleados', component: VempleadosComponent},
+  { path: 'inventario/create', component: InventarioCreateComponent},
+  { path: 'inventario/edit/:id', component: InventarioEditComponent},
 
 
 

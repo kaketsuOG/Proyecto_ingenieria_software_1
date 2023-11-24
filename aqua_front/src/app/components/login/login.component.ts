@@ -42,7 +42,8 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this._userService.login(user).subscribe({
       next: (token) => {
-        localStorage.setItem('token', token);
+
+        localStorage.setItem('token', token.token);
         
         // Verifica el rut y redirige al componente correspondiente
       if (this.username === '1111') {

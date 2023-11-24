@@ -44,6 +44,8 @@ import { ReservaService } from './services/reserva.service';
 import { FormsModule } from '@angular/forms';
 import { ReservaModule } from './components/reserva/reserva.module';
 import { ReservaComponent } from './components/reserva/reserva.component';
+import { InventarioCreateComponent } from './components/inventario/create/create.component';
+import { InventarioEditComponent } from './components/inventario/edit/edit.component';
 
 
 
@@ -70,6 +72,8 @@ import { ReservaComponent } from './components/reserva/reserva.component';
     UempleadosComponent,
     VempleadosComponent,
     ReservaComponent,
+    InventarioCreateComponent,
+    InventarioEditComponent,
   ],
   imports: [
     BrowserModule,

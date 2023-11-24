@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-
 import { ErrorService } from 'src/app/services/error.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -25,7 +24,7 @@ export class SignInComponent implements OnInit {
     private router: Router,
     private _errorService: ErrorService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { //inicializa el componente
   }
 
   addUser() {

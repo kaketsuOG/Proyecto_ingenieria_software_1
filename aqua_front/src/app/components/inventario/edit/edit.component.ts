@@ -32,7 +32,7 @@ export class InventarioEditComponent implements OnInit {
     this._inventarioService.obtenerInventario(id).subscribe((data: any) => {
     this.codigo_producto = data.COD_PRODUCTO,
     this.nombre = data.NOMBRE_PRODUCTO,
-    this.precio = data.PRECIO_PRODCUTO
+    this.precio = data.PRECIO_PRODUCTO,
     this.cantidad_disponible = data.CANTIDAD_DISPONIBLE
     this.cantidad_total = data.CANTIDAD_TOTAL
     })

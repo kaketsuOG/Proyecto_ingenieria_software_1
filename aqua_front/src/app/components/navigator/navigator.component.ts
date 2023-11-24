@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './navigator.component.html',
   styleUrls: ['./navigator.component.css']
 })
-export class NavigatorComponent {
+export class NavigatorComponent implements OnInit {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -51,6 +51,16 @@ showEmpleadosInfo = false;
     this.showHistorialInfo = true;
   }
   constructor(private breakpointObserver: BreakpointObserver, private router: Router) {}
+
+  ngOnInit(): void {
+    this.validateToken()
+   }
+
+  validateToken() {
+    if (localStorage.getItem("token") === null) {
+      this.router.navigate(['/login'])
+    }
+  }
 
   logOut() {
     localStorage.removeItem('token');
