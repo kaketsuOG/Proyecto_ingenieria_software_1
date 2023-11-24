@@ -4,18 +4,18 @@ import { Cliente } from './cliente';
 import { Disponibilidad_fecha } from './dispo_fecha';
 import { Vehiculo } from './vehiculo';
 import { det_estado } from './det_estado';
-import { Pedido } from './det_reserva_producto';
+import { Pedido } from './pedido';
 
 export const Reserva = sequelize.define('Reserva', {
-    "COD_RESERVA": {type: DataTypes.INTEGER,primaryKey: true,autoIncrement: true,},
-    "CELULAR_CLIENTE": {type: DataTypes.INTEGER},
-    "COD_DISPONIBILIDAD": {type: DataTypes.INTEGER},
-    "PATENTE_VEHICULO": {type: DataTypes.STRING},
-    "COD_HISTORIAL": {type: DataTypes.INTEGER},
-    "COD_DET_ESTADO": {type: DataTypes.INTEGER},
-    "TOTAL": {type: DataTypes.INTEGER},
-    "FECHA_CREACION": {type: DataTypes.DATE},
-    
+    "COD_RESERVA": { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, },
+    "CELULAR_CLIENTE": { type: DataTypes.INTEGER },
+    "COD_DISPONIBILIDAD": { type: DataTypes.INTEGER },
+    "PATENTE_VEHICULO": { type: DataTypes.STRING },
+    "COD_HISTORIAL": { type: DataTypes.INTEGER },
+    "COD_DET_ESTADO": { type: DataTypes.INTEGER },
+    "TOTAL": { type: DataTypes.INTEGER },
+    "FECHA_CREACION": { type: DataTypes.DATE },
+
 },
     {
         freezeTableName: true,

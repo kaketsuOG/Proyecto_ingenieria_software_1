@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getPedidos, getPedido, newPedido, updatePedido, deletePedido } from '../controllers/det_reserva_producto'; // Ajusta la ruta según tu estructura
+import { getPedidos, getPedido, newPedido, updatePedido, deletePedido } from '../controllers/pedido'; // Ajusta la ruta según tu estructura
 
 const router = Router();
 

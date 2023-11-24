@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { Detalle_reserva_producto } from '../models/det_reserva_producto'; // Asegúrate de tener la ruta correcta
+import { Pedido } from '../models/pedido'; // Asegúrate de tener la ruta correcta
 import { Reserva } from '../models/reserva'; // Asegúrate de tener la ruta correcta
 import { Producto } from '../models/producto'; // Asegúrate de tener la ruta correcta
 
 // Obtener todos los pedidos
 export const getPedidos = async (req: Request, res: Response) => {
     try {
-        const pedidos = await Detalle_reserva_producto.findAll({
+        const pedidos = await Pedido.findAll({
             include: [
                 { model: Reserva, attributes: ['COD_RESERVA'] },
                 { model: Producto, attributes: ['COD_PRODUCTO'] }
@@ -24,7 +24,7 @@ export const getPedidos = async (req: Request, res: Response) => {
 export const getPedido = async (req: Request, res: Response) => {
     const { cod_pedido } = req.params;
     try {
-        const pedido = await Detalle_reserva_producto.findByPk(cod_pedido, {
+        const pedido = await Pedido.findByPk(cod_pedido, {
             include: [
                 { model: Reserva, attributes: ['COD_RESERVA'] },
                 { model: Producto, attributes: ['COD_PRODUCTO'] }
@@ -45,7 +45,7 @@ export const getPedido = async (req: Request, res: Response) => {
 export const newPedido = async (req: Request, res: Response) => {
     const { cod_producto, cod_reserva, cantidad } = req.body;
     try {
-        const pedidoCreado = await Detalle_reserva_producto.create({
+        const pedidoCreado = await Pedido.create({
             COD_PRODUCTO: cod_producto,
             COD_RESERVA: cod_reserva,
             CANTIDAD: cantidad
@@ -62,7 +62,7 @@ export const updatePedido = async (req: Request, res: Response) => {
     const { cod_pedido } = req.params;
     const { cod_producto, cod_reserva, cantidad } = req.body;
     try {
-        const pedido = await Detalle_reserva_producto.findByPk(cod_pedido);
+        const pedido = await Pedido.findByPk(cod_pedido);
         if (pedido) {
             await pedido.update({
                 COD_PRODUCTO: cod_producto,
@@ -83,7 +83,7 @@ export const updatePedido = async (req: Request, res: Response) => {
 export const deletePedido = async (req: Request, res: Response) => {
     const { cod_pedido } = req.params;
     try {
-        const pedido = await Detalle_reserva_producto.findByPk(cod_pedido);
+        const pedido = await Pedido.findByPk(cod_pedido);
         if (pedido) {
             await pedido.destroy();
             res.json({ mensaje: 'Pedido eliminado correctamente.' });
