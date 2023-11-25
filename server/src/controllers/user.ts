@@ -91,7 +91,9 @@ export const loginUser = async(req: Request, res: Response) =>{
         rut_usuario: rut_usuario
     }, process.env.SECRET_KEY || 'PRUEBA1'); // , {expiresIn: '10000'} como tercer parametro para timepo de expiracion del token
 
+    const codRol = usuario.dataValues.COD_ROL 
     res.json({token});
+    return res.json({codRol});
 
 }
 
