@@ -190,13 +190,12 @@ const uploadImagen = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     try {
         const producto = yield producto_1.Producto.findOne({ where: { cod_producto } });
         if (!producto) {
-            res.status(404).json({ msg: 'Producto no encontrado' });
-            return;
+            return res.status(404).json({ msg: 'Producto no encontrado' });
         }
         yield producto_1.Producto.update({
             IMAGEN: imagen_url
         }, { where: { COD_PRODUCTO: cod_producto } });
-        res.json({ msg: 'Imagen del producto actualizada correctamente' });
+        return res.json({ msg: 'Imagen del producto actualizada correctamente' });
     }
     catch (error) {
         console.error(error);

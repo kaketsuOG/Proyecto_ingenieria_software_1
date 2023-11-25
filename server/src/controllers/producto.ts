@@ -200,15 +200,15 @@ export const uploadImagen = async (req: Request, res: Response, next: NextFuncti
       const producto = await Producto.findOne({where: {cod_producto}});
   
       if (!producto) {
-        res.status(404).json({ msg: 'Producto no encontrado' });
-        return;
+        return res.status(404).json({ msg: 'Producto no encontrado' });
+
       }
       
       await Producto.update({
         IMAGEN: imagen_url
       },{where: {COD_PRODUCTO:cod_producto}})
   
-      res.json({ msg: 'Imagen del producto actualizada correctamente' });
+      return res.json({ msg: 'Imagen del producto actualizada correctamente' });
     } catch (error) {
       console.error(error);
       res.status(500).json({ msg: 'Error al actualizar la imagen del producto', error });
