@@ -122,18 +122,16 @@ const venderProductos = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
     try {
         const cantidadInt = parseInt(cantidad, 10);
-        for (let i = 1; i < cantidadInt + 1; i++) {
-            const cantidades = yield producto_1.Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: cod_producto } });
-            const cantidadDisponible = (cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_DISPONIBLE) - 1;
-            if (cantidadDisponible < 0) {
-                return res.status(400).json({
-                    msg: 'No hay Stock',
-                });
-            }
-            yield producto_1.Producto.update({
-                CANTIDAD_DISPONIBLE: cantidadDisponible
-            }, { where: { COD_PRODUCTO: cod_producto } });
+        const cantidades = yield producto_1.Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: cod_producto } });
+        const cantidadDisponible = (cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_DISPONIBLE) - cantidadInt;
+        if (cantidadDisponible < 0) {
+            return res.status(400).json({
+                msg: 'No hay Stock',
+            });
         }
+        yield producto_1.Producto.update({
+            CANTIDAD_DISPONIBLE: cantidadDisponible
+        }, { where: { COD_PRODUCTO: cod_producto } });
         return res.json({
             msg: "Se han quitado " + cantidad + " de productos"
         });
@@ -158,20 +156,18 @@ const agregarProductos = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
     try {
         const cantidadInt = parseInt(cantidad, 10);
-        for (let i = 1; i <= cantidadInt; i++) {
-            const cantidades = yield producto_1.Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: cod_producto } });
-            const cantidadDisponible = (cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_DISPONIBLE) + 1;
-            const cantidadTotal = cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_TOTAL;
-            if (cantidadDisponible > cantidadTotal) {
-                return res.status(400).json({
-                    msg: 'Has superado la máxima capacidad de Stock',
-                });
-            }
-            // Actualizar la cantidad disponible y la imagen
-            yield producto_1.Producto.update({
-                CANTIDAD_DISPONIBLE: cantidadDisponible,
-            }, { where: { COD_PRODUCTO: cod_producto } });
+        const cantidades = yield producto_1.Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: cod_producto } });
+        const cantidadDisponible = (cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_DISPONIBLE) + cantidadInt;
+        const cantidadTotal = cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_TOTAL;
+        if (cantidadDisponible > cantidadTotal) {
+            return res.status(400).json({
+                msg: 'Has superado la máxima capacidad de Stock',
+            });
         }
+        // Actualizar la cantidad disponible
+        yield producto_1.Producto.update({
+            CANTIDAD_DISPONIBLE: cantidadDisponible,
+        }, { where: { COD_PRODUCTO: cod_producto } });
         return res.json({
             msg: `Se han añadido ${cantidad} de productos`
         });

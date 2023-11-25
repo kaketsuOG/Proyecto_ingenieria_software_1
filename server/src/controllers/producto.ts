@@ -116,26 +116,22 @@ export const venderProductos = async (req: Request, res: Response) => {
     }
     try {
         const cantidadInt = parseInt(cantidad, 10);
-        for (let i = 1; i < cantidadInt + 1; i++) {
-            const cantidades = await Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: cod_producto } });
-            const cantidadDisponible = cantidades?.dataValues.CANTIDAD_DISPONIBLE - 1
-            if (cantidadDisponible < 0) {
-                return res.status(400).json({
-                    msg: 'No hay Stock',
-                })
-            }
-
-            await Producto.update({
-                CANTIDAD_DISPONIBLE: cantidadDisponible
-            },
-                { where: { COD_PRODUCTO: cod_producto } }
-            )
+        const cantidades = await Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: cod_producto } });
+        const cantidadDisponible = cantidades?.dataValues.CANTIDAD_DISPONIBLE - cantidadInt
+        if (cantidadDisponible < 0) {
+            return res.status(400).json({
+                msg: 'No hay Stock',
+            })
         }
+
+        await Producto.update({
+            CANTIDAD_DISPONIBLE: cantidadDisponible
+        },
+            { where: { COD_PRODUCTO: cod_producto } }
+        )
         return res.json({
             msg: "Se han quitado " + cantidad + " de productos"
         })
-
-
     } catch (error) {
         return res.status(400).json({
             msg: 'Ha ocurrido un error al quitar los productos',
@@ -160,25 +156,22 @@ export const agregarProductos = async (req: Request, res: Response) => {
     try {
         const cantidadInt = parseInt(cantidad, 10);
 
-        for (let i = 1; i <= cantidadInt; i++) {
-            const cantidades = await Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: cod_producto } });
-            const cantidadDisponible = cantidades?.dataValues.CANTIDAD_DISPONIBLE + 1;
-            const cantidadTotal = cantidades?.dataValues.CANTIDAD_TOTAL;
+        const cantidades = await Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: cod_producto } });
+        const cantidadDisponible = cantidades?.dataValues.CANTIDAD_DISPONIBLE + cantidadInt;
+        const cantidadTotal = cantidades?.dataValues.CANTIDAD_TOTAL;
 
-            if (cantidadDisponible > cantidadTotal) {
-                return res.status(400).json({
-                    msg: 'Has superado la máxima capacidad de Stock',
-                });
-            }
-
-            // Actualizar la cantidad disponible y la imagen
-            await Producto.update({
-                CANTIDAD_DISPONIBLE: cantidadDisponible,
-            },
-                { where: { COD_PRODUCTO: cod_producto } }
-            );
+        if (cantidadDisponible > cantidadTotal) {
+            return res.status(400).json({
+                msg: 'Has superado la máxima capacidad de Stock',
+            });
         }
 
+        // Actualizar la cantidad disponible
+        await Producto.update({
+            CANTIDAD_DISPONIBLE: cantidadDisponible,
+        },
+            { where: { COD_PRODUCTO: cod_producto } }
+        );
         return res.json({
             msg: `Se han añadido ${cantidad} de productos`
         });
