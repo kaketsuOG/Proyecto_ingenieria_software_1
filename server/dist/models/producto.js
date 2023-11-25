@@ -11,7 +11,8 @@ exports.Producto = connection_1.default.define('producto', {
     "NOMBRE_PRODUCTO": { type: sequelize_1.DataTypes.STRING },
     "PRECIO_PRODUCTO": { type: sequelize_1.DataTypes.INTEGER },
     "CANTIDAD_TOTAL": { type: sequelize_1.DataTypes.INTEGER },
-    "CANTIDAD_DISPONIBLE": { type: sequelize_1.DataTypes.INTEGER }
+    "CANTIDAD_DISPONIBLE": { type: sequelize_1.DataTypes.INTEGER },
+    "IMAGEN": { type: sequelize_1.DataTypes.STRING }
 }, {
     freezeTableName: true,
     timestamps: false,

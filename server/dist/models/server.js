@@ -76,7 +76,6 @@ class Server {
                 yield pedido_2.Pedido.sync();
             }
             catch (error) {
-                console.error(error);
                 console.error('No se ha podido conectar a la base de datos');
             }
         });

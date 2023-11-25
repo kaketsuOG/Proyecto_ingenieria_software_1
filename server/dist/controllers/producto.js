@@ -9,21 +9,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.agregarProductos = exports.venderProductos = exports.deleteProducto = exports.getProducto = exports.updateProducto = exports.newProducto = exports.getProductos = void 0;
+exports.uploadImagen = exports.agregarProductos = exports.venderProductos = exports.deleteProducto = exports.getProducto = exports.updateProducto = exports.newProducto = exports.getProductos = void 0;
 const producto_1 = require("../models/producto");
 const getProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listProductos = yield producto_1.Producto.findAll({ attributes: ['COD_PRODUCTO', 'NOMBRE_PRODUCTO', 'PRECIO_PRODUCTO', 'CANTIDAD_TOTAL', 'CANTIDAD_DISPONIBLE'] });
+    const listProductos = yield producto_1.Producto.findAll({
+        attributes: ['COD_PRODUCTO', 'NOMBRE_PRODUCTO', 'PRECIO_PRODUCTO', 'CANTIDAD_TOTAL', 'CANTIDAD_DISPONIBLE', 'IMAGEN']
+    });
     res.json(listProductos);
 });
 exports.getProductos = getProductos;
 const newProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nombre_producto, precio, cantidad_total, cantidad_disponible } = req.body;
+    const imagen = req.file ? req.file.path : null;
     try {
         yield producto_1.Producto.create({
-            "NOMBRE_PRODUCTO": nombre_producto,
-            "PRECIO_PRODUCTO": precio,
-            "CANTIDAD_TOTAL": cantidad_total,
-            "CANTIDAD_DISPONIBLE": cantidad_disponible
+            NOMBRE_PRODUCTO: nombre_producto,
+            PRECIO_PRODUCTO: precio,
+            CANTIDAD_TOTAL: cantidad_total,
+            CANTIDAD_DISPONIBLE: cantidad_disponible,
+            IMAGEN: imagen // Nueva columna para la ruta de la imagen
         });
         return res.json({
             msg: 'Producto creado correctamente'
@@ -31,7 +35,7 @@ const newProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
     catch (error) {
         res.status(400).json({
-            msg: 'Ocurrio un error al crear el producto',
+            msg: 'Ocurrió un error al crear el producto',
             error
         });
     }
@@ -46,12 +50,13 @@ const updateProducto = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     try {
-        const { nombre_producto, precio, cantidad_total, cantidad_disponible } = req.body;
+        const { nombre_producto, precio, cantidad_total, cantidad_disponible, imagen } = req.body;
         yield producto_1.Producto.update({
             NOMBRE_PRODUCTO: nombre_producto,
             PRECIO_PRODUCTO: precio,
             CANTIDAD_TOTAL: cantidad_total,
-            CANTIDAD_DISPONIBLE: cantidad_disponible
+            CANTIDAD_DISPONIBLE: cantidad_disponible,
+            IMAGEN: imagen
         }, { where: { COD_PRODUCTO: cod_producto } });
         return res.json({
             msg: 'Producto ' + cod_producto + ' actualizado correctamente'
@@ -143,7 +148,8 @@ const venderProductos = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.venderProductos = venderProductos;
 const agregarProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_producto } = req.params;
-    const { cantidad } = req.body;
+    const { cantidad, imagen } = req.body;
+    // Verificar si el producto existe
     const idProducto = yield producto_1.Producto.findOne({ where: { COD_PRODUCTO: cod_producto } });
     if (!idProducto) {
         return res.status(400).json({
@@ -152,21 +158,22 @@ const agregarProductos = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
     try {
         const cantidadInt = parseInt(cantidad, 10);
-        for (let i = 1; i < cantidadInt + 1; i++) {
+        for (let i = 1; i <= cantidadInt; i++) {
             const cantidades = yield producto_1.Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: cod_producto } });
             const cantidadDisponible = (cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_DISPONIBLE) + 1;
             const cantidadTotal = cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_TOTAL;
             if (cantidadDisponible > cantidadTotal) {
                 return res.status(400).json({
-                    msg: 'Has superado la maxima capacidad de Stock',
+                    msg: 'Has superado la máxima capacidad de Stock',
                 });
             }
+            // Actualizar la cantidad disponible y la imagen
             yield producto_1.Producto.update({
-                CANTIDAD_DISPONIBLE: cantidadDisponible
+                CANTIDAD_DISPONIBLE: cantidadDisponible,
             }, { where: { COD_PRODUCTO: cod_producto } });
         }
         return res.json({
-            msg: "Se han añadido " + cantidad + " de productos"
+            msg: `Se han añadido ${cantidad} de productos`
         });
     }
     catch (error) {
@@ -177,3 +184,23 @@ const agregarProductos = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.agregarProductos = agregarProductos;
+const uploadImagen = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { cod_producto } = req.params;
+    const imagen_url = req.file ? req.file.path : null;
+    try {
+        const producto = yield producto_1.Producto.findOne({ where: { cod_producto } });
+        if (!producto) {
+            res.status(404).json({ msg: 'Producto no encontrado' });
+            return;
+        }
+        yield producto_1.Producto.update({
+            IMAGEN: imagen_url
+        }, { where: { COD_PRODUCTO: cod_producto } });
+        res.json({ msg: 'Imagen del producto actualizada correctamente' });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error al actualizar la imagen del producto', error });
+    }
+});
+exports.uploadImagen = uploadImagen;

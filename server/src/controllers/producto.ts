@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction} from 'express';
 import { Producto } from '../models/producto';
 
 
@@ -10,14 +10,15 @@ export const getProductos = async (req: Request, res: Response) => {
 };
 
 export const newProducto = async (req: Request, res: Response) => {
-    const { nombre_producto, precio, cantidad_total, cantidad_disponible, imagen } = req.body;
+    const { nombre_producto, precio, cantidad_total, cantidad_disponible} = req.body;
+    const imagen = req.file ? req.file.path : null;
     try {
         await Producto.create({
             NOMBRE_PRODUCTO: nombre_producto,
             PRECIO_PRODUCTO: precio,
             CANTIDAD_TOTAL: cantidad_total,
             CANTIDAD_DISPONIBLE: cantidad_disponible,
-            IMAGEN: imagen // Nueva columna para la ruta de la imagen
+            IMAGEN: imagen// Nueva columna para la ruta de la imagen
         });
         return res.json({
             msg: 'Producto creado correctamente'
@@ -29,6 +30,7 @@ export const newProducto = async (req: Request, res: Response) => {
         });
     }
 };
+
 
 export const updateProducto = async (req: Request, res: Response) => {
     const { cod_producto } = req.params;
@@ -172,7 +174,6 @@ export const agregarProductos = async (req: Request, res: Response) => {
             // Actualizar la cantidad disponible y la imagen
             await Producto.update({
                 CANTIDAD_DISPONIBLE: cantidadDisponible,
-                IMAGEN: imagen // Actualizar la ruta de la imagen
             },
                 { where: { COD_PRODUCTO: cod_producto } }
             );
@@ -190,3 +191,26 @@ export const agregarProductos = async (req: Request, res: Response) => {
     }
 };
 
+export const uploadImagen = async (req: Request, res: Response, next: NextFunction) => {
+    const { cod_producto } = req.params;
+    const imagen_url = req.file ? req.file.path : null;
+  
+    try {
+  
+      const producto = await Producto.findOne({where: {cod_producto}});
+  
+      if (!producto) {
+        res.status(404).json({ msg: 'Producto no encontrado' });
+        return;
+      }
+      
+      await Producto.update({
+        IMAGEN: imagen_url
+      },{where: {COD_PRODUCTO:cod_producto}})
+  
+      res.json({ msg: 'Imagen del producto actualizada correctamente' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Error al actualizar la imagen del producto', error });
+    }
+  };
