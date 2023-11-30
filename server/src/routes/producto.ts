@@ -6,7 +6,7 @@ import validateToken from './auth';
 
 const router = Router();
 
-const upload = multer({ dest: './uploads' }); // Ajusta la ruta según tu estructura
+const upload = multer({ dest: './uploads' }); // Ajusta de ruta
 
 router.post('/', upload.single('imagen'), newProducto);
 router.post('/:cod_producto/uploadImagen', upload.single('imagen'), uploadImagen);

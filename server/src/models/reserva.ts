@@ -10,7 +10,7 @@ export const Reserva = sequelize.define('Reserva', {
     "COD_RESERVA": { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, },
     "CELULAR_CLIENTE": { type: DataTypes.INTEGER },
     "COD_DISPONIBILIDAD": { type: DataTypes.INTEGER },
-    "PATENTE_VEHICULO": { type: DataTypes.STRING },
+    "PATENTE_COD_VEHICULO": { type: DataTypes.STRING },
     "COD_HISTORIAL": { type: DataTypes.INTEGER },
     "COD_DET_ESTADO": { type: DataTypes.INTEGER },
     "TOTAL": { type: DataTypes.INTEGER },
@@ -25,4 +25,4 @@ export const Reserva = sequelize.define('Reserva', {
 Reserva.belongsTo(Cliente, { foreignKey: 'CELULAR_CLIENTE' });
 Reserva.belongsTo(Disponibilidad_fecha, { foreignKey: 'COD_DISPONIBILIDAD' });
 Reserva.belongsTo(det_estado, { foreignKey: 'COD_DET_ESTADO' });
-Reserva.belongsTo(Vehiculo, { foreignKey: 'PATENTE_VEHICULO' });
+Reserva.belongsTo(Vehiculo, { foreignKey: 'PATENTE_COD_VEHICULO' });

@@ -14,7 +14,7 @@ exports.Reserva = connection_1.default.define('Reserva', {
     "COD_RESERVA": { type: sequelize_1.DataTypes.INTEGER, primaryKey: true, autoIncrement: true, },
     "CELULAR_CLIENTE": { type: sequelize_1.DataTypes.INTEGER },
     "COD_DISPONIBILIDAD": { type: sequelize_1.DataTypes.INTEGER },
-    "PATENTE_VEHICULO": { type: sequelize_1.DataTypes.STRING },
+    "PATENTE_COD_VEHICULO": { type: sequelize_1.DataTypes.STRING },
     "COD_HISTORIAL": { type: sequelize_1.DataTypes.INTEGER },
     "COD_DET_ESTADO": { type: sequelize_1.DataTypes.INTEGER },
     "TOTAL": { type: sequelize_1.DataTypes.INTEGER },
@@ -26,4 +26,4 @@ exports.Reserva = connection_1.default.define('Reserva', {
 exports.Reserva.belongsTo(cliente_1.Cliente, { foreignKey: 'CELULAR_CLIENTE' });
 exports.Reserva.belongsTo(dispo_fecha_1.Disponibilidad_fecha, { foreignKey: 'COD_DISPONIBILIDAD' });
 exports.Reserva.belongsTo(det_estado_1.det_estado, { foreignKey: 'COD_DET_ESTADO' });
-exports.Reserva.belongsTo(vehiculo_1.Vehiculo, { foreignKey: 'PATENTE_VEHICULO' });
+exports.Reserva.belongsTo(vehiculo_1.Vehiculo, { foreignKey: 'PATENTE_COD_VEHICULO' });
