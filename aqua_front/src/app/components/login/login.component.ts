@@ -14,6 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
+  rol: number = 0;
   loading: boolean = false;
 
   constructor(private toastr: ToastrService,
@@ -36,27 +37,28 @@ export class LoginComponent implements OnInit {
     // Creamos el body
     const user: User = {
       rut_usuario: this.username,
-      contrasena: this.password
+      contrasena: this.password,
+      cod_rol: this.rol,
     }
 
     this.loading = true;
     this._userService.login(user).subscribe({
-      next: (token) => {
-
-        localStorage.setItem('token', token.token);
-        
-        // Verifica el rut y redirige al componente correspondiente
-      if (this.username === '1111') {
-        this.router.navigate(['/admin']);
-      } else {
-        this.router.navigate(['/empleado']);
-      }
+      next: () => {
+        // Obtén el rol del token
+        const userRol = this._userService.getRolFromToken();
+  
+        // Verifica el rol y redirige al componente correspondiente
+        if (userRol === 1) {
+          this.router.navigate(['/admin']);
+        } else {
+          this.router.navigate(['/empleado']);
+        }
       },
       error: (e: HttpErrorResponse) => {
         this._errorService.msjError(e);
-        this.loading = false
-      }
-    })
+        this.loading = false;
+      },
+    });
     
   }
   showPassword: boolean = false;

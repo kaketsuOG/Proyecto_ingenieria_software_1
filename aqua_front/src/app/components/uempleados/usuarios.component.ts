@@ -38,7 +38,7 @@ export class UsuariosModule { }
 export class UempleadosComponent implements OnInit {
 
   usuarios: any[] = [];
-  displayedColumns: any[] = ['rut', 'nombre', 'apellido1 usuario', 'apellido2 usuario','acciones usuario'];
+  displayedColumns: any[] = ['rut', 'nombre', 'apellido1 usuario', 'apellido2 usuario','rol'];
 
   constructor(private uempleadoService: UempleadoService, private router: Router) {}
 
@@ -55,6 +55,9 @@ export class UempleadosComponent implements OnInit {
     this.uempleadoService.getUsuarios().subscribe((data: any) => {
       this.usuarios = data;
     });
+  }
+  getRolNombre(codRol: number): string {
+    return codRol === 1 ? 'Administrador' : (codRol === 2 ? 'Empleado' : 'Desconocido');
   }
 }
 

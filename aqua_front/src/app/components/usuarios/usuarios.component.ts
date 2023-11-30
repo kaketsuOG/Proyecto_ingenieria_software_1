@@ -38,7 +38,7 @@ export class UsuariosModule { }
 export class UsuariosComponent implements OnInit {
 
   usuarios: any[] = [];
-  displayedColumns: any[] = ['rut', 'nombre', 'apellido1 usuario', 'apellido2 usuario','acciones usuario'];
+  displayedColumns: any[] = ['rut', 'nombre', 'apellido1 usuario', 'apellido2 usuario','rol','acciones usuario'];
 
   constructor(private usuarioService: UsuarioService, private router: Router) {}
 
@@ -77,6 +77,9 @@ export class UsuariosComponent implements OnInit {
   redirectToSignIn() {
     // Redirige a la página de registro (reemplaza 'nombre-de-ruta' con la ruta real)
     this.router.navigate(['/signIn']);
+  }
+  getRolNombre(codRol: number): string {
+    return codRol === 1 ? 'Administrador' : (codRol === 2 ? 'Empleado' : 'Desconocido');
   }
 }
 

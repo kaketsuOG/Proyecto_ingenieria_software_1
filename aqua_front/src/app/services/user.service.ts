@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -19,11 +19,16 @@ export class UserService {
    signIn(user: User): Observable<any> {
     return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, user);
    }
-
    login(user: User): Observable<any> {
     return this.http.post<any>(`${this.myAppUrl}${this.myApiUrl}/login`, user)
-   }
-
+      .pipe(
+        tap(response => {
+          // Almacena el token y el rol en el localStorage
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('rol', response.rol.toString());
+        })
+      );
+  }
    navigator(user: User): Observable<any> {
     return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, user);
    }
@@ -39,11 +44,20 @@ export class UserService {
     const deleteUrl = `${this.myAppUrl}/usuarios/${userId}`; // Reemplaza 'usuarios' con la ruta correcta de tu API
     return this.http.delete(deleteUrl); // Realiza una solicitud DELETE al servidor
   }
+  createRole(rol: number): Observable<any> {
+    return this.http.post(`${this.myAppUrl}/api/roles`, rol);
+  }
+  getRolFromToken(): number | null {
+    const rol = localStorage.getItem('rol');
+    return rol ? +rol : null;
+  }
   
 
 }
 export interface User {
   rut_usuario: string,
   contrasena: string,
+  cod_rol: number,
 
 }
+
