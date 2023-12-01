@@ -12,7 +12,15 @@ export class InicioComponent implements OnInit {
 
 
   ngOnInit(): void {
-  }
+    this.validateToken()
+   }
+ 
+   validateToken() {
+     if (localStorage.getItem("token") === null) {
+       this.router.navigate(['/login'])
+     }
+   }
+
   logOut() {
     localStorage.removeItem('token');
     this.router.navigate(['/login'])
