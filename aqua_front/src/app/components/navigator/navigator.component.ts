@@ -48,7 +48,7 @@ showEmpleadosInfo = false;
     this.showEmpleadosInfo = false;
     this.showVehiculosInfo = false;
     this.showInventarioInfo = false;
-    this.showHistorialInfo = true;
+    this.showHistorialInfo = false;
   }
   constructor(private breakpointObserver: BreakpointObserver, private router: Router) {}
 

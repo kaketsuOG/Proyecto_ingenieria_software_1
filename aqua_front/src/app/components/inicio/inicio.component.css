@@ -176,3 +176,9 @@ body{
 .fa-regular{
   color: #1acaf1;
 }
+
+/* Estilos para hacer que el texto sea horizontal */
+.tittleC,
+.parrafoC {
+  transform: rotate(0deg);
+}
