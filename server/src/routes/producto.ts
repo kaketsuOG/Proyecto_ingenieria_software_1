@@ -15,6 +15,7 @@ router.delete('/:cod_producto',deleteProducto);
 router.put('/:cod_producto',updateProducto);
 router.patch('/agregar/:cod_producto',agregarProductos);
 router.patch('/vender/:cod_producto',venderProductos);
+router.get('/list',getProductos);
 
 
 export default router;
