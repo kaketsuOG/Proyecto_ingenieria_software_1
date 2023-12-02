@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
-import { Reserva } from './reserva';
 
 export const Cliente = sequelize.define('Cliente', {
     "CELULAR_CLIENTE": { type: DataTypes.INTEGER, primaryKey: true },

@@ -8,7 +8,7 @@ import routesVehiculo from '../routes/vehiculo';
 import routesDispo_fecha from '../routes/dispo_fecha';
 import routesDet_horario_entrega from '../routes/det_horario_entrega';
 import routesReserva from '../routes/reserva';
-import routesDet_reserva_producto from '../routes/pedido';
+import routesDet_reserva from '../routes/detalle_reserva';
 import { User } from './user';
 import { Disponibilidad_fecha } from './dispo_fecha';
 import { Detalle_horario_entrega } from './det_horario_entrega'
@@ -16,8 +16,7 @@ import { Producto } from './producto';
 import { Vehiculo } from './vehiculo';
 import { Cliente } from './cliente';
 import { Reserva } from './reserva';
-import { det_estado } from './det_estado';
-import { Pedido } from './pedido';
+import { DetalleReserva } from './detalle_reserva';
 
 
 class Server {
@@ -52,7 +51,7 @@ class Server {
         this.app.use('/api/dispo_fechas', routesDispo_fecha);
         this.app.use('/api/det_horario_entrega', routesDet_horario_entrega);
         this.app.use('/api/reserva', routesReserva);
-        this.app.use('/api/det_reserva_producto', routesDet_reserva_producto);
+        this.app.use('/api/det_reserva_producto', routesDet_reserva);
     }
 
     midlewares() {
@@ -70,9 +69,8 @@ class Server {
             await Detalle_horario_entrega.sync()
             await Disponibilidad_fecha.sync()
             await Cliente.sync()
-            await det_estado.sync()
             await Reserva.sync()
-            await Pedido.sync()
+            await DetalleReserva.sync()
 
         } catch (error) {
             console.error('No se ha podido conectar a la base de datos');

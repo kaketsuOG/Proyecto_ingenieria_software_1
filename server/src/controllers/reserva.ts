@@ -1,57 +1,61 @@
 import { Request, Response } from "express";
 import { Reserva } from "../models/reserva";
-import { where } from "sequelize";
 
-export const newReserva = async(req:Request,res:Response) =>{
-    const {celular_cliente,patente_vehiculo,cod_det_estado,cod_disponibilidad} = req.body;
+export const newReserva = async (req: Request, res: Response) => {
+    const { celular_cliente, patente_vehiculo, cod_det_estado } = req.body;
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split('T')[0];
 
-    try{
-        
+    try {
         await Reserva.create({
             CELULAR_CLIENTE: celular_cliente,
-            COD_DISPONIBILIDAD: cod_disponibilidad,
-            PATENTE_VEHICULO: patente_vehiculo,
+            PATENTE_COD_VEHICULO: patente_vehiculo,
             COD_DET_ESTADO: cod_det_estado,
-            FECHA_CREACION: fechaFormateada
+            FECHA_CREACION: fechaFormateada,
+            ESTADO: 1, // Por defecto, el estado es pendiente (1)
+            TOTAL: 0, // Puedes asignar un valor predeterminado o ajustarlo según tu lógica de negocio
         });
-        console.log(fechaFormateada)
+
         return res.json(
-           { msg: 'Reserva creado correctamente'}
+            { msg: 'Reserva creada correctamente' }
         );
-
-    }catch (error){
+    } catch (error) {
         res.status(400).json({
-            msg:'Ocurrio un error',
+            msg: 'Ocurrió un error',
             error
-        })
-
+        });
     }
-}
+};
 
-export const getReserva = async(req:Request,res:Response)=>{
-    const {cod_reserva} = req.params;
+export const getReserva = async (req: Request, res: Response) => {
+    const { cod_reserva } = req.params;
 
-    const idReserva = await Reserva.findOne({where:{COD_RESERVA: cod_reserva}})
+    const idReserva = await Reserva.findOne({ where: { COD_RESERVA: cod_reserva } });
 
-    if(!idReserva){
+    if (!idReserva) {
         return res.status(400).json({
             msg: 'La reserva no existe'
-        })
+        });
     }
-    try{
-        res.json(idReserva)
-    }catch (error){
+
+    try {
+        res.json(idReserva);
+    } catch (error) {
         res.status(400).json({
-            msg: 'Ha ocurrido un error al encontrar la reserva '+cod_reserva,
+            msg: 'Ha ocurrido un error al encontrar la reserva ' + cod_reserva,
             error
-        })
+        });
     }
+};
 
-}
-
-export const getReservas = async(req:Request,res:Response)=>{
-    const listReservas = await Reserva.findAll()
-    res.json(listReservas)
-}
+export const getReservas = async (req: Request, res: Response) => {
+    try {
+        const listReservas = await Reserva.findAll();
+        res.json(listReservas);
+    } catch (error) {
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al obtener las reservas',
+            error
+        });
+    }
+};
