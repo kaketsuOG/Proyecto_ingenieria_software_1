@@ -84,7 +84,8 @@ export const newDetalleReserva = async (req: Request, res: Response) => {
 
         await Reserva.update({
             TOTAL: total + subTotal
-        },{where:{COD_RESERVA: cod_reserva}});
+        },
+             {where:{ COD_RESERVA: cod_reserva } });
 
         await Producto.update({
             CANTIDAD_DISPONIBLE: cantidadDisponible
