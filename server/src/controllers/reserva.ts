@@ -2,31 +2,28 @@ import { Request, Response } from "express";
 import { Reserva } from "../models/reserva";
 
 export const newReserva = async (req: Request, res: Response) => {
-    const { celular_cliente, patente_vehiculo, cod_det_estado, nombre_cliente, apellido1_cliente, apellido2_cliente, direccion_cliente } = req.body;
+    const { CELULAR_CLIENTE, PATENTE_COD_VEHICULO, COD_DET_ESTADO } = req.body;
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split('T')[0];
 
     try {
-        await Reserva.create({
-            CELULAR_CLIENTE: celular_cliente,
-            PATENTE_COD_VEHICULO: patente_vehiculo,
-            COD_DET_ESTADO: cod_det_estado,
+        const reserva = await Reserva.create({
+            CELULAR_CLIENTE,
+            PATENTE_COD_VEHICULO,
+            COD_DET_ESTADO,
             FECHA_CREACION: fechaFormateada,
             ESTADO: 1, // Por defecto, el estado es pendiente (1)
-            TOTAL: 0, // Puedes asignar un valor predeterminado o ajustarlo según tu lógica de negocio,
-            NOMBRE_CLIENTE: nombre_cliente,
-            APELLIDO1_CLIENTE: apellido1_cliente,
-            APELLIDO2_CLIENTE: apellido2_cliente,
-            DIRECCION_CLIENTE: direccion_cliente,
+            TOTAL: 0, // Puedes asignar un valor predeterminado o ajustarlo según tu lógica de negocio
         });
 
-        return res.json(
-            { msg: 'Reserva creada correctamente' }
-        );
+        return res.json({
+            msg: 'Reserva creada correctamente',
+            reserva,
+        });
     } catch (error) {
         res.status(400).json({
             msg: 'Ocurrió un error',
-            error
+            error,
         });
     }
 };
@@ -34,20 +31,20 @@ export const newReserva = async (req: Request, res: Response) => {
 export const getReserva = async (req: Request, res: Response) => {
     const { cod_reserva } = req.params;
 
-    const reserva = await Reserva.findOne({ where: { COD_RESERVA: cod_reserva } });
-
-    if (!reserva) {
-        return res.status(400).json({
-            msg: 'La reserva no existe'
-        });
-    }
-
     try {
+        const reserva = await Reserva.findByPk(cod_reserva);
+
+        if (!reserva) {
+            return res.status(400).json({
+                msg: 'La reserva no existe',
+            });
+        }
+
         res.json(reserva);
     } catch (error) {
         res.status(400).json({
             msg: 'Ha ocurrido un error al encontrar la reserva ' + cod_reserva,
-            error
+            error,
         });
     }
 };
@@ -59,7 +56,63 @@ export const getReservas = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400).json({
             msg: 'Ha ocurrido un error al obtener las reservas',
-            error
+            error,
+        });
+    }
+};
+
+export const updateReserva = async (req: Request, res: Response) => {
+    const { cod_reserva } = req.params;
+    const { CELULAR_CLIENTE, PATENTE_COD_VEHICULO, COD_DET_ESTADO } = req.body;
+
+    try {
+        const reserva = await Reserva.findByPk(cod_reserva);
+
+        if (!reserva) {
+            return res.status(400).json({
+                msg: 'La reserva no existe',
+            });
+        }
+
+        await reserva.update({
+            CELULAR_CLIENTE,
+            PATENTE_COD_VEHICULO,
+            COD_DET_ESTADO,
+        });
+
+        res.json({
+            msg: 'Reserva actualizada correctamente',
+            reserva,
+        });
+    } catch (error) {
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al actualizar la reserva ' + cod_reserva,
+            error,
+        });
+    }
+};
+
+export const deleteReserva = async (req: Request, res: Response) => {
+    const { cod_reserva } = req.params;
+
+    try {
+        const reserva = await Reserva.findByPk(cod_reserva);
+
+        if (!reserva) {
+            return res.status(400).json({
+                msg: 'La reserva no existe',
+            });
+        }
+
+        await reserva.destroy();
+
+        res.json({
+            msg: 'Reserva eliminada correctamente',
+        });
+    } catch (error) {
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al eliminar la reserva ' + cod_reserva,
+            error,
         });
     }
 };
