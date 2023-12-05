@@ -71,7 +71,7 @@ export class SignInComponent implements OnInit {
           }
           else if (this.rol == 2){
             this.toastr.success(`El usuario ${this.username} fue registrado con éxito como empleado`, 'Usuario registrado');
-            this.router.navigate(['/empleado']);
+            this.router.navigate(['/admin']);
           }
         },
         error: (e: HttpErrorResponse) => {

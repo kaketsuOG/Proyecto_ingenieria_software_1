@@ -143,13 +143,13 @@ body{
 
 /* caracteristicas sección contacto */
 .Contact{
-  height: 70%;
+  height: 100%;
   background: #000000f9;
 }
 
 /* caracteristicas titulo 'contacto' */
 .tittleC{
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   font-size: 80px;
   font-weight: 600;
   color: #fffffff9;
@@ -175,10 +175,4 @@ body{
 /* caracteristicas icono de Gmail */
 .fa-regular{
   color: #1acaf1;
-}
-
-/* Estilos para hacer que el texto sea horizontal */
-.tittleC,
-.parrafoC {
-  transform: rotate(0deg);
 }
