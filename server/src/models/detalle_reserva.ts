@@ -8,7 +8,6 @@ export const DetalleReserva = sequelize.define('DetalleReserva', {
     COD_RESERVA: { type: DataTypes.INTEGER },
     COD_PRODUCTO: { type: DataTypes.INTEGER },
     CANTIDAD: { type: DataTypes.INTEGER },
-    PRECIO: { type: DataTypes.DECIMAL(10, 2) }, // Cambiado el tipo de dato a DECIMAL(10, 2)
     SUBTOTAL: { type: DataTypes.DECIMAL(10, 2) }, // Cambiado el tipo de dato a DECIMAL(10, 2)
 }, {
     timestamps: false,

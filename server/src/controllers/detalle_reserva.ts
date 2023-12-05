@@ -11,7 +11,7 @@ export const getDetallesReserva = async (req: Request, res: Response) => {
                 { model: Reserva, attributes: ['COD_RESERVA'] },
                 { model: Producto, attributes: ['COD_PRODUCTO'] }
             ],
-            attributes: ['COD_DETALLE_RESERVA', 'CANTIDAD', 'PRECIO', 'SUBTOTAL']
+            attributes: ['COD_DETALLE_RESERVA', 'CANTIDAD', 'SUBTOTAL']
         });
         res.json(detallesReserva);
     } catch (error) {
@@ -43,13 +43,12 @@ export const getDetalleReserva = async (req: Request, res: Response) => {
 
 // Crear un nuevo detalle de reserva
 export const newDetalleReserva = async (req: Request, res: Response) => {
-    const { cod_reserva, cod_producto, cantidad, precio, subtotal } = req.body;
+    const { cod_reserva, cod_producto, cantidad, subtotal } = req.body;
     try {
         const detalleReservaCreado = await DetalleReserva.create({
             COD_RESERVA: cod_reserva,
             COD_PRODUCTO: cod_producto,
             CANTIDAD: cantidad,
-            PRECIO: precio,
             SUBTOTAL: subtotal
         });
         res.json(detalleReservaCreado);
@@ -62,7 +61,7 @@ export const newDetalleReserva = async (req: Request, res: Response) => {
 // Actualizar un detalle de reserva por ID
 export const updateDetalleReserva = async (req: Request, res: Response) => {
     const { cod_detalle_reserva } = req.params;
-    const { cod_reserva, cod_producto, cantidad, precio, subtotal } = req.body;
+    const { cod_reserva, cod_producto, cantidad, subtotal } = req.body;
     try {
         const detalleReserva = await DetalleReserva.findByPk(cod_detalle_reserva);
         if (detalleReserva) {
@@ -70,7 +69,6 @@ export const updateDetalleReserva = async (req: Request, res: Response) => {
                 COD_RESERVA: cod_reserva,
                 COD_PRODUCTO: cod_producto,
                 CANTIDAD: cantidad,
-                PRECIO: precio,
                 SUBTOTAL: subtotal
             });
             res.json(detalleReserva);
