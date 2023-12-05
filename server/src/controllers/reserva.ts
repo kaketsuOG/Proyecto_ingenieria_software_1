@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Reserva } from "../models/reserva";
 
 export const newReserva = async (req: Request, res: Response) => {
-    const { celular_cliente, patente_vehiculo, cod_det_estado } = req.body;
+    const { celular_cliente, patente_vehiculo, cod_det_estado, nombre_cliente, apellido1_cliente, apellido2_cliente, direccion_cliente } = req.body;
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split('T')[0];
 
@@ -13,7 +13,11 @@ export const newReserva = async (req: Request, res: Response) => {
             COD_DET_ESTADO: cod_det_estado,
             FECHA_CREACION: fechaFormateada,
             ESTADO: 1, // Por defecto, el estado es pendiente (1)
-            TOTAL: 0, // Puedes asignar un valor predeterminado o ajustarlo según tu lógica de negocio
+            TOTAL: 0, // Puedes asignar un valor predeterminado o ajustarlo según tu lógica de negocio,
+            NOMBRE_CLIENTE: nombre_cliente,
+            APELLIDO1_CLIENTE: apellido1_cliente,
+            APELLIDO2_CLIENTE: apellido2_cliente,
+            DIRECCION_CLIENTE: direccion_cliente,
         });
 
         return res.json(
@@ -30,16 +34,16 @@ export const newReserva = async (req: Request, res: Response) => {
 export const getReserva = async (req: Request, res: Response) => {
     const { cod_reserva } = req.params;
 
-    const idReserva = await Reserva.findOne({ where: { COD_RESERVA: cod_reserva } });
+    const reserva = await Reserva.findOne({ where: { COD_RESERVA: cod_reserva } });
 
-    if (!idReserva) {
+    if (!reserva) {
         return res.status(400).json({
             msg: 'La reserva no existe'
         });
     }
 
     try {
-        res.json(idReserva);
+        res.json(reserva);
     } catch (error) {
         res.status(400).json({
             msg: 'Ha ocurrido un error al encontrar la reserva ' + cod_reserva,

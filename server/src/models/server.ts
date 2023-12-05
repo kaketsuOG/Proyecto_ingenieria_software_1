@@ -14,7 +14,6 @@ import { Disponibilidad_fecha } from './dispo_fecha';
 import { Detalle_horario_entrega } from './det_horario_entrega'
 import { Producto } from './producto';
 import { Vehiculo } from './vehiculo';
-import { Cliente } from './cliente';
 import { Reserva } from './reserva';
 import { DetalleReserva } from './detalle_reserva';
 
@@ -68,7 +67,6 @@ class Server {
             await Producto.sync()
             await Detalle_horario_entrega.sync()
             await Disponibilidad_fecha.sync()
-            await Cliente.sync()
             await Reserva.sync()
             await DetalleReserva.sync()
 
