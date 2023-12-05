@@ -103,45 +103,9 @@ export const deleteProducto = async (req: Request, res: Response) => {
     }
 }
 
-export const venderProductos = async (req: Request, res: Response) => {
-    const { cod_producto } = req.params;
-    const { cantidad } = req.body;
-    const idProducto = await Producto.findOne({ where: { COD_PRODUCTO: cod_producto } })
-    if (!idProducto) {
-        return res.status(400).json({
-            msg: "El producto ingresado no existe"
-        })
-    }
-    try {
-        const cantidadInt = parseInt(cantidad, 10);
-        const cantidades = await Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: cod_producto } });
-        const cantidadDisponible = cantidades?.dataValues.CANTIDAD_DISPONIBLE - cantidadInt
-        if (cantidadDisponible < 0) {
-            return res.status(400).json({
-                msg: 'No hay Stock',
-            })
-        }
-
-        await Producto.update({
-            CANTIDAD_DISPONIBLE: cantidadDisponible
-        },
-            { where: { COD_PRODUCTO: cod_producto } }
-        )
-        return res.json({
-            msg: "Se han quitado " + cantidad + " de productos"
-        })
-    } catch (error) {
-        return res.status(400).json({
-            msg: 'Ha ocurrido un error al quitar los productos',
-            error
-
-        })
-    }
-}
-
 export const agregarProductos = async (req: Request, res: Response) => {
     const { cod_producto } = req.params;
-    const { cantidad, imagen } = req.body;
+    const { cantidad} = req.body;
 
     // Verificar si el producto existe
     const idProducto = await Producto.findOne({ where: { COD_PRODUCTO: cod_producto } })

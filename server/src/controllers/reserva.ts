@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Reserva } from "../models/reserva";
+import { DetalleReserva } from "../models/detalle_reserva";
 
 export const newReserva = async (req: Request, res: Response) => {
     const { CELULAR_CLIENTE, PATENTE_COD_VEHICULO, COD_DET_ESTADO } = req.body;

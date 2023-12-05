@@ -22,16 +22,14 @@ const vehiculo_1 = __importDefault(require("../routes/vehiculo"));
 const dispo_fecha_1 = __importDefault(require("../routes/dispo_fecha"));
 const det_horario_entrega_1 = __importDefault(require("../routes/det_horario_entrega"));
 const reserva_1 = __importDefault(require("../routes/reserva"));
-const pedido_1 = __importDefault(require("../routes/pedido"));
+const detalle_reserva_1 = __importDefault(require("../routes/detalle_reserva"));
 const user_2 = require("./user");
 const dispo_fecha_2 = require("./dispo_fecha");
 const det_horario_entrega_2 = require("./det_horario_entrega");
 const producto_2 = require("./producto");
 const vehiculo_2 = require("./vehiculo");
-const cliente_1 = require("./cliente");
 const reserva_2 = require("./reserva");
-const det_estado_1 = require("./det_estado");
-const pedido_2 = require("./pedido");
+const detalle_reserva_2 = require("./detalle_reserva");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -55,7 +53,7 @@ class Server {
         this.app.use('/api/dispo_fechas', dispo_fecha_1.default);
         this.app.use('/api/det_horario_entrega', det_horario_entrega_1.default);
         this.app.use('/api/reserva', reserva_1.default);
-        this.app.use('/api/det_reserva_producto', pedido_1.default);
+        this.app.use('/api/det_reserva_producto', detalle_reserva_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
@@ -70,10 +68,8 @@ class Server {
                 yield producto_2.Producto.sync();
                 yield det_horario_entrega_2.Detalle_horario_entrega.sync();
                 yield dispo_fecha_2.Disponibilidad_fecha.sync();
-                yield cliente_1.Cliente.sync();
-                yield det_estado_1.det_estado.sync();
                 yield reserva_2.Reserva.sync();
-                yield pedido_2.Pedido.sync();
+                yield detalle_reserva_2.DetalleReserva.sync();
             }
             catch (error) {
                 console.error('No se ha podido conectar a la base de datos');

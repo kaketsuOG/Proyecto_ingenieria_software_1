@@ -4,7 +4,7 @@ import { getDetallesReserva, getDetalleReserva, newDetalleReserva, updateDetalle
 const router = Router();
 
 // Obtener todos los detalles de reserva
-router.get('/', getDetallesReserva);
+router.get('/list', getDetallesReserva);
 
 // Obtener un detalle de reserva por ID
 router.get('/:cod_detalle_reserva', getDetalleReserva);

@@ -7,7 +7,7 @@ export const Reserva = sequelize.define(
         COD_RESERVA: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
         FECHA_CREACION: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
         ESTADO: { type: DataTypes.STRING, defaultValue: 'Pendiente' },
-        TOTAL: { type: DataTypes.DECIMAL(10, 2) },
+        TOTAL: { type: DataTypes.INTEGER },
         CELULAR_CLIENTE: { type: DataTypes.STRING(15) },
         NOMBRE_CLIENTE: { type: DataTypes.STRING(255) },
         APELLIDO_CLIENTE: { type: DataTypes.STRING(255) },

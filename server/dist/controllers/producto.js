@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadImagen = exports.agregarProductos = exports.venderProductos = exports.deleteProducto = exports.getProducto = exports.updateProducto = exports.newProducto = exports.getProductos = void 0;
+exports.uploadImagen = exports.agregarProductos = exports.deleteProducto = exports.getProducto = exports.updateProducto = exports.newProducto = exports.getProductos = void 0;
 const producto_1 = require("../models/producto");
 const getProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listProductos = yield producto_1.Producto.findAll();
@@ -109,42 +109,9 @@ const deleteProducto = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.deleteProducto = deleteProducto;
-const venderProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { cod_producto } = req.params;
-    const { cantidad } = req.body;
-    const idProducto = yield producto_1.Producto.findOne({ where: { COD_PRODUCTO: cod_producto } });
-    if (!idProducto) {
-        return res.status(400).json({
-            msg: "El producto ingresado no existe"
-        });
-    }
-    try {
-        const cantidadInt = parseInt(cantidad, 10);
-        const cantidades = yield producto_1.Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: cod_producto } });
-        const cantidadDisponible = (cantidades === null || cantidades === void 0 ? void 0 : cantidades.dataValues.CANTIDAD_DISPONIBLE) - cantidadInt;
-        if (cantidadDisponible < 0) {
-            return res.status(400).json({
-                msg: 'No hay Stock',
-            });
-        }
-        yield producto_1.Producto.update({
-            CANTIDAD_DISPONIBLE: cantidadDisponible
-        }, { where: { COD_PRODUCTO: cod_producto } });
-        return res.json({
-            msg: "Se han quitado " + cantidad + " de productos"
-        });
-    }
-    catch (error) {
-        return res.status(400).json({
-            msg: 'Ha ocurrido un error al quitar los productos',
-            error
-        });
-    }
-});
-exports.venderProductos = venderProductos;
 const agregarProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_producto } = req.params;
-    const { cantidad, imagen } = req.body;
+    const { cantidad } = req.body;
     // Verificar si el producto existe
     const idProducto = yield producto_1.Producto.findOne({ where: { COD_PRODUCTO: cod_producto } });
     if (!idProducto) {

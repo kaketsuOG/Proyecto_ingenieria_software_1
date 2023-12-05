@@ -9,52 +9,113 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getReservas = exports.getReserva = exports.newReserva = void 0;
+exports.deleteReserva = exports.updateReserva = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
 const reserva_1 = require("../models/reserva");
 const newReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { celular_cliente, patente_vehiculo, cod_det_estado, cod_disponibilidad } = req.body;
+    const { CELULAR_CLIENTE, PATENTE_COD_VEHICULO, COD_DET_ESTADO } = req.body;
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split('T')[0];
     try {
-        yield reserva_1.Reserva.create({
-            CELULAR_CLIENTE: celular_cliente,
-            COD_DISPONIBILIDAD: cod_disponibilidad,
-            PATENTE_VEHICULO: patente_vehiculo,
-            COD_DET_ESTADO: cod_det_estado,
-            FECHA_CREACION: fechaFormateada
+        const reserva = yield reserva_1.Reserva.create({
+            CELULAR_CLIENTE,
+            PATENTE_COD_VEHICULO,
+            COD_DET_ESTADO,
+            FECHA_CREACION: fechaFormateada,
+            ESTADO: 1,
+            TOTAL: 0, // Puedes asignar un valor predeterminado o ajustarlo según tu lógica de negocio
         });
-        console.log(fechaFormateada);
-        return res.json({ msg: 'Reserva creado correctamente' });
+        return res.json({
+            msg: 'Reserva creada correctamente',
+            reserva,
+        });
     }
     catch (error) {
         res.status(400).json({
-            msg: 'Ocurrio un error',
-            error
+            msg: 'Ocurrió un error',
+            error,
         });
     }
 });
 exports.newReserva = newReserva;
 const getReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_reserva } = req.params;
-    const idReserva = yield reserva_1.Reserva.findOne({ where: { COD_RESERVA: cod_reserva } });
-    if (!idReserva) {
-        return res.status(400).json({
-            msg: 'La reserva no existe'
-        });
-    }
     try {
-        res.json(idReserva);
+        const reserva = yield reserva_1.Reserva.findByPk(cod_reserva);
+        if (!reserva) {
+            return res.status(400).json({
+                msg: 'La reserva no existe',
+            });
+        }
+        res.json(reserva);
     }
     catch (error) {
         res.status(400).json({
             msg: 'Ha ocurrido un error al encontrar la reserva ' + cod_reserva,
-            error
+            error,
         });
     }
 });
 exports.getReserva = getReserva;
 const getReservas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listReservas = yield reserva_1.Reserva.findAll();
-    res.json(listReservas);
+    try {
+        const listReservas = yield reserva_1.Reserva.findAll();
+        res.json(listReservas);
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al obtener las reservas',
+            error,
+        });
+    }
 });
 exports.getReservas = getReservas;
+const updateReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { cod_reserva } = req.params;
+    const { CELULAR_CLIENTE, PATENTE_COD_VEHICULO, COD_DET_ESTADO } = req.body;
+    try {
+        const reserva = yield reserva_1.Reserva.findByPk(cod_reserva);
+        if (!reserva) {
+            return res.status(400).json({
+                msg: 'La reserva no existe',
+            });
+        }
+        yield reserva.update({
+            CELULAR_CLIENTE,
+            PATENTE_COD_VEHICULO,
+            COD_DET_ESTADO,
+        });
+        res.json({
+            msg: 'Reserva actualizada correctamente',
+            reserva,
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al actualizar la reserva ' + cod_reserva,
+            error,
+        });
+    }
+});
+exports.updateReserva = updateReserva;
+const deleteReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { cod_reserva } = req.params;
+    try {
+        const reserva = yield reserva_1.Reserva.findByPk(cod_reserva);
+        if (!reserva) {
+            return res.status(400).json({
+                msg: 'La reserva no existe',
+            });
+        }
+        yield reserva.destroy();
+        res.json({
+            msg: 'Reserva eliminada correctamente',
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al eliminar la reserva ' + cod_reserva,
+            error,
+        });
+    }
+});
+exports.deleteReserva = deleteReserva;

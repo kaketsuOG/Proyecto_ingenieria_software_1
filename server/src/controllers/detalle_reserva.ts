@@ -43,21 +43,64 @@ export const getDetalleReserva = async (req: Request, res: Response) => {
 
 // Crear un nuevo detalle de reserva
 export const newDetalleReserva = async (req: Request, res: Response) => {
-    const { cod_reserva, cod_producto, cantidad, subtotal } = req.body;
+    const { cod_reserva, cod_producto, cantidad } = req.body;
+    const idProducto = await Producto.findOne({ attributes: ['PRECIO_PRODUCTO','CANTIDAD_DISPONIBLE','CANTIDAD_TOTAL'] , where:{ COD_PRODUCTO: cod_producto }});
+    const precioProducto = idProducto?.dataValues.PRECIO_PRODUCTO;
+    const subTotal = precioProducto * cantidad
+    const idReserva = await Reserva.findOne({attributes: ['TOTAL'],where: {COD_RESERVA:cod_reserva}})
+    const total = idReserva?.dataValues.TOTAL
+
+    if (!idProducto) {
+        return res.status(400).json({
+            msg: "El producto ingresado no existe"
+        })
+    }
+
+    if (!idReserva) {
+        return res.status(400).json({
+            msg: "La reserva ingresada no existe"
+        })
+    }
+    if (cantidad == 0){
+        return res.status(400).json({
+            msg: "Debes ingresar un valor correcto"
+        })
+    }
+    const cantidadInt = parseInt(cantidad, 10);
+    const cantidadDisponible = idProducto?.dataValues.CANTIDAD_DISPONIBLE - cantidadInt
+    if (cantidadDisponible < 0) {
+        return res.status(400).json({
+            msg: 'No hay Stock suficiente',
+        })
+    }
+
     try {
-        const detalleReservaCreado = await DetalleReserva.create({
+        await DetalleReserva.create({
             COD_RESERVA: cod_reserva,
             COD_PRODUCTO: cod_producto,
             CANTIDAD: cantidad,
-            SUBTOTAL: subtotal
+            SUBTOTAL: subTotal
         });
-        res.json(detalleReservaCreado);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error al crear el detalle de reserva.' });
-    }
-};
 
+        await Reserva.update({
+            TOTAL: total + subTotal
+        },{where:{COD_RESERVA: cod_reserva}});
+
+        await Producto.update({
+            CANTIDAD_DISPONIBLE: cantidadDisponible
+        },
+            { where: { COD_PRODUCTO: cod_producto } })
+
+        res.json({
+            msg: 'Pedido realizado correctamente'
+        })
+    }catch(error){
+            res.status(400).json({
+                msg: "Ha ocurrido un error al hacer el pedido"
+            })
+
+        }
+    }
 // Actualizar un detalle de reserva por ID
 export const updateDetalleReserva = async (req: Request, res: Response) => {
     const { cod_detalle_reserva } = req.params;
@@ -96,4 +139,4 @@ export const deleteDetalleReserva = async (req: Request, res: Response) => {
         console.error(error);
         res.status(500).json({ error: 'Error al eliminar el detalle de reserva.' });
     }
-};
+}
