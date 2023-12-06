@@ -1,20 +1,18 @@
 import { Request, Response } from "express";
 import { Reserva } from "../models/reserva";
-import { DetalleReserva } from "../models/detalle_reserva";
+import { DetalleReserva } from '../models/detalle_reserva';
 
 export const newReserva = async (req: Request, res: Response) => {
-    const { CELULAR_CLIENTE, PATENTE_COD_VEHICULO, COD_DET_ESTADO } = req.body;
+    const { CELULAR_CLIENTE } = req.body;
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split('T')[0];
 
     try {
         const reserva = await Reserva.create({
             CELULAR_CLIENTE,
-            PATENTE_COD_VEHICULO,
-            COD_DET_ESTADO,
             FECHA_CREACION: fechaFormateada,
-            ESTADO: 1, // Por defecto, el estado es pendiente (1)
-            TOTAL: 0, // Puedes asignar un valor predeterminado o ajustarlo según tu lógica de negocio
+            ESTADO: 'Pendiente', // Actualizado según el nuevo modelo
+            TOTAL: 0,
         });
 
         return res.json({
@@ -64,7 +62,7 @@ export const getReservas = async (req: Request, res: Response) => {
 
 export const updateReserva = async (req: Request, res: Response) => {
     const { cod_reserva } = req.params;
-    const { CELULAR_CLIENTE, PATENTE_COD_VEHICULO, COD_DET_ESTADO } = req.body;
+    const { CELULAR_CLIENTE } = req.body;
 
     try {
         const reserva = await Reserva.findByPk(cod_reserva);
@@ -77,8 +75,6 @@ export const updateReserva = async (req: Request, res: Response) => {
 
         await reserva.update({
             CELULAR_CLIENTE,
-            PATENTE_COD_VEHICULO,
-            COD_DET_ESTADO,
         });
 
         res.json({
