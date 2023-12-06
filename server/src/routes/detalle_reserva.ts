@@ -5,18 +5,18 @@ import auth from './auth';
 const router = Router();
 
 // Obtener todos los detalles de reserva
-router.get('/list', auth, getDetallesReserva);
+router.get('/list',getDetallesReserva);
 
 // Obtener un detalle de reserva por ID
-router.get('/:cod_detalle_reserva', auth, getDetalleReserva);
+router.get('/:cod_detalle_reserva',getDetalleReserva);
 
 // Crear un nuevo detalle de reserva
-router.post('/', auth, newDetalleReserva);
+router.post('/',newDetalleReserva);
 
 // Actualizar un detalle de reserva por ID
-router.put('/:cod_detalle_reserva', auth, updateDetalleReserva);
+router.put('/:cod_detalle_reserva',updateDetalleReserva);
 
 // Eliminar un detalle de reserva por ID
-router.delete('/:cod_detalle_reserva', auth, deleteDetalleReserva);
+router.delete('/:cod_detalle_reserva',deleteDetalleReserva);
 
 export default router;
