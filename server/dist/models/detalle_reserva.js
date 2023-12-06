@@ -13,7 +13,7 @@ exports.DetalleReserva = connection_1.default.define('DetalleReserva', {
     COD_RESERVA: { type: sequelize_1.DataTypes.INTEGER },
     COD_PRODUCTO: { type: sequelize_1.DataTypes.INTEGER },
     CANTIDAD: { type: sequelize_1.DataTypes.INTEGER },
-    SUBTOTAL: { type: sequelize_1.DataTypes.INTEGER }, // Cambiado el tipo de dato a DECIMAL(10, 2)
+    SUBTOTAL: { type: sequelize_1.DataTypes.INTEGER },
 }, {
     timestamps: false,
     freezeTableName: true

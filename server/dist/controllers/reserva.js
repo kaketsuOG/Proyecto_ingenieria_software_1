@@ -12,17 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteReserva = exports.updateReserva = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
 const reserva_1 = require("../models/reserva");
 const newReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { CELULAR_CLIENTE, PATENTE_COD_VEHICULO, COD_DET_ESTADO } = req.body;
+    const { CELULAR_CLIENTE } = req.body;
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split('T')[0];
     try {
         const reserva = yield reserva_1.Reserva.create({
             CELULAR_CLIENTE,
-            PATENTE_COD_VEHICULO,
-            COD_DET_ESTADO,
             FECHA_CREACION: fechaFormateada,
-            ESTADO: 1,
-            TOTAL: 0, // Puedes asignar un valor predeterminado o ajustarlo según tu lógica de negocio
+            ESTADO: 'Pendiente',
+            TOTAL: 0,
         });
         return res.json({
             msg: 'Reserva creada correctamente',
@@ -71,7 +69,7 @@ const getReservas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getReservas = getReservas;
 const updateReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_reserva } = req.params;
-    const { CELULAR_CLIENTE, PATENTE_COD_VEHICULO, COD_DET_ESTADO } = req.body;
+    const { CELULAR_CLIENTE } = req.body;
     try {
         const reserva = yield reserva_1.Reserva.findByPk(cod_reserva);
         if (!reserva) {
@@ -81,8 +79,6 @@ const updateReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         yield reserva.update({
             CELULAR_CLIENTE,
-            PATENTE_COD_VEHICULO,
-            COD_DET_ESTADO,
         });
         res.json({
             msg: 'Reserva actualizada correctamente',
