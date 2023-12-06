@@ -2,16 +2,34 @@ import { Request, Response } from "express";
 import { Reserva } from "../models/reserva";
 import { DetalleReserva } from '../models/detalle_reserva';
 
+const handleErrorResponse = (res: Response, message: string, error: any) => {
+    res.status(400).json({
+        msg: message,
+        error,
+    });
+};
+
 export const newReserva = async (req: Request, res: Response) => {
-    const { CELULAR_CLIENTE } = req.body;
+    const {
+        CELULAR_CLIENTE,
+        NOMBRE_CLIENTE,
+        APELLIDO_CLIENTE,
+        DIRECCION_CLIENTE,
+        CIUDAD_CLIENTE,
+    } = req.body;
+
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split('T')[0];
 
     try {
         const reserva = await Reserva.create({
             CELULAR_CLIENTE,
+            NOMBRE_CLIENTE,
+            APELLIDO_CLIENTE,
+            DIRECCION_CLIENTE,
+            CIUDAD_CLIENTE,
             FECHA_CREACION: fechaFormateada,
-            ESTADO: 'Pendiente', // Actualizado según el nuevo modelo
+            ESTADO: 'Pendiente',
             TOTAL: 0,
         });
 
@@ -20,10 +38,7 @@ export const newReserva = async (req: Request, res: Response) => {
             reserva,
         });
     } catch (error) {
-        res.status(400).json({
-            msg: 'Ocurrió un error',
-            error,
-        });
+        handleErrorResponse(res, 'Ocurrió un error al crear la reserva', error);
     }
 };
 
@@ -41,10 +56,7 @@ export const getReserva = async (req: Request, res: Response) => {
 
         res.json(reserva);
     } catch (error) {
-        res.status(400).json({
-            msg: 'Ha ocurrido un error al encontrar la reserva ' + cod_reserva,
-            error,
-        });
+        handleErrorResponse(res, 'Ha ocurrido un error al encontrar la reserva ' + cod_reserva, error);
     }
 };
 
@@ -53,16 +65,13 @@ export const getReservas = async (req: Request, res: Response) => {
         const listReservas = await Reserva.findAll();
         res.json(listReservas);
     } catch (error) {
-        res.status(400).json({
-            msg: 'Ha ocurrido un error al obtener las reservas',
-            error,
-        });
+        handleErrorResponse(res, 'Ha ocurrido un error al obtener las reservas', error);
     }
 };
 
 export const updateReserva = async (req: Request, res: Response) => {
     const { cod_reserva } = req.params;
-    const { CELULAR_CLIENTE } = req.body;
+    const { CELULAR_CLIENTE, NOMBRE_CLIENTE, APELLIDO_CLIENTE, DIRECCION_CLIENTE, CIUDAD_CLIENTE } = req.body;
 
     try {
         const reserva = await Reserva.findByPk(cod_reserva);
@@ -75,6 +84,10 @@ export const updateReserva = async (req: Request, res: Response) => {
 
         await reserva.update({
             CELULAR_CLIENTE,
+            NOMBRE_CLIENTE,
+            APELLIDO_CLIENTE,
+            DIRECCION_CLIENTE,
+            CIUDAD_CLIENTE,
         });
 
         res.json({
@@ -82,10 +95,7 @@ export const updateReserva = async (req: Request, res: Response) => {
             reserva,
         });
     } catch (error) {
-        res.status(400).json({
-            msg: 'Ha ocurrido un error al actualizar la reserva ' + cod_reserva,
-            error,
-        });
+        handleErrorResponse(res, 'Ha ocurrido un error al actualizar la reserva ' + cod_reserva, error);
     }
 };
 
@@ -107,9 +117,6 @@ export const deleteReserva = async (req: Request, res: Response) => {
             msg: 'Reserva eliminada correctamente',
         });
     } catch (error) {
-        res.status(400).json({
-            msg: 'Ha ocurrido un error al eliminar la reserva ' + cod_reserva,
-            error,
-        });
+        handleErrorResponse(res, 'Ha ocurrido un error al eliminar la reserva ' + cod_reserva, error);
     }
 };
