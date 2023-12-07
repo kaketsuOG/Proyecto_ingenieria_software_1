@@ -167,16 +167,10 @@ const getMasVendido = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                     cantidadMayor = totalCantidad;
                 }
             }
-            console.log();
             const idProducto = yield producto_1.Producto.findOne({ where: { NOMBRE_PRODUCTO: nombreProductoMayorCantidad } });
             res.json({
                 idProducto,
                 cantidadMayor
-            });
-        }
-        else {
-            res.status(400).json({
-                msg: 'No se han encontrado productos.'
             });
         }
     }

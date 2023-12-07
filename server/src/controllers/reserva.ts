@@ -177,16 +177,10 @@ export const getMasVendido = async (req: Request, res: Response) => {
                     cantidadMayor = totalCantidad;
                 }
             }
-    
-            console.log();
             const idProducto = await Producto.findOne({ where: { NOMBRE_PRODUCTO: nombreProductoMayorCantidad } });
             res.json({
                 idProducto,
                 cantidadMayor
-            });
-        } else {
-            res.status(400).json({
-                msg: 'No se han encontrado productos.'
             });
         }
     }catch(error){
