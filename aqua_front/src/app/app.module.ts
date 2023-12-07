@@ -46,6 +46,7 @@ import { ReservaModule } from './components/reserva/reserva.module';
 import { ReservaComponent } from './components/reserva/reserva.component';
 import { InventarioCreateComponent } from './components/inventario/create/create.component';
 import { InventarioEditComponent } from './components/inventario/edit/edit.component';
+import { HistorialComponent } from './components/historial/historial.component';
 
 
 
@@ -74,6 +75,7 @@ import { InventarioEditComponent } from './components/inventario/edit/edit.compo
     ReservaComponent,
     InventarioCreateComponent,
     InventarioEditComponent,
+    HistorialComponent,
   ],
   imports: [
     BrowserModule,

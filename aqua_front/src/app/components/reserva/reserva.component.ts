@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservaService } from 'src/app/services/reserva.service';
+import { Cliente } from 'src/app/services/reserva.service'; // Ajusta la ruta según tu estructura de archivos
 
 @Component({
   selector: 'app-reserva',
@@ -11,7 +12,8 @@ export class ReservaComponent implements OnInit {
   displayedColumns: any[] = ['SELECCIONAR','NOMBRE_PRODUCTO', 'PRECIO_PRODUCTO', 'CANTIDAD_PEDIDO'];
   cantidades: number[] = [0, 1, 2, 3, 4, 5];
   nombreCliente: string = '';
-  telefonoCliente: string = '';
+  apellidoCliente: string = '';
+  celularCliente: string = '';
   direccionCliente: string = '';
   ciudadCliente: string = '';
 
@@ -36,33 +38,56 @@ export class ReservaComponent implements OnInit {
       alert('La cantidad debe ser mayor que 0 para los productos seleccionados.');
       return;
     }
-    if (!this.nombreCliente || !this.telefonoCliente || !this.direccionCliente || !this.ciudadCliente) {
+    if (!this.nombreCliente || !this.apellidoCliente || !this.celularCliente || !this.direccionCliente || !this.ciudadCliente) {
       alert('Todos los campos del cliente son obligatorios.');
       return;
     }
   
     // Obtener solo los productos seleccionados
-    const productosSeleccionados = this.productos.filter((producto) => producto.seleccionado);
-  
-    // Realizar el pedido solo si hay productos seleccionados
-    if (productosSeleccionados.length > 0) {
-      // Llamar al servicio de pedido
-      this.reservaService.realizarPedido({
-        productos: productosSeleccionados,
-        nombrePersona: this.nombreCliente,
-        direccionPersona: this.direccionCliente,
-        ciudadCliente: this.ciudadCliente,
-      });
-  
-      // Restablecer campos después de realizar el pedido
-      this.nombreCliente = '';
-      this.telefonoCliente = '';
-      this.direccionCliente = '';
-      this.ciudadCliente = '';
-      this.productos.forEach((producto) => (producto.cantidadPedido = 0));
-    } else {
-      alert('Selecciona al menos un producto para realizar el pedido.');
-    }
+  const productosSeleccionados = this.productos.filter((producto) => producto.seleccionado);
+
+  // Realizar el pedido solo si hay productos seleccionados
+  if (productosSeleccionados.length > 0) {
+    // Construir el objeto Cliente
+    const cliente: Cliente = {
+      nombre_cliente: this.nombreCliente,
+      apellido_cliente: this.apellidoCliente, // Asegúrate de tener la propiedad apellidoCliente en tu componente
+      direccion_cliente: this.direccionCliente,
+      celular_cliente: this.celularCliente,
+      ciudad_cliente: this.ciudadCliente,
+    };
+
+    // Llamar al servicio de pedido
+    this.reservaService.realizarPedido(
+    {
+      nombre_cliente: this.nombreCliente,
+      apellido_cliente: this.apellidoCliente,
+      celular_cliente: this.celularCliente,
+      direccion_cliente: this.direccionCliente,
+      ciudad_cliente: this.ciudadCliente
+    },{
+      productos: productosSeleccionados,
+      nombrePersona: this.nombreCliente,
+      apellidoPersona: this.apellidoCliente,
+      direccionPersona: this.direccionCliente,
+      ciudadCliente:this.ciudadCliente
+  }).subscribe({
+      next: (response) => {
+        // Éxito: Aquí puedes realizar acciones adicionales después de realizar el pedido
+        console.log('Pedido realizado con éxito:', response);
+    
+        // Restablecer campos después de realizar el pedido
+        this.nombreCliente = '';
+        this.celularCliente = '';
+        this.direccionCliente = '';
+        this.ciudadCliente = '';
+        this.productos.forEach((producto) => (producto.cantidadPedido = 0));
+      },
+      error: (error: any) => {
+        // Error: Manejar el error
+        console.log('Error al realizar el pedido:', error);
+      },
+    });
   }
-  
+}
 }
