@@ -14,4 +14,5 @@ router.put('/:cod_reserva', reserva_1.updateReserva);
 // Endpoint para eliminar una reserva por su código
 router.delete('/:cod_reserva', reserva_1.deleteReserva);
 router.get('/reporte/masvendido', reserva_1.getMasVendido);
+router.get('/reporte/ventaspormes', reserva_1.getVentasPorMes);
 exports.default = router;

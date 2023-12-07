@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMasVendido = exports.deleteReserva = exports.updateReserva = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
+exports.getVentasPorMes = exports.getMasVendido = exports.deleteReserva = exports.updateReserva = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
 const reserva_1 = require("../models/reserva");
 const detalle_reserva_1 = require("../models/detalle_reserva");
 const producto_1 = require("../models/producto");
@@ -155,7 +155,6 @@ const getMasVendido = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             productosPorNombre.set(nombreProducto, [cantidad]);
         }
     }
-    console.log(productosPorNombre);
     try {
         if (productosPorNombre.size > 0) {
             let nombreProductoMayorCantidad = '';
@@ -182,3 +181,44 @@ const getMasVendido = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getMasVendido = getMasVendido;
+const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.getFullYear();
+    const reservas = yield reserva_1.Reserva.findAll({
+        attributes: [
+            'TOTAL',
+            'FECHA_CREACION',
+        ],
+        where: {
+            FECHA_CREACION: {
+                [sequelize_2.Op.gte]: [fechaFormateada],
+                [sequelize_2.Op.lte]: [fechaFormateada + 1]
+            }
+        }
+    });
+    const reservasPorMes = new Map();
+    for (const reserva of reservas) {
+        const fechaReserva = reserva.getDataValue('FECHA_CREACION');
+        const mesReserva = parseInt(fechaReserva.slice(5, 7), 10); // Parsear a número
+        const total = reserva.getDataValue('TOTAL');
+        if (reservasPorMes.has(mesReserva)) {
+            const infoMes = reservasPorMes.get(mesReserva);
+            infoMes.cantidad++;
+            infoMes.total += total;
+        }
+        else {
+            reservasPorMes.set(mesReserva, { cantidad: 1, total: total });
+        }
+    }
+    const meses = Array.from({ length: 12 }, (_, index) => index + 1);
+    const ventasPorMesArray = meses.map(mes => {
+        var _a, _b;
+        return ({
+            mes,
+            cantidadVentas: ((_a = reservasPorMes.get(mes)) === null || _a === void 0 ? void 0 : _a.cantidad) || 0,
+            totalDinero: ((_b = reservasPorMes.get(mes)) === null || _b === void 0 ? void 0 : _b.total) || 0,
+        });
+    });
+    res.json(ventasPorMesArray);
+});
+exports.getVentasPorMes = getVentasPorMes;

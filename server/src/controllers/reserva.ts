@@ -4,6 +4,7 @@ import { DetalleReserva } from '../models/detalle_reserva';
 import { Producto } from "../models/producto";
 import sequelize from "sequelize";
 import { Op } from "sequelize";
+import { createCanvas, CanvasRenderingContext2D } from 'canvas';
 
 const handleErrorResponse = (res: Response, message: string, error: any) => {
     res.status(400).json({
@@ -162,9 +163,6 @@ export const getMasVendido = async (req: Request, res: Response) => {
             productosPorNombre.set(nombreProducto, [cantidad]);
         }
     }
-    
-    console.log(productosPorNombre);
-    
     try {
         if (productosPorNombre.size > 0) {
             let nombreProductoMayorCantidad = '';
@@ -193,4 +191,46 @@ export const getMasVendido = async (req: Request, res: Response) => {
 
 }
 
+export const getVentasPorMes = async (req: Request, res: Response) => {
+    
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.getFullYear();
 
+    const reservas = await Reserva.findAll({
+        attributes: [
+            'TOTAL',
+            'FECHA_CREACION',
+        ],
+        where: {
+            FECHA_CREACION: {
+                [Op.gte]: [fechaFormateada],
+                [Op.lte]: [fechaFormateada + 1]
+            }
+        }
+    });
+
+    const reservasPorMes: Map<number, { cantidad: number, total: number }> = new Map();
+
+    for (const reserva of reservas) {
+        const fechaReserva = reserva.getDataValue('FECHA_CREACION');
+        const mesReserva = parseInt(fechaReserva.slice(5, 7), 10); // Parsear a número
+        const total = reserva.getDataValue('TOTAL');
+
+        if (reservasPorMes.has(mesReserva)) {
+            const infoMes = reservasPorMes.get(mesReserva)!;
+            infoMes.cantidad++;
+            infoMes.total += total;
+        } else {
+            reservasPorMes.set(mesReserva, { cantidad: 1, total: total });
+        }
+    }
+
+    const meses = Array.from({ length: 12 }, (_, index) => index + 1);
+    const ventasPorMesArray = meses.map(mes => ({
+        mes,
+        cantidadVentas: reservasPorMes.get(mes)?.cantidad || 0,
+        totalDinero: reservasPorMes.get(mes)?.total || 0,
+    }));
+
+    res.json(ventasPorMesArray);
+};
