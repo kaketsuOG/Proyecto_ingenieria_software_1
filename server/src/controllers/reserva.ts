@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { Reserva } from "../models/reserva";
 import { DetalleReserva } from '../models/detalle_reserva';
+import { Producto } from "../models/producto";
+import sequelize from "sequelize";
+import { Op } from "sequelize";
 
 const handleErrorResponse = (res: Response, message: string, error: any) => {
     res.status(400).json({
@@ -120,3 +123,80 @@ export const deleteReserva = async (req: Request, res: Response) => {
         handleErrorResponse(res, 'Ha ocurrido un error al eliminar la reserva ' + cod_reserva, error);
     }
 };
+
+export const getMasVendido = async (req: Request, res: Response) => {
+    const {fecha_inicio, fecha_final} = req.body;
+
+    const productos = await DetalleReserva.findAll({attributes: [[sequelize.col('Producto.NOMBRE_PRODUCTO'), 'NOMBRE_PRODUCTO'], 'CANTIDAD'],
+        include: [
+          {
+            model: Reserva,
+            where: {
+              FECHA_CREACION: {
+                [Op.between]: [fecha_inicio,fecha_final],
+              },
+            },
+          },
+          {
+            model: Producto,
+            attributes: [],
+          },
+        ],
+        
+      });
+
+
+    if(!productos || productos.length == 0){
+        res.status(400).json({
+            msg:'No se han encontrado reservas en ese periodo de tiempo'
+        })
+    }
+    const productosPorNombre: Map<string, number[]> = new Map();
+
+    for (const producto of productos) {
+        const nombreProducto = producto.getDataValue('NOMBRE_PRODUCTO');
+        const cantidad = producto.getDataValue('CANTIDAD');
+        if (productosPorNombre.has(nombreProducto)) {
+            productosPorNombre.get(nombreProducto)!.push(cantidad);
+        } else {
+            productosPorNombre.set(nombreProducto, [cantidad]);
+        }
+    }
+    
+    console.log(productosPorNombre);
+    
+    try {
+        if (productosPorNombre.size > 0) {
+            let nombreProductoMayorCantidad = '';
+            let cantidadMayor = 0;
+    
+            for (const [nombreProducto, cantidades] of productosPorNombre) {
+                const totalCantidad = cantidades.reduce((acc, curr) => acc + curr, 0);
+                if (totalCantidad > cantidadMayor) {
+                    nombreProductoMayorCantidad = nombreProducto;
+                    cantidadMayor = totalCantidad;
+                }
+            }
+    
+            console.log();
+            const idProducto = await Producto.findOne({ where: { NOMBRE_PRODUCTO: nombreProductoMayorCantidad } });
+            res.json({
+                idProducto,
+                cantidadMayor
+            });
+        } else {
+            res.status(400).json({
+                msg: 'No se han encontrado productos.'
+            });
+        }
+    }catch(error){
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al obtener el reporte',
+            error
+        })
+
+    }
+
+}
+
+

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getReserva, getReservas, newReserva, updateReserva, deleteReserva } from '../controllers/reserva';
+import { getReserva, getReservas, newReserva, updateReserva, deleteReserva, getMasVendido } from '../controllers/reserva';
 import auth from './auth';
 
 const router = Router();
@@ -18,5 +18,7 @@ router.put('/:cod_reserva', updateReserva);
 
 // Endpoint para eliminar una reserva por su código
 router.delete('/:cod_reserva', deleteReserva);
+
+router.get('/reporte/masvendido',getMasVendido);
 
 export default router;
