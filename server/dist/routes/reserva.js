@@ -6,7 +6,7 @@ const router = (0, express_1.Router)();
 // Endpoint para crear una nueva reserva
 router.post('/', reserva_1.newReserva);
 // Endpoint para obtener la lista de reservas
-router.get('/', reserva_1.getReservas);
+router.get('/list', reserva_1.getReservas);
 // Endpoint para obtener una reserva por su código
 router.get('/:cod_reserva', reserva_1.getReserva);
 // Endpoint para actualizar una reserva por su código

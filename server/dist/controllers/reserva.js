@@ -11,13 +11,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteReserva = exports.updateReserva = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
 const reserva_1 = require("../models/reserva");
+const handleErrorResponse = (res, message, error) => {
+    res.status(400).json({
+        msg: message,
+        error,
+    });
+};
 const newReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { CELULAR_CLIENTE } = req.body;
+    const { CELULAR_CLIENTE, NOMBRE_CLIENTE, APELLIDO_CLIENTE, DIRECCION_CLIENTE, CIUDAD_CLIENTE, } = req.body;
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split('T')[0];
     try {
         const reserva = yield reserva_1.Reserva.create({
             CELULAR_CLIENTE,
+            NOMBRE_CLIENTE,
+            APELLIDO_CLIENTE,
+            DIRECCION_CLIENTE,
+            CIUDAD_CLIENTE,
             FECHA_CREACION: fechaFormateada,
             ESTADO: 'Pendiente',
             TOTAL: 0,
@@ -28,10 +38,7 @@ const newReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     catch (error) {
-        res.status(400).json({
-            msg: 'Ocurrió un error',
-            error,
-        });
+        handleErrorResponse(res, 'Ocurrió un error al crear la reserva', error);
     }
 });
 exports.newReserva = newReserva;
@@ -47,10 +54,7 @@ const getReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.json(reserva);
     }
     catch (error) {
-        res.status(400).json({
-            msg: 'Ha ocurrido un error al encontrar la reserva ' + cod_reserva,
-            error,
-        });
+        handleErrorResponse(res, 'Ha ocurrido un error al encontrar la reserva ' + cod_reserva, error);
     }
 });
 exports.getReserva = getReserva;
@@ -60,16 +64,13 @@ const getReservas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.json(listReservas);
     }
     catch (error) {
-        res.status(400).json({
-            msg: 'Ha ocurrido un error al obtener las reservas',
-            error,
-        });
+        handleErrorResponse(res, 'Ha ocurrido un error al obtener las reservas', error);
     }
 });
 exports.getReservas = getReservas;
 const updateReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_reserva } = req.params;
-    const { CELULAR_CLIENTE } = req.body;
+    const { CELULAR_CLIENTE, NOMBRE_CLIENTE, APELLIDO_CLIENTE, DIRECCION_CLIENTE, CIUDAD_CLIENTE } = req.body;
     try {
         const reserva = yield reserva_1.Reserva.findByPk(cod_reserva);
         if (!reserva) {
@@ -79,6 +80,10 @@ const updateReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         yield reserva.update({
             CELULAR_CLIENTE,
+            NOMBRE_CLIENTE,
+            APELLIDO_CLIENTE,
+            DIRECCION_CLIENTE,
+            CIUDAD_CLIENTE,
         });
         res.json({
             msg: 'Reserva actualizada correctamente',
@@ -86,10 +91,7 @@ const updateReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(400).json({
-            msg: 'Ha ocurrido un error al actualizar la reserva ' + cod_reserva,
-            error,
-        });
+        handleErrorResponse(res, 'Ha ocurrido un error al actualizar la reserva ' + cod_reserva, error);
     }
 });
 exports.updateReserva = updateReserva;
@@ -108,10 +110,7 @@ const deleteReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(400).json({
-            msg: 'Ha ocurrido un error al eliminar la reserva ' + cod_reserva,
-            error,
-        });
+        handleErrorResponse(res, 'Ha ocurrido un error al eliminar la reserva ' + cod_reserva, error);
     }
 });
 exports.deleteReserva = deleteReserva;
