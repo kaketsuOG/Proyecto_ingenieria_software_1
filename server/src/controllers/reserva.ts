@@ -152,6 +152,10 @@ export const updateReserva = async (req: Request, res: Response) => {
             reserva,
         });
     } catch (error) {
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al actualizar la informacion de la reserva',
+            error
+        })
         
     }
 };
@@ -174,6 +178,10 @@ export const deleteReserva = async (req: Request, res: Response) => {
             msg: 'Reserva eliminada correctamente',
         });
     } catch (error) {
+        return res.status(400).json({
+            msg: 'Ha ocurrido un error al eliminar la reserva',
+            error
+        });
         
     }
 };
@@ -291,6 +299,7 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
         }));
 
         res.json(ventasPorMesArray);
+        
         }catch(error){
             res.status(400).json({
                 msg: 'Ha ocurrido un error al obtener el reporte',

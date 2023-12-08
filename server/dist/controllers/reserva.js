@@ -139,6 +139,10 @@ const updateReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al actualizar la informacion de la reserva',
+            error
+        });
     }
 });
 exports.updateReserva = updateReserva;
@@ -157,6 +161,10 @@ const deleteReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
+        return res.status(400).json({
+            msg: 'Ha ocurrido un error al eliminar la reserva',
+            error
+        });
     }
 });
 exports.deleteReserva = deleteReserva;
