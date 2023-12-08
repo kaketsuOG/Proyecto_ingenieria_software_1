@@ -87,7 +87,7 @@ export const newReserva = async (req: Request, res: Response) => {
             }
 
         }
-        res.json({
+        res.status(201).json({
             msg: 'Pedido realizado correctamente'
         })
     }catch (outterError) {
