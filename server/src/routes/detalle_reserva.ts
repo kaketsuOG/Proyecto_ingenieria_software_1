@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getDetallesReserva, getDetalleReserva, newDetalleReserva, updateDetalleReserva, deleteDetalleReserva } from '../controllers/detalle_reserva';
+import { getDetallesReserva, getDetalleReserva, updateDetalleReserva, deleteDetalleReserva } from '../controllers/detalle_reserva';
 import auth from './auth';
 
 const router = Router();
@@ -11,7 +11,6 @@ router.get('/list',getDetallesReserva);
 router.get('/:cod_detalle_reserva',getDetalleReserva);
 
 // Crear un nuevo detalle de reserva
-router.post('/',newDetalleReserva);
 
 // Actualizar un detalle de reserva por ID
 router.put('/:cod_detalle_reserva',updateDetalleReserva);
