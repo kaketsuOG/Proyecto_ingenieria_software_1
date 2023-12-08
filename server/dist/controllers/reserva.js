@@ -196,29 +196,42 @@ const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function
             }
         }
     });
-    const reservasPorMes = new Map();
-    for (const reserva of reservas) {
-        const fechaReserva = reserva.getDataValue('FECHA_CREACION');
-        const mesReserva = parseInt(fechaReserva.slice(5, 7), 10);
-        const total = reserva.getDataValue('TOTAL');
-        if (reservasPorMes.has(mesReserva)) {
-            const infoMes = reservasPorMes.get(mesReserva);
-            infoMes.cantidad++;
-            infoMes.total += total;
-        }
-        else {
-            reservasPorMes.set(mesReserva, { cantidad: 1, total: total });
-        }
-    }
-    const meses = Array.from({ length: 12 }, (_, index) => index + 1);
-    const ventasPorMesArray = meses.map(mes => {
-        var _a, _b;
-        return ({
-            mes,
-            cantidadVentas: ((_a = reservasPorMes.get(mes)) === null || _a === void 0 ? void 0 : _a.cantidad) || 0,
-            totalDinero: ((_b = reservasPorMes.get(mes)) === null || _b === void 0 ? void 0 : _b.total) || 0,
+    if (!reservas || reservas.length == 0) {
+        res.json({
+            msg: 'No hay reservas en esye año'
         });
-    });
-    res.json(ventasPorMesArray);
+    }
+    try {
+        const reservasPorMes = new Map();
+        for (const reserva of reservas) {
+            const fechaReserva = reserva.getDataValue('FECHA_CREACION');
+            const mesReserva = parseInt(fechaReserva.slice(5, 7), 10);
+            const total = reserva.getDataValue('TOTAL');
+            if (reservasPorMes.has(mesReserva)) {
+                const infoMes = reservasPorMes.get(mesReserva);
+                infoMes.cantidad++;
+                infoMes.total += total;
+            }
+            else {
+                reservasPorMes.set(mesReserva, { cantidad: 1, total: total });
+            }
+        }
+        const meses = Array.from({ length: 12 }, (_, index) => index + 1);
+        const ventasPorMesArray = meses.map(mes => {
+            var _a, _b;
+            return ({
+                mes,
+                cantidadVentas: ((_a = reservasPorMes.get(mes)) === null || _a === void 0 ? void 0 : _a.cantidad) || 0,
+                totalDinero: ((_b = reservasPorMes.get(mes)) === null || _b === void 0 ? void 0 : _b.total) || 0,
+            });
+        });
+        res.json(ventasPorMesArray);
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al obtener el reporte',
+            error
+        });
+    }
 });
 exports.getVentasPorMes = getVentasPorMes;
