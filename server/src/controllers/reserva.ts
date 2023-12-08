@@ -105,14 +105,17 @@ export const getReserva = async (req: Request, res: Response) => {
         const reserva = await Reserva.findByPk(cod_reserva);
 
         if (!reserva) {
-            return res.status(400).json({
+            return res.status(404).json({
                 msg: 'La reserva no existe',
             });
         }
 
         res.json(reserva);
     } catch (error) {
-        
+        res.status(500).json({
+            msg: 'Error al obtener la reserva.',
+            error: error.message,
+        });
     }
 };
 
@@ -121,7 +124,10 @@ export const getReservas = async (req: Request, res: Response) => {
         const listReservas = await Reserva.findAll();
         res.json(listReservas);
     } catch (error) {
-        
+        res.status(500).json({
+            msg: 'Error al obtener las reservas,
+            error: error.message,
+        });
     }
 };
 
@@ -133,7 +139,7 @@ export const updateReserva = async (req: Request, res: Response) => {
         const reserva = await Reserva.findByPk(cod_reserva);
 
         if (!reserva) {
-            return res.status(400).json({
+            return res.status(404).json({
                 msg: 'La reserva no existe',
             });
         }
@@ -154,8 +160,8 @@ export const updateReserva = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400).json({
             msg: 'Ha ocurrido un error al actualizar la informacion de la reserva',
-            error
-        })
+            error: error.message,
+        });
         
     }
 };
@@ -167,7 +173,7 @@ export const deleteReserva = async (req: Request, res: Response) => {
         const reserva = await Reserva.findByPk(cod_reserva);
 
         if (!reserva) {
-            return res.status(400).json({
+            return res.status(404).json({
                 msg: 'La reserva no existe',
             });
         }
@@ -180,7 +186,7 @@ export const deleteReserva = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(400).json({
             msg: 'Ha ocurrido un error al eliminar la reserva',
-            error
+            error: error.message,
         });
         
     }
