@@ -2,9 +2,15 @@ import { Request, Response } from 'express';
 import { Detalle_horario_entrega } from '../models/det_horario_entrega';
 
 export const getDetalle_horario_entregas = async (req: Request, res: Response) => {
+    try {
     const listDetalle_horario_entregas = await Detalle_horario_entrega.findAll({ attributes: ['COD_HORARIO_ENTREGA', 'HORA_ENTREGA'] });
-    res.json(listDetalle_horario_entregas)
-}
+    res.json(listDetalle_horario_entregas);
+}catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error  al obtener los detalles de horario de entrega.' });
+    }
+};
+
 
 
 // Crear un registro de horario de entrega
