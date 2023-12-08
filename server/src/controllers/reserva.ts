@@ -5,20 +5,15 @@ import { Producto } from "../models/producto";
 import sequelize from "sequelize";
 import { Op } from "sequelize";
 
-const handleErrorResponse = (res: Response, message: string, error: any) => {
-    res.status(400).json({
-        msg: message,
-        error,
-    });
-};
+
 
 export const newReserva = async (req: Request, res: Response) => {
     const {
-        CELULAR_CLIENTE,
-        NOMBRE_CLIENTE,
-        APELLIDO_CLIENTE,
-        DIRECCION_CLIENTE,
-        CIUDAD_CLIENTE,
+        celular_cliente,
+        nombre_cliente,
+        apellido_cliente,
+        direccion_cliente,
+        ciudad_cliente,
         CANTIDAD,
         COD_PRODUCTO
     } = req.body;
@@ -27,12 +22,13 @@ export const newReserva = async (req: Request, res: Response) => {
     const fechaFormateada = fechaActual.toISOString().split('T')[0];
 
     try {
+
         const reserva = await Reserva.create({
-            CELULAR_CLIENTE,
-            NOMBRE_CLIENTE,
-            APELLIDO_CLIENTE,
-            DIRECCION_CLIENTE,
-            CIUDAD_CLIENTE,
+            CELULAR_CLIENTE: celular_cliente,
+            NOMBRE_CLIENTE: nombre_cliente,
+            APELLIDO_CLIENTE: apellido_cliente,
+            DIRECCION_CLIENTE: direccion_cliente,
+            CIUDAD_CLIENTE: ciudad_cliente,
             FECHA_CREACION: fechaFormateada,
             ESTADO: 'Pendiente',
             TOTAL: 0,
@@ -43,32 +39,33 @@ export const newReserva = async (req: Request, res: Response) => {
         
         for (const [index,producto] of COD_PRODUCTO.entries()){
             const cantidad = CANTIDAD[index]
-            if (cantidad > 0 || cantidad){
-                const idProducto = await Producto.findOne({ attributes: ['PRECIO_PRODUCTO','CANTIDAD_DISPONIBLE','CANTIDAD_TOTAL'] , where:{ COD_PRODUCTO: producto}});
-                const precioProducto = idProducto?.dataValues.PRECIO_PRODUCTO;
-                const subTotal = precioProducto * cantidad
-                const idReserva = await Reserva.findOne({attributes: ['TOTAL'],where: {COD_RESERVA: pkReserva}})
-                const total = idReserva?.dataValues.TOTAL
+            const cantidadInt = parseInt(cantidad, 10);
+            const productoInt = parseInt(producto, 10);
 
+            if (cantidadInt > 0 || cantidadInt){
+                const idProducto = await Producto.findOne({ attributes: ['PRECIO_PRODUCTO','CANTIDAD_DISPONIBLE','CANTIDAD_TOTAL'] , where:{ COD_PRODUCTO: productoInt}});
                 if (!idProducto) {
                     return res.status(400).json({
                     msg: "El producto ingresado no existe"
                     })
                 }
-
-                const cantidadInt = parseInt(cantidad, 10);
                 const cantidadDisponible = idProducto?.dataValues.CANTIDAD_DISPONIBLE - cantidadInt
                 if (cantidadDisponible < 0) {
                     return res.status(400).json({
                     msg: 'No hay Stock suficiente',
                     })
                 }
+                const precioProducto = idProducto?.dataValues.PRECIO_PRODUCTO;
+                const subTotal = precioProducto * cantidadInt
+                const idReserva = await Reserva.findOne({attributes: ['TOTAL'],where: {COD_RESERVA: pkReserva}})
+                const total = idReserva?.dataValues.TOTAL
+
 
                 try {
                     await DetalleReserva.create({
                         COD_RESERVA: pkReserva,
-                        COD_PRODUCTO: producto,
-                        CANTIDAD: cantidad,
+                        COD_PRODUCTO: productoInt,
+                        CANTIDAD: cantidadInt,
                         SUBTOTAL: subTotal
                     });
                     await Reserva.update({
@@ -79,7 +76,7 @@ export const newReserva = async (req: Request, res: Response) => {
                     await Producto.update({
                         CANTIDAD_DISPONIBLE: cantidadDisponible
                     },
-                        { where: { COD_PRODUCTO: producto } 
+                        { where: { COD_PRODUCTO: productoInt } 
                     })
                 } catch (innerError){
                     res.status(400).json({
@@ -115,7 +112,7 @@ export const getReserva = async (req: Request, res: Response) => {
 
         res.json(reserva);
     } catch (error) {
-        handleErrorResponse(res, 'Ha ocurrido un error al encontrar la reserva ' + cod_reserva, error);
+        
     }
 };
 
@@ -124,7 +121,7 @@ export const getReservas = async (req: Request, res: Response) => {
         const listReservas = await Reserva.findAll();
         res.json(listReservas);
     } catch (error) {
-        handleErrorResponse(res, 'Ha ocurrido un error al obtener las reservas', error);
+        
     }
 };
 
@@ -155,7 +152,7 @@ export const updateReserva = async (req: Request, res: Response) => {
             reserva,
         });
     } catch (error) {
-        handleErrorResponse(res, 'Ha ocurrido un error al actualizar la reserva ' + cod_reserva, error);
+        
     }
 };
 
@@ -177,7 +174,7 @@ export const deleteReserva = async (req: Request, res: Response) => {
             msg: 'Reserva eliminada correctamente',
         });
     } catch (error) {
-        handleErrorResponse(res, 'Ha ocurrido un error al eliminar la reserva ' + cod_reserva, error);
+        
     }
 };
 

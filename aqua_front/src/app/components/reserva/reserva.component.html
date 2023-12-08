@@ -52,32 +52,33 @@
   </table>
 
   <!-- Contenedor de Datos del Cliente -->
-  <div class="wrapper" style="margin-top: 20px; max-width: 60%; margin-left: auto; margin-right: auto;">
-    <div class="body">
-      <h3 style="text-align: center;">Datos del Cliente</h3>
-      <div class="form-floating mb-3">
-        <input type="text" id="nombre" [(ngModel)]="nombreCliente" class="form-control" placeholder="Ingrese Nombre">
-        <label for="nombre">Nombre:</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="text" id="apellido" [(ngModel)]="apellidoCliente" class="form-control" placeholder="Ingrese Apellido">
-        <label for="apellido">Apellido:</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="text" id="telefono" [(ngModel)]="celularCliente" class="form-control" placeholder="Ingrese Teléfono">
-        <label for="telefono">Teléfono:</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="text" id="direccion" [(ngModel)]="direccionCliente" class="form-control" placeholder="Ingrese Dirección de Envío">
-        <label for="direccion">Dirección de Envío:</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="text" id="ciudad" [(ngModel)]="ciudadCliente" class="form-control" placeholder="Ingrese Ciudad">
-        <label for="ciudad">Ciudad:</label>
-      </div>
+<!-- Contenedor de Datos del Cliente -->
+<div class="wrapper" style="margin-top: 20px; max-width: 60%; margin-left: auto; margin-right: auto;">
+  <div class="body">
+    <h3 style="text-align: center;">Datos del Cliente</h3>
+    <div class="form-floating mb-3">
+      <input type="text" id="nombre" name="nombreCliente" [(ngModel)]="nombreCliente" class="form-control" placeholder="Ingrese Nombre">
+      <label for="nombre">Nombre:</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" id="apellido" name="apellidoCliente" [(ngModel)]="apellidoCliente" class="form-control" placeholder="Ingrese Apellido">
+      <label for="apellido">Apellido:</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" id="telefono" name="celularCliente" [(ngModel)]="celularCliente" class="form-control" placeholder="Ingrese Teléfono">
+      <label for="telefono">Teléfono:</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" id="direccion" name="direccionCliente" [(ngModel)]="direccionCliente" class="form-control" placeholder="Ingrese Dirección de Envío">
+      <label for="direccion">Dirección de Envío:</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" id="ciudad" name="ciudadCliente" [(ngModel)]="ciudadCliente" class="form-control" placeholder="Ingrese Ciudad">
+      <label for="ciudad">Ciudad:</label>
     </div>
   </div>
 </div>
+
 
 <!-- Agrega este botón al final de tu template de reserva.component.html -->
 <div style="margin-top: 20px; text-align: center;">

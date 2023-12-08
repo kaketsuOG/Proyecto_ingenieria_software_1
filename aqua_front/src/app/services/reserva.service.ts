@@ -1,4 +1,3 @@
-// reserva.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -8,7 +7,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ReservaService {
-  private apiUrl = 'http://localhost:3000/api'; // Ajusta la URL de tu API
+  private apiUrl = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient) {}
 
@@ -16,61 +15,30 @@ export class ReservaService {
     return this.http.get<any[]>(`${this.apiUrl}/productos/list`);
   }
 
-  realizarPedido(cliente: Cliente, pedidoInfo: { productos: any[]; nombrePersona: string; apellidoPersona: string; direccionPersona: string; ciudadCliente: string }): Observable<any> {
-    const { productos, nombrePersona, direccionPersona, ciudadCliente } = pedidoInfo;
-
-
-    
-    // Ajusta la URL para realizar el pedido en tu backend
+  realizarPedido(cliente: Cliente, pedidoInfo: PedidoInfo): Observable<any> {
     const url = `${this.apiUrl}/reserva`;
+    console.log('Datos enviados al backend:', { cliente, pedidoInfo });
 
-    console.log(url)
+    // Aquí es donde se agregan COD_PRODUCTO y CANTIDAD al cuerpo de la solicitud
+    const body = {
+      apellido_cliente: cliente.apellido_cliente,
+      nombre_cliente: cliente.nombre_cliente,
+      celular_cliente: cliente.celular_cliente,
+      direccion_cliente: cliente.direccion_cliente,
+      ciudad_cliente: cliente.ciudad_cliente,
+      COD_PRODUCTO: pedidoInfo.productos.map((producto: any) => producto.COD_PRODUCTO),
+      CANTIDAD: pedidoInfo.productos.map((producto: any) => producto.cantidadPedido),
+    };
 
-    console.log({
-      "CELULAR_CLIENTE": cliente.celular_cliente,
-      "NOMBRE_CLIENTE": cliente.nombre_cliente,
-      "APELLIDO_CLIENTE": cliente.apellido_cliente,
-      "DIRECCION_CLIENTE": cliente.direccion_cliente,
-      "CIUDAD_CLIENTE": cliente.ciudad_cliente,
-   })
 
-    // Realiza la solicitud POST al backend con la información del pedido
-    return this.http.post(url, {
-      "CELULAR_CLIENTE": cliente.celular_cliente,
-      "NOMBRE_CLIENTE": cliente.nombre_cliente,
-      "APELLIDO_CLIENTE": cliente.apellido_cliente,
-      "DIRECCION_CLIENTE": cliente.direccion_cliente,
-      "CIUDAD_CLIENTE": cliente.ciudad_cliente,
-   }).pipe(
+    return this.http.post(url, body).pipe(
       tap(() => {
-  
-
-    // Cambia de const a let
-    let mensaje = `¡Hola! Quiero realizar un pedido:\n`;
-
-    productos.forEach((item) => {
-      mensaje += `${item.cantidadPedido} x ${item.NOMBRE_PRODUCTO}\n`;
-    });
-
-    // Incluye la información de la persona en el mensaje
-    mensaje += `Nombre: ${nombrePersona}\n`;
-    mensaje += `Dirección: ${direccionPersona}\n`;
-    mensaje += `Ciudad: ${ciudadCliente}\n`;
-    
-    const numeroTelefono = 'tu-numero-de-telefono';
-    const whatsappUrl = `https://wa.me/${56976489205}?text=${encodeURIComponent(mensaje)}`;
-    window.open(whatsappUrl, '_blank');
-
-    console.log('Pedido realizado con los siguientes productos:', productos);
-    console.log('Nombre de la persona:', nombrePersona);
-    console.log('Dirección de entrega:', direccionPersona);
-  })
-  );
-  
+        // Resto del código
+      })
+    );
   }
-  
-
 }
+
 export interface Cliente {
   nombre_cliente: string;
   apellido_cliente: string;
@@ -79,3 +47,10 @@ export interface Cliente {
   ciudad_cliente: string;
 }
 
+export interface PedidoInfo {
+  productos: any[];
+  nombrePersona: string;
+  apellidoPersona: string;
+  direccionPersona: string;
+  ciudadCliente: string;
+}

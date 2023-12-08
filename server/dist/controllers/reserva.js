@@ -18,23 +18,17 @@ const detalle_reserva_1 = require("../models/detalle_reserva");
 const producto_1 = require("../models/producto");
 const sequelize_1 = __importDefault(require("sequelize"));
 const sequelize_2 = require("sequelize");
-const handleErrorResponse = (res, message, error) => {
-    res.status(400).json({
-        msg: message,
-        error,
-    });
-};
 const newReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { CELULAR_CLIENTE, NOMBRE_CLIENTE, APELLIDO_CLIENTE, DIRECCION_CLIENTE, CIUDAD_CLIENTE, CANTIDAD, COD_PRODUCTO } = req.body;
+    const { celular_cliente, nombre_cliente, apellido_cliente, direccion_cliente, ciudad_cliente, CANTIDAD, COD_PRODUCTO } = req.body;
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split('T')[0];
     try {
         const reserva = yield reserva_1.Reserva.create({
-            CELULAR_CLIENTE,
-            NOMBRE_CLIENTE,
-            APELLIDO_CLIENTE,
-            DIRECCION_CLIENTE,
-            CIUDAD_CLIENTE,
+            CELULAR_CLIENTE: celular_cliente,
+            NOMBRE_CLIENTE: nombre_cliente,
+            APELLIDO_CLIENTE: apellido_cliente,
+            DIRECCION_CLIENTE: direccion_cliente,
+            CIUDAD_CLIENTE: ciudad_cliente,
             FECHA_CREACION: fechaFormateada,
             ESTADO: 'Pendiente',
             TOTAL: 0,
@@ -42,29 +36,30 @@ const newReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const pkReserva = reserva.dataValues.COD_RESERVA;
         for (const [index, producto] of COD_PRODUCTO.entries()) {
             const cantidad = CANTIDAD[index];
-            if (cantidad > 0 || cantidad) {
-                const idProducto = yield producto_1.Producto.findOne({ attributes: ['PRECIO_PRODUCTO', 'CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: producto } });
-                const precioProducto = idProducto === null || idProducto === void 0 ? void 0 : idProducto.dataValues.PRECIO_PRODUCTO;
-                const subTotal = precioProducto * cantidad;
-                const idReserva = yield reserva_1.Reserva.findOne({ attributes: ['TOTAL'], where: { COD_RESERVA: pkReserva } });
-                const total = idReserva === null || idReserva === void 0 ? void 0 : idReserva.dataValues.TOTAL;
+            const cantidadInt = parseInt(cantidad, 10);
+            const productoInt = parseInt(producto, 10);
+            if (cantidadInt > 0 || cantidadInt) {
+                const idProducto = yield producto_1.Producto.findOne({ attributes: ['PRECIO_PRODUCTO', 'CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: productoInt } });
                 if (!idProducto) {
                     return res.status(400).json({
                         msg: "El producto ingresado no existe"
                     });
                 }
-                const cantidadInt = parseInt(cantidad, 10);
                 const cantidadDisponible = (idProducto === null || idProducto === void 0 ? void 0 : idProducto.dataValues.CANTIDAD_DISPONIBLE) - cantidadInt;
                 if (cantidadDisponible < 0) {
                     return res.status(400).json({
                         msg: 'No hay Stock suficiente',
                     });
                 }
+                const precioProducto = idProducto === null || idProducto === void 0 ? void 0 : idProducto.dataValues.PRECIO_PRODUCTO;
+                const subTotal = precioProducto * cantidadInt;
+                const idReserva = yield reserva_1.Reserva.findOne({ attributes: ['TOTAL'], where: { COD_RESERVA: pkReserva } });
+                const total = idReserva === null || idReserva === void 0 ? void 0 : idReserva.dataValues.TOTAL;
                 try {
                     yield detalle_reserva_1.DetalleReserva.create({
                         COD_RESERVA: pkReserva,
-                        COD_PRODUCTO: producto,
-                        CANTIDAD: cantidad,
+                        COD_PRODUCTO: productoInt,
+                        CANTIDAD: cantidadInt,
                         SUBTOTAL: subTotal
                     });
                     yield reserva_1.Reserva.update({
@@ -73,7 +68,7 @@ const newReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     });
                     yield producto_1.Producto.update({
                         CANTIDAD_DISPONIBLE: cantidadDisponible
-                    }, { where: { COD_PRODUCTO: producto }
+                    }, { where: { COD_PRODUCTO: productoInt }
                     });
                 }
                 catch (innerError) {
@@ -108,7 +103,6 @@ const getReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.json(reserva);
     }
     catch (error) {
-        handleErrorResponse(res, 'Ha ocurrido un error al encontrar la reserva ' + cod_reserva, error);
     }
 });
 exports.getReserva = getReserva;
@@ -118,7 +112,6 @@ const getReservas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.json(listReservas);
     }
     catch (error) {
-        handleErrorResponse(res, 'Ha ocurrido un error al obtener las reservas', error);
     }
 });
 exports.getReservas = getReservas;
@@ -146,7 +139,6 @@ const updateReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        handleErrorResponse(res, 'Ha ocurrido un error al actualizar la reserva ' + cod_reserva, error);
     }
 });
 exports.updateReserva = updateReserva;
@@ -165,7 +157,6 @@ const deleteReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        handleErrorResponse(res, 'Ha ocurrido un error al eliminar la reserva ' + cod_reserva, error);
     }
 });
 exports.deleteReserva = deleteReserva;
