@@ -3,9 +3,14 @@ import { Rol } from '../models/rol';
 
 
 export const getRol = async(req: Request, res: Response) =>{  
-    const listRol = await Rol.findAll({attributes:['COD_ROL','NOMBRE_ROL']});
-    res.json(listRol)
-}
+    try {
+        const listRol = await Rol.findAll({attributes:['COD_ROL','NOMBRE_ROL']});
+        res.json(listRol)
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los roles.' });
+    }
+};
 export const newRol = async(req: Request, res: Response) =>{
     const { nombre_rol} =  req.body;
     try{
@@ -27,7 +32,7 @@ export const updateRol = async(req: Request, res: Response) => {
     const {nombre_rol} = req.body;
     const idRol = await Rol.findOne({where: {COD_ROL: cod_rol}})
     if (!idRol) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id del rol no exist"
         })
     }
@@ -53,7 +58,7 @@ export const getOneRol = async(req: Request, res: Response) =>{
     console.log(cod_rol)
     const idRol = await Rol.findOne({where: {COD_ROL: cod_rol}})
     if (!idRol) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id: " + cod_rol + " de rol no existe"
         })
     }
@@ -73,7 +78,7 @@ export const deleteRol = async(req: Request, res: Response) =>{
     const { cod_rol} =  req.params;
     const idRol = await Rol.findOne({where: {COD_ROL: cod_rol}})
     if (!idRol) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id: " + cod_rol + " del rol no existee"
         })
     }
