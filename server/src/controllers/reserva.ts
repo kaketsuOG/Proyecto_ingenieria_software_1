@@ -4,7 +4,6 @@ import { DetalleReserva } from '../models/detalle_reserva';
 import { Producto } from "../models/producto";
 import sequelize from "sequelize";
 import { Op } from "sequelize";
-import { createCanvas, CanvasRenderingContext2D } from 'canvas';
 
 const handleErrorResponse = (res: Response, message: string, error: any) => {
     res.status(400).json({
