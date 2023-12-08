@@ -212,7 +212,7 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
 
     for (const reserva of reservas) {
         const fechaReserva = reserva.getDataValue('FECHA_CREACION');
-        const mesReserva = parseInt(fechaReserva.slice(5, 7), 10); // Parsear a número
+        const mesReserva = parseInt(fechaReserva.slice(5, 7), 10);
         const total = reserva.getDataValue('TOTAL');
 
         if (reservasPorMes.has(mesReserva)) {

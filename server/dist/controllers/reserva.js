@@ -199,7 +199,7 @@ const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function
     const reservasPorMes = new Map();
     for (const reserva of reservas) {
         const fechaReserva = reserva.getDataValue('FECHA_CREACION');
-        const mesReserva = parseInt(fechaReserva.slice(5, 7), 10); // Parsear a número
+        const mesReserva = parseInt(fechaReserva.slice(5, 7), 10);
         const total = reserva.getDataValue('TOTAL');
         if (reservasPorMes.has(mesReserva)) {
             const infoMes = reservasPorMes.get(mesReserva);
