@@ -8,7 +8,7 @@ export const getDisponibilidad_fechas = async (req: Request, res: Response) => {
         res.json(listDisponibilidad_fechas);
 } catch (error){
         console.error(error);
-        res.status(500).json({ error: 'Error interno del servidor al obtener las disponibilidades de fecha.' });
+        res.status(500).json({ error: 'Error al obtener las disponibilidades de fecha.' });
     }
 };
 
