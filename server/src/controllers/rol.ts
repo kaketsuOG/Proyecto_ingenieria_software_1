@@ -17,7 +17,7 @@ export const newRol = async(req: Request, res: Response) =>{
          await Rol.create({
             "NOMBRE_ROL": nombre_rol
         })
-        return res.json({
+        return res.status(201).json({
             msg: 'Rol creado correctamente'       
         })
     } catch (error){
