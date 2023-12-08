@@ -3,9 +3,15 @@ import { Producto } from '../models/producto';
 
 
 export const getProductos = async (req: Request, res: Response) => {
+    try {
     const listProductos = await Producto.findAll();
     res.json(listProductos);
+}catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos.'});
+    }
 };
+
 
 export const newProducto = async (req: Request, res: Response) => {
     const { nombre_producto, precio, cantidad_total, cantidad_disponible} = req.body;
@@ -18,8 +24,9 @@ export const newProducto = async (req: Request, res: Response) => {
             CANTIDAD_DISPONIBLE: cantidad_disponible,
             IMAGEN: imagen// Nueva columna para la ruta de la imagen
         });
-        return res.json({
-            msg: 'Producto creado correctamente'
+        return res.status(201).json({
+            msg: 'Producto creado correctamente',
+            
         });
     } catch (error) {
         res.status(400).json({
