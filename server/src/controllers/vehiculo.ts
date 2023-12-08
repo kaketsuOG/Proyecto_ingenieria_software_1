@@ -20,7 +20,7 @@ export const newVehiculo = async (req: Request, res: Response) => {
             COLOR: color,
             ANO: ano
         });
-        return res.json({
+        return res.status(201).json({
             msg: 'Vehículo creado correctamente'
         });
     } catch (error) {
@@ -44,7 +44,7 @@ export const getVehiculo = async (req: Request, res: Response) => {
     const vehiculo = await Vehiculo.findOne({ where: { PATENTE_COD_VEHICULO: patente_cod_vehiculo } });
 
     if (!vehiculo) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El vehículo con la patente indicada no existe"
         });
     }
@@ -63,7 +63,7 @@ export const deleteVehiculo = async (req: Request, res: Response) => {
     const vehiculo = await Vehiculo.findOne({ where: { PATENTE_COD_VEHICULO: patente_cod_vehiculo } });
 
     if (!vehiculo) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El vehículo con la patente " + patente_cod_vehiculo + " no existe"
         });
     }
@@ -86,7 +86,7 @@ export const updateVehiculo = async (req: Request, res: Response) => {
     const vehiculo = await Vehiculo.findOne({ where: { PATENTE_COD_VEHICULO: patente_cod_vehiculo } });
 
     if (!vehiculo) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El vehículo con la patente " + patente_cod_vehiculo + " no existe"
         });
     }
