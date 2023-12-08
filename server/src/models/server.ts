@@ -16,6 +16,8 @@ import { Producto } from './producto';
 import { Vehiculo } from './vehiculo';
 import { Reserva } from './reserva';
 import { DetalleReserva } from './detalle_reserva';
+import { comprobarEstadoReserva} from '../controllers/reserva';
+
 
 
 class Server {
@@ -31,6 +33,7 @@ class Server {
         this.listen();
         this.dbConnect();
         this.routes();
+        this.startReservaStateCheck()
 
 
     }
@@ -74,6 +77,16 @@ class Server {
             console.error('No se ha podido conectar a la base de datos');
         }
     }
-}
 
+    startReservaStateCheck() {
+        setInterval(async () => {
+          try {
+            comprobarEstadoReserva()
+            
+          } catch (error) {
+            console.error('Ha ocurrido un error en el servidor',error);
+          }
+        }, 1500000);
+      }
+}
 export default Server;

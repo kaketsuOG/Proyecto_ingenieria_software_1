@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getVentasPorMes = exports.getMasVendido = exports.deleteReserva = exports.updateReserva = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
+exports.comprobarEstadoReserva = exports.getVentasPorMes = exports.getMasVendido = exports.deleteReserva = exports.updateReserva = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
 const reserva_1 = require("../models/reserva");
 const detalle_reserva_1 = require("../models/detalle_reserva");
 const producto_1 = require("../models/producto");
@@ -240,7 +240,8 @@ const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function
             FECHA_CREACION: {
                 [sequelize_2.Op.gte]: [fechaFormateada],
                 [sequelize_2.Op.lte]: [fechaFormateada + 1]
-            }
+            },
+            ESTADO: { [sequelize_2.Op.not]: ['Cancelado'] }
         }
     });
     if (!reservas || reservas.length == 0) {
@@ -282,3 +283,34 @@ const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.getVentasPorMes = getVentasPorMes;
+const comprobarEstadoReserva = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const reservas = yield reserva_1.Reserva.findAll();
+        for (const reserva of reservas) {
+            const codigoReserva = reserva.getDataValue('COD_RESERVA');
+            const estadoReserva = reserva.getDataValue('ESTADO');
+            parseInt(codigoReserva, 10);
+            if (estadoReserva == 'Cancelado') {
+                const detalleReservas = yield detalle_reserva_1.DetalleReserva.findAll({ where: { COD_RESERVA: codigoReserva } });
+                for (const detalleReserva of detalleReservas) {
+                    const codigoProducto = detalleReserva.getDataValue('COD_PRODUCTO');
+                    const cantidadProducto = detalleReserva.getDataValue('CANTIDAD');
+                    parseInt(codigoProducto, 10);
+                    parseInt(cantidadProducto, 10);
+                    const producto = yield producto_1.Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE'], where: { COD_PRODUCTO: codigoProducto } });
+                    const cantidadDisponible = producto === null || producto === void 0 ? void 0 : producto.getDataValue('CANTIDAD_DISPONIBLE');
+                    parseInt(cantidadDisponible, 10);
+                    yield producto_1.Producto.update({
+                        CANTIDAD_DISPONIBLE: cantidadDisponible + cantidadProducto
+                    }, { where: { COD_PRODUCTO: codigoProducto }
+                    });
+                }
+                yield detalle_reserva_1.DetalleReserva.destroy({ where: { COD_RESERVA: codigoReserva } });
+            }
+        }
+    }
+    catch (error) {
+        console.error(error);
+    }
+});
+exports.comprobarEstadoReserva = comprobarEstadoReserva;

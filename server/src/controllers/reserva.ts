@@ -266,7 +266,8 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
             FECHA_CREACION: {
                 [Op.gte]: [fechaFormateada],
                 [Op.lte]: [fechaFormateada + 1]
-            }
+            },
+            ESTADO: {[Op.not]: ['Cancelado']}
         }
     });
     if (!reservas || reservas.length == 0){
@@ -307,3 +308,46 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
             })
         }
 };
+
+  export const comprobarEstadoReserva = async () => {
+    try {
+        const reservas = await Reserva.findAll();
+    
+        for (const reserva of reservas) {
+          const codigoReserva = reserva.getDataValue('COD_RESERVA');
+          const estadoReserva = reserva.getDataValue('ESTADO');
+          parseInt(codigoReserva,10)
+
+    
+          if( estadoReserva== 'Cancelado' ){
+            
+
+            const detalleReservas = await DetalleReserva.findAll({where:{COD_RESERVA: codigoReserva}});
+            
+            for (const detalleReserva of detalleReservas){
+
+                const codigoProducto = detalleReserva.getDataValue('COD_PRODUCTO');
+                const cantidadProducto = detalleReserva.getDataValue('CANTIDAD');
+
+                parseInt(codigoProducto,10)
+                parseInt(cantidadProducto,10)
+
+                const producto = await Producto.findOne({attributes: ['CANTIDAD_DISPONIBLE'],where: {COD_PRODUCTO: codigoProducto}})
+                const cantidadDisponible = producto?.getDataValue('CANTIDAD_DISPONIBLE')
+                parseInt(cantidadDisponible,10)
+
+
+                await Producto.update({
+                    CANTIDAD_DISPONIBLE: cantidadDisponible + cantidadProducto
+                },
+                {where: {COD_PRODUCTO: codigoProducto}
+            })
+            }
+            await DetalleReserva.destroy({where:{COD_RESERVA: codigoReserva}})
+          
+        }
+      } 
+    }catch (error) {
+        console.error(error);
+      }
+  };

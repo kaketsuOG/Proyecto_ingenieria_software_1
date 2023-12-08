@@ -13,7 +13,6 @@ exports.deleteDetalleReserva = exports.updateDetalleReserva = exports.getDetalle
 const detalle_reserva_1 = require("../models/detalle_reserva");
 const reserva_1 = require("../models/reserva");
 const producto_1 = require("../models/producto");
-// Obtener todos los detalles de reserva
 const getDetallesReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const detallesReserva = yield detalle_reserva_1.DetalleReserva.findAll({
@@ -31,7 +30,6 @@ const getDetallesReserva = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.getDetallesReserva = getDetallesReserva;
-// Obtener un detalle de reserva por ID
 const getDetalleReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_detalle_reserva } = req.params;
     try {
@@ -54,7 +52,6 @@ const getDetalleReserva = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.getDetalleReserva = getDetalleReserva;
-// Actualizar un detalle de reserva por ID
 const updateDetalleReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_detalle_reserva } = req.params;
     const { cod_reserva, cod_producto, cantidad, subtotal } = req.body;
@@ -79,7 +76,6 @@ const updateDetalleReserva = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.updateDetalleReserva = updateDetalleReserva;
-// Eliminar un detalle de reserva por ID
 const deleteDetalleReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_detalle_reserva } = req.params;
     try {

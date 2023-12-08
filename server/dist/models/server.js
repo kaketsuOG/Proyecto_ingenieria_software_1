@@ -30,6 +30,7 @@ const producto_2 = require("./producto");
 const vehiculo_2 = require("./vehiculo");
 const reserva_2 = require("./reserva");
 const detalle_reserva_2 = require("./detalle_reserva");
+const reserva_3 = require("../controllers/reserva");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -38,6 +39,7 @@ class Server {
         this.listen();
         this.dbConnect();
         this.routes();
+        this.startReservaStateCheck();
     }
     listen() {
         this.app.listen(this.port, () => {
@@ -75,6 +77,16 @@ class Server {
                 console.error('No se ha podido conectar a la base de datos');
             }
         });
+    }
+    startReservaStateCheck() {
+        setInterval(() => __awaiter(this, void 0, void 0, function* () {
+            try {
+                (0, reserva_3.comprobarEstadoReserva)();
+            }
+            catch (error) {
+                console.error('Ha ocurrido un error en el servidor', error);
+            }
+        }), 1500000);
     }
 }
 exports.default = Server;

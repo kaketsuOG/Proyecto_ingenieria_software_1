@@ -3,7 +3,7 @@ import { DetalleReserva } from '../models/detalle_reserva';
 import { Reserva } from '../models/reserva';
 import { Producto } from '../models/producto';
 
-// Obtener todos los detalles de reserva
+
 export const getDetallesReserva = async (req: Request, res: Response) => {
     try {
         const detallesReserva = await DetalleReserva.findAll({
@@ -20,7 +20,6 @@ export const getDetallesReserva = async (req: Request, res: Response) => {
     }
 };
 
-// Obtener un detalle de reserva por ID
 export const getDetalleReserva = async (req: Request, res: Response) => {
     const { cod_detalle_reserva } = req.params;
     try {
@@ -41,8 +40,6 @@ export const getDetalleReserva = async (req: Request, res: Response) => {
     }
 };
 
-
-// Actualizar un detalle de reserva por ID
 export const updateDetalleReserva = async (req: Request, res: Response) => {
     const { cod_detalle_reserva } = req.params;
     const { cod_reserva, cod_producto, cantidad, subtotal } = req.body;
@@ -65,7 +62,6 @@ export const updateDetalleReserva = async (req: Request, res: Response) => {
     }
 };
 
-// Eliminar un detalle de reserva por ID
 export const deleteDetalleReserva = async (req: Request, res: Response) => {
     const { cod_detalle_reserva } = req.params;
     try {
