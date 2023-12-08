@@ -24,7 +24,10 @@ export class HistorialService {
   
       return this.http.put(url, { ESTADO: estado });
     }
-  
+    
+    getMasVendido(fechaInicio: string, fechaFinal: string): Observable<any> {
+      return this.http.post<any>(`${this.apiUrl}/reporte/masvendido`, { fecha_inicio: fechaInicio, fecha_final: fechaFinal });
+    }
   
     // Otros métodos relacionados con el historial...
   }
