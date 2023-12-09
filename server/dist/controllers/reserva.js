@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.comprobarEstadoReserva = exports.getDiaMasVendido = exports.getVentasPorMes = exports.getMasVendido = exports.deleteReserva = exports.updateReserva = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
+exports.comprobarEstadoReserva = exports.getDiaMasVendido = exports.getVentasPorMes = exports.getMasVendido = exports.deleteReserva = exports.updateReserva = exports.getReservasByCiudad = exports.getReservasByEstado = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
 const reserva_1 = require("../models/reserva");
 const detalle_reserva_1 = require("../models/detalle_reserva");
 const producto_1 = require("../models/producto");
@@ -124,6 +124,42 @@ const getReservas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getReservas = getReservas;
+const getReservasByEstado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { estado } = req.params;
+    try {
+        const listReservas = yield reserva_1.Reserva.findAll({
+            where: {
+                ESTADO: estado,
+            },
+        });
+        res.json(listReservas);
+    }
+    catch (error) {
+        res.status(500).json({
+            msg: 'Error al obtener las reservas por estado',
+            error,
+        });
+    }
+});
+exports.getReservasByEstado = getReservasByEstado;
+const getReservasByCiudad = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { ciudad } = req.params;
+    try {
+        const listReservas = yield reserva_1.Reserva.findAll({
+            where: {
+                CIUDAD_CLIENTE: ciudad,
+            },
+        });
+        res.json(listReservas);
+    }
+    catch (error) {
+        res.status(500).json({
+            msg: 'Error al obtener las reservas por ciudad',
+            error,
+        });
+    }
+});
+exports.getReservasByCiudad = getReservasByCiudad;
 const updateReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_reserva } = req.params;
     const { CELULAR_CLIENTE, NOMBRE_CLIENTE, APELLIDO_CLIENTE, DIRECCION_CLIENTE, CIUDAD_CLIENTE, ESTADO } = req.body;
