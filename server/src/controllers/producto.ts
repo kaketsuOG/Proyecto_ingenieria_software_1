@@ -30,8 +30,7 @@ export const newProducto = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400).json({
             msg: 'Ocurrió un error al crear el producto',
-            error: error.message,
-        });
+            error
     }
 };
 
