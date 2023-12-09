@@ -12,8 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadImagen = exports.agregarProductos = exports.deleteProducto = exports.getProducto = exports.updateProducto = exports.newProducto = exports.getProductos = void 0;
 const producto_1 = require("../models/producto");
 const getProductos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listProductos = yield producto_1.Producto.findAll();
-    res.json(listProductos);
+    try {
+        const listProductos = yield producto_1.Producto.findAll();
+        res.json(listProductos);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos.' });
+    }
 });
 exports.getProductos = getProductos;
 const newProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,8 +33,8 @@ const newProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             CANTIDAD_DISPONIBLE: cantidad_disponible,
             IMAGEN: imagen // Nueva columna para la ruta de la imagen
         });
-        return res.json({
-            msg: 'Producto creado correctamente'
+        return res.status(201).json({
+            msg: 'Producto creado correctamente',
         });
     }
     catch (error) {
@@ -43,7 +49,7 @@ const updateProducto = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const { cod_producto } = req.params;
     const idProducto = yield producto_1.Producto.findOne({ where: { COD_PRODUCTO: cod_producto } });
     if (!idProducto) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id del producto no existe"
         });
     }
@@ -72,7 +78,7 @@ const getProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const { cod_producto } = req.params;
     const idProducto = yield producto_1.Producto.findOne({ where: { COD_PRODUCTO: cod_producto } });
     if (!idProducto) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id: " + cod_producto + " de producto no existe"
         });
     }
@@ -91,7 +97,7 @@ const deleteProducto = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const { cod_producto } = req.params;
     const idProducto = yield producto_1.Producto.findOne({ where: { COD_PRODUCTO: cod_producto } });
     if (!idProducto) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id: " + cod_producto + " de producto no existe"
         });
     }
@@ -115,7 +121,7 @@ const agregarProductos = (req, res) => __awaiter(void 0, void 0, void 0, functio
     // Verificar si el producto existe
     const idProducto = yield producto_1.Producto.findOne({ where: { COD_PRODUCTO: cod_producto } });
     if (!idProducto) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El producto ingresado no existe"
         });
     }
@@ -160,7 +166,10 @@ const uploadImagen = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Error al actualizar la imagen del producto', error });
+        res.status(500).json({
+            msg: 'Error al actualizar la imagen del producto',
+            error
+        });
     }
 });
 exports.uploadImagen = uploadImagen;

@@ -27,7 +27,7 @@ const newVehiculo = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             COLOR: color,
             ANO: ano
         });
-        return res.json({
+        return res.status(201).json({
             msg: 'Vehículo creado correctamente'
         });
     }
@@ -50,7 +50,7 @@ const getVehiculo = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const { patente_cod_vehiculo } = req.params;
     const vehiculo = yield vehiculo_1.Vehiculo.findOne({ where: { PATENTE_COD_VEHICULO: patente_cod_vehiculo } });
     if (!vehiculo) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El vehículo con la patente indicada no existe"
         });
     }
@@ -69,7 +69,7 @@ const deleteVehiculo = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const { patente_cod_vehiculo } = req.params;
     const vehiculo = yield vehiculo_1.Vehiculo.findOne({ where: { PATENTE_COD_VEHICULO: patente_cod_vehiculo } });
     if (!vehiculo) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El vehículo con la patente " + patente_cod_vehiculo + " no existe"
         });
     }
@@ -91,7 +91,7 @@ const updateVehiculo = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const { patente_cod_vehiculo } = req.params;
     const vehiculo = yield vehiculo_1.Vehiculo.findOne({ where: { PATENTE_COD_VEHICULO: patente_cod_vehiculo } });
     if (!vehiculo) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El vehículo con la patente " + patente_cod_vehiculo + " no existe"
         });
     }

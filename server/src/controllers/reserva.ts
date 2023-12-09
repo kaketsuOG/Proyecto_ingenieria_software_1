@@ -48,7 +48,7 @@ export const newReserva = async (req: Request, res: Response) => {
                 const idProducto = await Producto.findOne({ attributes: ['PRECIO_PRODUCTO','CANTIDAD_DISPONIBLE','CANTIDAD_TOTAL'] , where:{ COD_PRODUCTO: productoInt}});
                 if (!idProducto) {
                     return res.status(400).json({
-                    msg: "El producto ingresado no existe"
+                    msg: "El producto ingresado no existe",
                     })
                 }
                 const cantidadDisponible = idProducto?.dataValues.CANTIDAD_DISPONIBLE - cantidadInt
@@ -115,8 +115,8 @@ export const getReserva = async (req: Request, res: Response) => {
         res.json(reserva);
     } catch (error) {
         res.status(500).json({
-            msg: 'Error al obtener la reserva.',
-            error: error.message,
+            msg: 'Error al obtener la reserva',
+            error
         });
     }
 };
@@ -127,7 +127,7 @@ export const getReservas = async (req: Request, res: Response) => {
         res.json(listReservas);
     } catch (error) {
         res.status(500).json({
-            msg: 'Error al obtener las reservas,
+            msg: 'Error al obtener las reservas',
             error
         });
     }
@@ -218,7 +218,7 @@ export const getMasVendido = async (req: Request, res: Response) => {
 
     if(!productos || productos.length == 0){
         res.status(400).json({
-            msg:'No se han encontrado reservas en ese periodo de tiempo'
+            msg:'No se han encontrado reservas en ese periodo de tiempo',
         })
     }
     const productosPorNombre: Map<string, number[]> = new Map();
@@ -268,7 +268,7 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
     const reservas = await Reserva.findAll({
         attributes: [
             'TOTAL',
-            'FECHA_CREACION',
+            'FECHA_CREACION'
         ],
         where: {
             FECHA_CREACION: {
@@ -348,15 +348,6 @@ export const getDiaMasVendido = async (req: Request, res: Response) => {
     }
     console.log(reservasPorDia)
     }
-
-
-
-
-
-
-
-
-
 
 export const comprobarEstadoReserva = async () => {
     try {

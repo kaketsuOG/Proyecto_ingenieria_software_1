@@ -36,35 +36,41 @@ const newUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             "APELLIDO2_USUARIO": apellido2_usuario,
             "COD_ROL": cod_rol
         });
-        return res.json({
+        return res.status(201).json({
             msg: 'Usuario creado correctamente'
         });
     }
     catch (error) {
         res.status(400).json({
-            msg: 'Ocurrio un error',
+            msg: 'Ocurrio un error al crear el usuario',
             error
         });
     }
 });
 exports.newUser = newUser;
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listUsers = yield user_1.User.findAll({
-        attributes: [
-            'RUT_USUARIO',
-            'NOMBRE_USUARIO',
-            'APELLIDO1_USUARIO',
-            'APELLIDO2_USUARIO',
-            'CONTRASEÑA',
-            'COD_ROL',
-            [sequelize_1.default.col('Rol.NOMBRE_ROL'), 'NOMBRE_ROL']
-        ],
-        include: {
-            model: rol_1.Rol,
-            attributes: [],
-        }
-    });
-    return res.json(listUsers);
+    try {
+        const listUsers = yield user_1.User.findAll({
+            attributes: [
+                'RUT_USUARIO',
+                'NOMBRE_USUARIO',
+                'APELLIDO1_USUARIO',
+                'APELLIDO2_USUARIO',
+                'CONTRASEÑA',
+                'COD_ROL',
+                [sequelize_1.default.col('Rol.NOMBRE_ROL'), 'NOMBRE_ROL']
+            ],
+            include: {
+                model: rol_1.Rol,
+                attributes: [],
+            }
+        });
+        return res.json(listUsers);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los usuarios.' });
+    }
 });
 exports.getUsers = getUsers;
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -72,14 +78,14 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // validacion de usuario
     const usuario = yield user_1.User.findOne({ where: { RUT_USUARIO: rut_usuario } });
     if (!usuario) {
-        return res.status(400).json({
+        return res.status(401).json({
             msg: 'El rut ingresado no es valido'
         });
     }
     //validacion del password
     const passwordValida = yield bcrypt_1.default.compare(contrasena, usuario.CONTRASEÑA);
     if (!passwordValida) {
-        return res.status(400).json({
+        return res.status(401).json({
             msg: 'Contraseña Incorrecta'
         });
     }
@@ -110,7 +116,7 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }, where: { RUT_USUARIO: rut_usuario }
     });
     if (!idUser) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El rut de usuario indicado no existe"
         });
     }
@@ -129,7 +135,7 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const { rut_usuario } = req.params;
     const idUser = yield user_1.User.findOne({ where: { RUT_USUARIO: rut_usuario } });
     if (!idUser) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El rut " + rut_usuario + " de usuario no existe"
         });
     }
@@ -151,7 +157,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const { rut_usuario } = req.params;
     const idUser = yield user_1.User.findOne({ where: { RUT_USUARIO: rut_usuario } });
     if (!idUser) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El rut " + rut_usuario + " de usuario no existe"
         });
     }

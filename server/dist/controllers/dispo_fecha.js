@@ -12,8 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteDispoFecha = exports.updateDispoFecha = exports.getDispoFecha = exports.newDispoFecha = exports.getDisponibilidad_fechas = void 0;
 const dispo_fecha_1 = require("../models/dispo_fecha");
 const getDisponibilidad_fechas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listDisponibilidad_fechas = yield dispo_fecha_1.Disponibilidad_fecha.findAll({ attributes: ['COD_DISPONIBILIDAD', 'FECHA_ENTREGA', 'COD_HORARIO_ENTREGA'] });
-    res.json(listDisponibilidad_fechas);
+    try {
+        const listDisponibilidad_fechas = yield dispo_fecha_1.Disponibilidad_fecha.findAll({ attributes: ['COD_DISPONIBILIDAD', 'FECHA_ENTREGA', 'COD_HORARIO_ENTREGA'] });
+        res.json(listDisponibilidad_fechas);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener las disponibilidades de fecha.' });
+    }
 });
 exports.getDisponibilidad_fechas = getDisponibilidad_fechas;
 // Crear un registro de disponibilidad de fecha
@@ -25,7 +31,7 @@ const newDispoFecha = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             FECHA_ENTREGA,
             COD_HORARIO_ENTREGA,
         });
-        return res.json({
+        return res.status(201).json({
             msg: 'Disponibilidad de fecha creada correctamente',
             dispoFecha,
         });
@@ -47,7 +53,7 @@ const getDispoFecha = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
     });
     if (!dispoFecha) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: 'Disponibilidad de fecha no encontrada',
         });
     }
@@ -55,7 +61,7 @@ const getDispoFecha = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         return res.json(dispoFecha);
     }
     catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             msg: 'Ocurrió un error al buscar la disponibilidad de fecha',
             error,
         });
@@ -72,7 +78,7 @@ const updateDispoFecha = (req, res) => __awaiter(void 0, void 0, void 0, functio
         }
     });
     if (!dispoFecha) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: 'Disponibilidad de fecha no encontrada',
         });
     }
@@ -101,7 +107,7 @@ const deleteDispoFecha = (req, res) => __awaiter(void 0, void 0, void 0, functio
         }
     });
     if (!dispoFecha) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: 'Disponibilidad de fecha no encontrada',
         });
     }

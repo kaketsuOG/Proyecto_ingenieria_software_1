@@ -12,8 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteRol = exports.getOneRol = exports.updateRol = exports.newRol = exports.getRol = void 0;
 const rol_1 = require("../models/rol");
 const getRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listRol = yield rol_1.Rol.findAll({ attributes: ['COD_ROL', 'NOMBRE_ROL'] });
-    res.json(listRol);
+    try {
+        const listRol = yield rol_1.Rol.findAll({ attributes: ['COD_ROL', 'NOMBRE_ROL'] });
+        res.json(listRol);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los roles.' });
+    }
 });
 exports.getRol = getRol;
 const newRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -22,7 +28,7 @@ const newRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         yield rol_1.Rol.create({
             "NOMBRE_ROL": nombre_rol
         });
-        return res.json({
+        return res.status(201).json({
             msg: 'Rol creado correctamente'
         });
     }
@@ -39,7 +45,7 @@ const updateRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nombre_rol } = req.body;
     const idRol = yield rol_1.Rol.findOne({ where: { COD_ROL: cod_rol } });
     if (!idRol) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id del rol no exist"
         });
     }
@@ -64,7 +70,7 @@ const getOneRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(cod_rol);
     const idRol = yield rol_1.Rol.findOne({ where: { COD_ROL: cod_rol } });
     if (!idRol) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id: " + cod_rol + " de rol no existe"
         });
     }
@@ -84,7 +90,7 @@ const deleteRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { cod_rol } = req.params;
     const idRol = yield rol_1.Rol.findOne({ where: { COD_ROL: cod_rol } });
     if (!idRol) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id: " + cod_rol + " del rol no existee"
         });
     }

@@ -43,7 +43,7 @@ const newReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 const idProducto = yield producto_1.Producto.findOne({ attributes: ['PRECIO_PRODUCTO', 'CANTIDAD_DISPONIBLE', 'CANTIDAD_TOTAL'], where: { COD_PRODUCTO: productoInt } });
                 if (!idProducto) {
                     return res.status(400).json({
-                        msg: "El producto ingresado no existe"
+                        msg: "El producto ingresado no existe",
                     });
                 }
                 const cantidadDisponible = (idProducto === null || idProducto === void 0 ? void 0 : idProducto.dataValues.CANTIDAD_DISPONIBLE) - cantidadInt;
@@ -80,7 +80,7 @@ const newReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 }
             }
         }
-        res.json({
+        res.status(201).json({
             msg: 'Pedido realizado correctamente'
         });
     }
@@ -97,13 +97,17 @@ const getReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const reserva = yield reserva_1.Reserva.findByPk(cod_reserva);
         if (!reserva) {
-            return res.status(400).json({
+            return res.status(404).json({
                 msg: 'La reserva no existe',
             });
         }
         res.json(reserva);
     }
     catch (error) {
+        res.status(500).json({
+            msg: 'Error al obtener la reserva',
+            error
+        });
     }
 });
 exports.getReserva = getReserva;
@@ -113,6 +117,10 @@ const getReservas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.json(listReservas);
     }
     catch (error) {
+        res.status(500).json({
+            msg: 'Error al obtener las reservas',
+            error
+        });
     }
 });
 exports.getReservas = getReservas;
@@ -122,7 +130,7 @@ const updateReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const reserva = yield reserva_1.Reserva.findByPk(cod_reserva);
         if (!reserva) {
-            return res.status(400).json({
+            return res.status(404).json({
                 msg: 'La reserva no existe',
             });
         }
@@ -152,7 +160,7 @@ const deleteReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const reserva = yield reserva_1.Reserva.findByPk(cod_reserva);
         if (!reserva) {
-            return res.status(400).json({
+            return res.status(404).json({
                 msg: 'La reserva no existe',
             });
         }
@@ -189,7 +197,7 @@ const getMasVendido = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     });
     if (!productos || productos.length == 0) {
         res.status(400).json({
-            msg: 'No se han encontrado reservas en ese periodo de tiempo'
+            msg: 'No se han encontrado reservas en ese periodo de tiempo',
         });
     }
     const productosPorNombre = new Map();
@@ -235,7 +243,7 @@ const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function
     const reservas = yield reserva_1.Reserva.findAll({
         attributes: [
             'TOTAL',
-            'FECHA_CREACION',
+            'FECHA_CREACION'
         ],
         where: {
             FECHA_CREACION: {

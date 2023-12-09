@@ -31,7 +31,8 @@ export const newProducto = async (req: Request, res: Response) => {
         res.status(400).json({
             msg: 'Ocurrió un error al crear el producto',
             error
-    }
+    })
+}
 };
 
 
@@ -169,8 +170,11 @@ export const uploadImagen = async (req: Request, res: Response, next: NextFuncti
       },{where: {COD_PRODUCTO:cod_producto}})
   
       return res.json({ msg: 'Imagen del producto actualizada correctamente' });
+
     } catch (error) {
       console.error(error);
-      res.status(500).json({ msg: 'Error al actualizar la imagen del producto', error });
+        res.status(500).json({
+            msg: 'Error al actualizar la imagen del producto',
+            error });
     }
-  };
+}
