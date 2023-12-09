@@ -128,7 +128,7 @@ export const getReservas = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({
             msg: 'Error al obtener las reservas,
-            error: error.message,
+            error
         });
     }
 };
@@ -162,7 +162,7 @@ export const updateReserva = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400).json({
             msg: 'Ha ocurrido un error al actualizar la informacion de la reserva',
-            error: error.message,
+            error
         });
         
     }
@@ -188,7 +188,7 @@ export const deleteReserva = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(400).json({
             msg: 'Ha ocurrido un error al eliminar la reserva',
-            error: error.message,
+            error
         });
         
     }
