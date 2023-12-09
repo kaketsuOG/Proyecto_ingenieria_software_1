@@ -464,7 +464,7 @@ export const comprobarEstadoReserva = async () => {
       // Crear la definición del documento PDF
       const documentDefinition: TDocumentDefinitions = {
         content: [
-          { text: `Reserva ID: ${reserva.dataValues.COD_RESERVA}`, style: 'header' },
+          { text: 'Distribuidora Aqua Pura' , style: 'header' },
           { text: '\nDetalles de la Reserva:\n\n', style: 'subheader' },
           {
             table: {

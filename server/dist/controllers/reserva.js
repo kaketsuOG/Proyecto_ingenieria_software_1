@@ -412,7 +412,7 @@ const pdfReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         // Crear la definición del documento PDF
         const documentDefinition = {
             content: [
-                { text: `Reserva ID: ${reserva.dataValues.COD_RESERVA}`, style: 'header' },
+                { text: 'Distribuidora Aqua Pura', style: 'header' },
                 { text: '\nDetalles de la Reserva:\n\n', style: 'subheader' },
                 {
                     table: {
