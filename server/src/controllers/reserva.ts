@@ -5,7 +5,8 @@ import { Producto } from "../models/producto";
 import sequelize from "sequelize";
 import { Op } from "sequelize";
 import { endOfMonth,format,parseISO,startOfMonth, subMonths  } from 'date-fns';
-import { es } from "date-fns/locale";
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
 
 
@@ -90,7 +91,8 @@ export const newReserva = async (req: Request, res: Response) => {
 
         }
         res.status(201).json({
-            msg: 'Pedido realizado correctamente'
+            msg: 'Pedido realizado correctamente',
+            reserva
         })
     }catch (outterError) {
         res.status(400).json({
@@ -355,42 +357,42 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
         }
 };
 
-export const getDiaMasVendido = async (req: Request, res: Response) => {
+// export const getDiaMasVendido = async (req: Request, res: Response) => {
 
-    const fechaActual = new Date();
-    const fechaInicioMes = subMonths(startOfMonth(fechaActual),1);
-    const fechaFinMes = subMonths(endOfMonth(fechaActual),1);
+//     const fechaActual = new Date();
+//     const fechaInicioMes = subMonths(startOfMonth(fechaActual),1);
+//     const fechaFinMes = subMonths(endOfMonth(fechaActual),1);
     
-    fechaInicioMes.toISOString().split('T')[0];
-    fechaFinMes.toISOString().split('T')[0];
+//     fechaInicioMes.toISOString().split('T')[0];
+//     fechaFinMes.toISOString().split('T')[0];
     
-    const reservas = await Reserva.findAll({where:{FECHA_CREACION: {
-        [Op.between]:[fechaInicioMes ,fechaFinMes]
-        }
-        }
-    })
-    const reservasPorDia: Map<String, { cantidad: number}> = new Map();
+//     const reservas = await Reserva.findAll({where:{FECHA_CREACION: {
+//         [Op.between]:[fechaInicioMes ,fechaFinMes]
+//         }
+//         }
+//     })
+//     const reservasPorDia: Map<String, { cantidad: number}> = new Map();
     
-    for (const reserva of reservas){
-        const fechaReserva =parseISO(reserva.getDataValue('FECHA_CREACION'))
-        const numeroDiaSemana = fechaReserva.getDay();
-        const nombresDiasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-        const diaDeLaSemana = nombresDiasSemana[numeroDiaSemana];
+//     for (const reserva of reservas){
+//         const fechaReserva =parseISO(reserva.getDataValue('FECHA_CREACION'))
+//         const numeroDiaSemana = fechaReserva.getDay();
+//         const nombresDiasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+//         const diaDeLaSemana = nombresDiasSemana[numeroDiaSemana];
 
-        if (reservasPorDia.has(diaDeLaSemana)) {
-            const infoDia = reservasPorDia.get(diaDeLaSemana)!;
-            infoDia.cantidad++;;
-        } else {
-            reservasPorDia.set(diaDeLaSemana, { cantidad: 1});
-        }
-    }
-    // const dias = Array.from({ length: 7 }, (_, index) => index + 1);
-    //     const ventasDia = dias.map(dia => ({
-    //         dia,
-    //         cantidadVentas: reservasPorDia.get() || 0,
-    //     }));
-    // console.log(reservasPorDia)
-    }
+//         if (reservasPorDia.has(diaDeLaSemana)) {
+//             const infoDia = reservasPorDia.get(diaDeLaSemana)!;
+//             infoDia.cantidad++;;
+//         } else {
+//             reservasPorDia.set(diaDeLaSemana, { cantidad: 1});
+//         }
+//     }
+//     // const dias = Array.from({ length: 7 }, (_, index) => index + 1);
+//     //     const ventasDia = dias.map(dia => ({
+//     //         dia,
+//     //         cantidadVentas: reservasPorDia.get() || 0,
+//     //     }));
+//     // console.log(reservasPorDia)
+//     }
 
 export const comprobarEstadoReserva = async () => {
     try {
@@ -433,4 +435,104 @@ export const comprobarEstadoReserva = async () => {
     }catch (error) {
         console.error(error);
       }
+  };
+  pdfMake.vfs = pdfFonts.pdfMake.vfs;
+  
+  interface TDocumentDefinitions {
+    content: any[]
+    styles: Record<string,any>;
+  }
+
+  export const pdfReserva = async (req: Request, res: Response) => {
+    const { id } = req.params;
+  
+    try {
+      // Obtener los detalles de la evidencia por ID
+      const reserva = await Reserva.findByPk(id);
+      if (!reserva) {
+        return res.status(404).send('Rerserva no encontrada');
+      }
+      const detallereserva = await DetalleReserva.findAll({attributes: [[sequelize.col('Producto.NOMBRE_PRODUCTO'), 'NOMBRE_PRODUCTO'], 'CANTIDAD',[sequelize.col('Producto.PRECIO_PRODUCTO'), 'PRECIO_PRODUCTO']],
+      include: [
+        {
+          model: Producto,
+          attributes: [],
+        }
+      ],where: {COD_RESERVA: id},
+      
+    });
+      // Crear la definición del documento PDF
+      const documentDefinition: TDocumentDefinitions = {
+        content: [
+          { text: `Reserva ID: ${reserva.dataValues.COD_RESERVA}`, style: 'header' },
+          { text: '\nDetalles de la Reserva:\n\n', style: 'subheader' },
+          {
+            table: {
+              headerRows: 1,
+              widths: ['auto', '*'],
+              body: [
+                ['Codigo Reserva', reserva.dataValues.COD_RESERVA],
+                ['Fecha de reserva', reserva.dataValues.FECHA_CREACION],
+                ['Nombre Completo', `${reserva.dataValues.NOMBRE_CLIENTE} ${reserva.dataValues.APELLIDO_CLIENTE}`],
+                ['Celular', reserva.dataValues.CELULAR_CLIENTE],
+                ['Direccion', reserva.dataValues.DIRECCION_CLIENTE],
+                ['Ciudad', reserva.dataValues.CIUDAD_CLIENTE],
+
+              ],
+            },
+          },
+          // Agregar espacio en blanco
+          { text: '\n\n' },
+          // Agregar la subtabla
+          {
+            table: {
+              headerRows: 1,
+              widths: ['auto', 'auto','auto'],
+              body: [
+                ['Producto', 'Precio','Cantidad'],
+                // Filas de productos y cantidades
+                ...detallereserva.map(detalle => [
+                  detalle.getDataValue('NOMBRE_PRODUCTO'),
+                  detalle.getDataValue('PRECIO_PRODUCTO'),
+                  detalle.getDataValue('CANTIDAD'),
+                ]),
+                ['' ,'' ,''],
+                ['Total: ',' ',reserva.dataValues.TOTAL]
+              ],
+            },
+            layout: 'lightHorizontalLines',
+          },
+        ],
+        styles: {
+          header: {
+            fontSize: 16,
+            bold: true,
+            alignment: 'center',
+          },
+          subheader: {
+            fontSize: 14,
+            bold: true,
+          },
+        },
+      };
+
+      // Crear el PDF
+      const pdfDoc = pdfMake.createPdf(documentDefinition);
+
+  
+      // Enviar el PDF como respuesta
+      pdfDoc.getBuffer((result: Buffer) => {
+        try {
+            res.attachment(`Reserva_${id}.pdf`);
+            res.type('application/pdf');
+            res.end(result, 'binary');
+        } catch (error) {
+          console.error('Error procesando imagen', error);
+          res.status(500).send('Error proceso de imagen');
+        }
+      });
+    } catch (error) {
+      console.error('Error al generar el PDF',error);
+      res.status(500).send('Error interno del servidor');
+    }
   };
