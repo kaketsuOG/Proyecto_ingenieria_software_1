@@ -10,4 +10,5 @@ router.put('/:cod_reserva', reserva_1.updateReserva);
 router.delete('/:cod_reserva', reserva_1.deleteReserva);
 router.get('/reporte/masvendido', reserva_1.getMasVendido);
 router.get('/reporte/ventaspormes', reserva_1.getVentasPorMes);
+router.get('/reporte/diamasvendido', reserva_1.getDiaMasVendido);
 exports.default = router;

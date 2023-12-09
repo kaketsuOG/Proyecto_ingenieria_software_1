@@ -4,6 +4,8 @@ import { DetalleReserva } from '../models/detalle_reserva';
 import { Producto } from "../models/producto";
 import sequelize from "sequelize";
 import { Op } from "sequelize";
+import { endOfMonth,format,parseISO,startOfMonth, subMonths  } from 'date-fns';
+import { es } from "date-fns/locale";
 
 
 
@@ -309,7 +311,48 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
         }
 };
 
-  export const comprobarEstadoReserva = async () => {
+export const getDiaMasVendido = async (req: Request, res: Response) => {
+
+    const fechaActual = new Date();
+    const fechaInicioMes = subMonths(startOfMonth(fechaActual),1);
+    const fechaFinMes = subMonths(endOfMonth(fechaActual),1);
+    
+    fechaInicioMes.toISOString().split('T')[0];
+    fechaFinMes.toISOString().split('T')[0];
+    
+    const reservas = await Reserva.findAll({where:{FECHA_CREACION: {
+        [Op.between]:[fechaInicioMes ,fechaFinMes]
+        }
+        }
+    })
+    const reservasPorDia: Map<String, { cantidad: number}> = new Map();
+    
+    for (const reserva of reservas){
+        const fechaReserva =parseISO(reserva.getDataValue('FECHA_CREACION'))
+        const numeroDiaSemana = fechaReserva.getDay();
+        const nombresDiasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const diaDeLaSemana = nombresDiasSemana[numeroDiaSemana];
+
+        if (reservasPorDia.has(diaDeLaSemana)) {
+            const infoDia = reservasPorDia.get(diaDeLaSemana)!;
+            infoDia.cantidad++;;
+        } else {
+            reservasPorDia.set(diaDeLaSemana, { cantidad: 1});
+        }
+    }
+    console.log(reservasPorDia)
+    }
+
+
+
+
+
+
+
+
+
+
+export const comprobarEstadoReserva = async () => {
     try {
         const reservas = await Reserva.findAll();
     

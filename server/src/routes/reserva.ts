@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getReserva, getReservas, newReserva, updateReserva, deleteReserva, getMasVendido, getVentasPorMes} from '../controllers/reserva';
+import { getReserva, getReservas, newReserva, updateReserva, deleteReserva, getMasVendido, getVentasPorMes, getDiaMasVendido} from '../controllers/reserva';
 import auth from './auth';
 
 const router = Router();
@@ -18,5 +18,6 @@ router.get('/reporte/masvendido',getMasVendido);
 
 router.get('/reporte/ventaspormes',getVentasPorMes);
 
+router.get('/reporte/diamasvendido',getDiaMasVendido);
 
 export default router;
