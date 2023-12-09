@@ -133,6 +133,44 @@ export const getReservas = async (req: Request, res: Response) => {
     }
 };
 
+export const getReservasByEstado = async (req: Request, res: Response) => {
+    const { estado } = req.params;
+
+    try {
+        const listReservas = await Reserva.findAll({
+            where: {
+                ESTADO: estado,
+            },
+        });
+
+        res.json(listReservas);
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Error al obtener las reservas por estado',
+            error,
+        });
+    }
+};
+
+export const getReservasByCiudad = async (req: Request, res: Response) => {
+    const { ciudad } = req.params;
+
+    try {
+        const listReservas = await Reserva.findAll({
+            where: {
+                CIUDAD_CLIENTE: ciudad,
+            },
+        });
+
+        res.json(listReservas);
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Error al obtener las reservas por ciudad',
+            error,
+        });
+    }
+};
+
 export const updateReserva = async (req: Request, res: Response) => {
     const { cod_reserva } = req.params;
     const { CELULAR_CLIENTE, NOMBRE_CLIENTE, APELLIDO_CLIENTE, DIRECCION_CLIENTE, CIUDAD_CLIENTE, ESTADO } = req.body;
