@@ -2,9 +2,15 @@ import { Request, Response } from 'express';
 import { Detalle_horario_entrega } from '../models/det_horario_entrega';
 
 export const getDetalle_horario_entregas = async (req: Request, res: Response) => {
+    try {
     const listDetalle_horario_entregas = await Detalle_horario_entrega.findAll({ attributes: ['COD_HORARIO_ENTREGA', 'HORA_ENTREGA'] });
-    res.json(listDetalle_horario_entregas)
-}
+    res.json(listDetalle_horario_entregas);
+}catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error  al obtener los detalles de horario de entrega.' });
+    }
+};
+
 
 
 // Crear un registro de horario de entrega
@@ -17,14 +23,14 @@ export const newHorarioEntrega = async (req: Request, res: Response) => {
             HORA_ENTREGA,
         });
 
-        return res.json({
+        return res.status(201).json({
             msg: 'Horario de entrega creado correctamente',
             horarioEntrega,
         });
     } catch (error) {
         return res.status(400).json({
             msg: 'Ocurrió un error al crear el horario de entrega',
-            error,
+            error: error.message,
         });
     }
 };
@@ -40,7 +46,7 @@ export const getHorarioEntrega = async (req: Request, res: Response) => {
     });
 
     if (!horarioEntrega) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: 'Horario de entrega no encontrado',
         });
     }
@@ -49,7 +55,7 @@ export const getHorarioEntrega = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(400).json({
             msg: 'Ocurrió un error al buscar el horario de entrega',
-            error,
+            error: error.message,
         });
     }
 };
@@ -67,7 +73,7 @@ export const updateHorarioEntrega = async (req: Request, res: Response) => {
     });
 
     if (!horarioEntrega) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: 'Horario de entrega no encontrado',
         });
     }
@@ -80,7 +86,7 @@ export const updateHorarioEntrega = async (req: Request, res: Response) => {
             horarioEntrega,
         });
     } catch (error) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: 'Ocurrió un error al actualizar el horario de entrega',
             error,
         });
@@ -99,7 +105,7 @@ export const deleteHorarioEntrega = async (req: Request, res: Response) => {
         });
 
         if (!horarioEntrega) {
-            return res.status(400).json({
+            return res.status(404).json({
                 msg: 'Horario de entrega no encontrado',
             });
         }
@@ -112,7 +118,7 @@ export const deleteHorarioEntrega = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(400).json({
             msg: 'Ocurrió un error al eliminar el horario de entrega',
-            error,
+            error: error.message,
         });
     }
 };

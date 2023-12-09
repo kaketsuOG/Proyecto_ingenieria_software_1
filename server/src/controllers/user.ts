@@ -28,14 +28,14 @@ export const newUser = async(req: Request, res: Response) =>{
             "APELLIDO2_USUARIO":apellido2_usuario,
             "COD_ROL":cod_rol
         })
-        return res.json({
+        return res.status(201).json({
             msg: 'Usuario creado correctamente'
             
         })
 
     } catch (error){
         res.status(400).json({
-            msg: 'Ocurrio un error',
+            msg: 'Ocurrio un error al crear el usuario',
             error
         })
     }
@@ -44,7 +44,7 @@ export const newUser = async(req: Request, res: Response) =>{
 
 
 export const getUsers = async(req: Request, res: Response) =>{
-    
+    try{   
     const listUsers = await User.findAll({
         attributes: [
             'RUT_USUARIO',
@@ -62,7 +62,10 @@ export const getUsers = async(req: Request, res: Response) =>{
     });
 
     return res.json(listUsers);
-
+}catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los usuarios.' });
+    }
 }
 
 export const loginUser = async(req: Request, res: Response) =>{
@@ -73,14 +76,14 @@ export const loginUser = async(req: Request, res: Response) =>{
     const usuario: any = await User.findOne({where: {RUT_USUARIO: rut_usuario}})
 
     if(!usuario) {
-        return res.status(400).json({
+        return res.status(401).json({
             msg: 'El rut ingresado no es valido'
         })
     }
     //validacion del password
     const passwordValida = await bcrypt.compare(contrasena, usuario.CONTRASEÑA)
     if(!passwordValida) {
-        return res.status(400).json({
+        return res.status(401).json({
             msg: 'Contraseña Incorrecta'
         })
     }
@@ -115,7 +118,7 @@ export const getUser = async(req: Request, res: Response) =>{
         },where: {RUT_USUARIO: rut_usuario}
     });
     if(!idUser) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El rut de usuario indicado no existe"
         })
     }
@@ -135,7 +138,7 @@ export const deleteUser = async(req: Request, res: Response) =>{
     const idUser = await User.findOne({where: {RUT_USUARIO: rut_usuario}})
 
     if(!idUser) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El rut "+rut_usuario+ " de usuario no existe"
         })
     }
@@ -157,7 +160,7 @@ export const updateUser = async(req: Request, res: Response)=>{
     const idUser = await User.findOne({where: {RUT_USUARIO: rut_usuario}})
 
     if(!idUser) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El rut "+rut_usuario+ " de usuario no existe"
         })
     }

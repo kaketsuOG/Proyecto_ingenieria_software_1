@@ -3,9 +3,15 @@ import { Producto } from '../models/producto';
 
 
 export const getProductos = async (req: Request, res: Response) => {
+    try {
     const listProductos = await Producto.findAll();
     res.json(listProductos);
+}catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los productos.'});
+    }
 };
+
 
 export const newProducto = async (req: Request, res: Response) => {
     const { nombre_producto, precio, cantidad_total, cantidad_disponible} = req.body;
@@ -18,13 +24,13 @@ export const newProducto = async (req: Request, res: Response) => {
             CANTIDAD_DISPONIBLE: cantidad_disponible,
             IMAGEN: imagen// Nueva columna para la ruta de la imagen
         });
-        return res.json({
-            msg: 'Producto creado correctamente'
+        return res.status(201).json({
+            msg: 'Producto creado correctamente',
         });
     } catch (error) {
         res.status(400).json({
             msg: 'Ocurrió un error al crear el producto',
-            error
+            error: error.message,
         });
     }
 };
@@ -34,7 +40,7 @@ export const updateProducto = async (req: Request, res: Response) => {
     const { cod_producto } = req.params;
     const idProducto = await Producto.findOne({ where: { COD_PRODUCTO: cod_producto } })
     if (!idProducto) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id del producto no existe"
         })
     }
@@ -64,7 +70,7 @@ export const getProducto = async (req: Request, res: Response) => {
     const { cod_producto } = req.params;
     const idProducto = await Producto.findOne({ where: { COD_PRODUCTO: cod_producto } })
     if (!idProducto) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id: " + cod_producto + " de producto no existe"
         })
     }
@@ -84,7 +90,7 @@ export const deleteProducto = async (req: Request, res: Response) => {
     const { cod_producto } = req.params;
     const idProducto = await Producto.findOne({ where: { COD_PRODUCTO: cod_producto } })
     if (!idProducto) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El id: " + cod_producto + " de producto no existe"
         })
     }
@@ -110,7 +116,7 @@ export const agregarProductos = async (req: Request, res: Response) => {
     // Verificar si el producto existe
     const idProducto = await Producto.findOne({ where: { COD_PRODUCTO: cod_producto } })
     if (!idProducto) {
-        return res.status(400).json({
+        return res.status(404).json({
             msg: "El producto ingresado no existe"
         });
     }
