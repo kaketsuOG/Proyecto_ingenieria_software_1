@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getReserva, getReservas, newReserva, updateReserva, deleteReserva, getMasVendido, getVentasPorMes, getDiaMasVendido} from '../controllers/reserva';
+import { getReserva, getReservas, newReserva, updateReserva, deleteReserva, getMasVendido, getVentasPorMes, getDiaMasVendido, getReservasByEstado, getReservasByCiudad} from '../controllers/reserva';
 import auth from './auth';
 
 const router = Router();
@@ -13,6 +13,10 @@ router.get('/:cod_reserva', getReserva);
 router.put('/:cod_reserva', updateReserva);
 
 router.delete('/:cod_reserva', deleteReserva);
+
+router.get('/estado/:estado', getReservasByEstado);
+
+router.get('/ciudad/:ciudad', getReservasByCiudad);
 
 router.get('/reporte/masvendido',getMasVendido);
 
