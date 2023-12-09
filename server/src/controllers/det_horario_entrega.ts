@@ -30,7 +30,7 @@ export const newHorarioEntrega = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(400).json({
             msg: 'Ocurrió un error al crear el horario de entrega',
-            error: error.message,
+            error
         });
     }
 };
@@ -55,7 +55,7 @@ export const getHorarioEntrega = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(400).json({
             msg: 'Ocurrió un error al buscar el horario de entrega',
-            error: error.message,
+            error
         });
     }
 };
@@ -118,7 +118,7 @@ export const deleteHorarioEntrega = async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(400).json({
             msg: 'Ocurrió un error al eliminar el horario de entrega',
-            error: error.message,
+            error
         });
     }
 };
