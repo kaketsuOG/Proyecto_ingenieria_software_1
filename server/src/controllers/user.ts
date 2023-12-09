@@ -76,14 +76,14 @@ export const loginUser = async(req: Request, res: Response) =>{
     const usuario: any = await User.findOne({where: {RUT_USUARIO: rut_usuario}})
 
     if(!usuario) {
-        return res.status(400).json({
+        return res.status(401).json({
             msg: 'El rut ingresado no es valido'
         })
     }
     //validacion del password
     const passwordValida = await bcrypt.compare(contrasena, usuario.CONTRASEÑA)
     if(!passwordValida) {
-        return res.status(400).json({
+        return res.status(401).json({
             msg: 'Contraseña Incorrecta'
         })
     }
