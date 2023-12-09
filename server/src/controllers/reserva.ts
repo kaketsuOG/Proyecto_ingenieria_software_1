@@ -346,7 +346,12 @@ export const getDiaMasVendido = async (req: Request, res: Response) => {
             reservasPorDia.set(diaDeLaSemana, { cantidad: 1});
         }
     }
-    console.log(reservasPorDia)
+    // const dias = Array.from({ length: 7 }, (_, index) => index + 1);
+    //     const ventasDia = dias.map(dia => ({
+    //         dia,
+    //         cantidadVentas: reservasPorDia.get() || 0,
+    //     }));
+    // console.log(reservasPorDia)
     }
 
 export const comprobarEstadoReserva = async () => {
