@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.pdfReserva = exports.comprobarEstadoReserva = exports.getDiaMasVendido = exports.getVentasPorMes = exports.getMasVendido = exports.deleteReserva = exports.updateReserva = exports.getReservasByCiudad = exports.getReservasByEstado = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
+exports.comprobarEstadoReserva = exports.pdfReserva = exports.getDiaMasVendido = exports.getVentasPorMes = exports.getMasVendido = exports.deleteReserva = exports.updateReserva = exports.getReservasByCiudad = exports.getReservasByEstado = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
 const reserva_1 = require("../models/reserva");
 const detalle_reserva_1 = require("../models/detalle_reserva");
 const producto_1 = require("../models/producto");
@@ -312,11 +312,12 @@ const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function
                 reservasPorMes.set(mesReserva, { cantidad: 1, total: total });
             }
         }
+        const nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         const meses = Array.from({ length: 12 }, (_, index) => index + 1);
         const ventasPorMesArray = meses.map(mes => {
             var _a, _b;
             return ({
-                mes,
+                mes: nombresMeses[mes - 1],
                 cantidadVentas: ((_a = reservasPorMes.get(mes)) === null || _a === void 0 ? void 0 : _a.cantidad) || 0,
                 totalDinero: ((_b = reservasPorMes.get(mes)) === null || _b === void 0 ? void 0 : _b.total) || 0,
             });
@@ -376,37 +377,6 @@ const getDiaMasVendido = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getDiaMasVendido = getDiaMasVendido;
-const comprobarEstadoReserva = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const reservas = yield reserva_1.Reserva.findAll();
-        for (const reserva of reservas) {
-            const codigoReserva = reserva.getDataValue('COD_RESERVA');
-            const estadoReserva = reserva.getDataValue('ESTADO');
-            parseInt(codigoReserva, 10);
-            if (estadoReserva == 'Cancelado') {
-                const detalleReservas = yield detalle_reserva_1.DetalleReserva.findAll({ where: { COD_RESERVA: codigoReserva } });
-                for (const detalleReserva of detalleReservas) {
-                    const codigoProducto = detalleReserva.getDataValue('COD_PRODUCTO');
-                    const cantidadProducto = detalleReserva.getDataValue('CANTIDAD');
-                    parseInt(codigoProducto, 10);
-                    parseInt(cantidadProducto, 10);
-                    const producto = yield producto_1.Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE'], where: { COD_PRODUCTO: codigoProducto } });
-                    const cantidadDisponible = producto === null || producto === void 0 ? void 0 : producto.getDataValue('CANTIDAD_DISPONIBLE');
-                    parseInt(cantidadDisponible, 10);
-                    yield producto_1.Producto.update({
-                        CANTIDAD_DISPONIBLE: cantidadDisponible + cantidadProducto
-                    }, { where: { COD_PRODUCTO: codigoProducto }
-                    });
-                }
-                yield detalle_reserva_1.DetalleReserva.destroy({ where: { COD_RESERVA: codigoReserva } });
-            }
-        }
-    }
-    catch (error) {
-        console.error(error);
-    }
-});
-exports.comprobarEstadoReserva = comprobarEstadoReserva;
 pdfmake_1.default.vfs = vfs_fonts_1.default.pdfMake.vfs;
 const pdfReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
@@ -494,3 +464,34 @@ const pdfReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.pdfReserva = pdfReserva;
+const comprobarEstadoReserva = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const reservas = yield reserva_1.Reserva.findAll();
+        for (const reserva of reservas) {
+            const codigoReserva = reserva.getDataValue('COD_RESERVA');
+            const estadoReserva = reserva.getDataValue('ESTADO');
+            parseInt(codigoReserva, 10);
+            if (estadoReserva == 'Cancelado') {
+                const detalleReservas = yield detalle_reserva_1.DetalleReserva.findAll({ where: { COD_RESERVA: codigoReserva } });
+                for (const detalleReserva of detalleReservas) {
+                    const codigoProducto = detalleReserva.getDataValue('COD_PRODUCTO');
+                    const cantidadProducto = detalleReserva.getDataValue('CANTIDAD');
+                    parseInt(codigoProducto, 10);
+                    parseInt(cantidadProducto, 10);
+                    const producto = yield producto_1.Producto.findOne({ attributes: ['CANTIDAD_DISPONIBLE'], where: { COD_PRODUCTO: codigoProducto } });
+                    const cantidadDisponible = producto === null || producto === void 0 ? void 0 : producto.getDataValue('CANTIDAD_DISPONIBLE');
+                    parseInt(cantidadDisponible, 10);
+                    yield producto_1.Producto.update({
+                        CANTIDAD_DISPONIBLE: cantidadDisponible + cantidadProducto
+                    }, { where: { COD_PRODUCTO: codigoProducto }
+                    });
+                }
+                yield detalle_reserva_1.DetalleReserva.destroy({ where: { COD_RESERVA: codigoReserva } });
+            }
+        }
+    }
+    catch (error) {
+        console.error(error);
+    }
+});
+exports.comprobarEstadoReserva = comprobarEstadoReserva;
