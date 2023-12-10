@@ -305,10 +305,12 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
     const { ano_reporte} = req.body;
 
 
-    
+    console.log( ano_reporte)
 
 
     
+
+
     const fecha = new Date(ano_reporte)
     const fechaInicio = startOfYear(fecha);
     const fechaFin = endOfYear(fecha);

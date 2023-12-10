@@ -278,6 +278,7 @@ const getMasVendido = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.getMasVendido = getMasVendido;
 const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { ano_reporte } = req.body;
+    console.log(ano_reporte);
     const fecha = new Date(ano_reporte);
     const fechaInicio = (0, date_fns_1.startOfYear)(fecha);
     const fechaFin = (0, date_fns_1.endOfYear)(fecha);

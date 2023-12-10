@@ -20,7 +20,7 @@ router.get('/ciudad/:ciudad', getReservasByCiudad);
 
 router.post('/reporte/masvendido',getMasVendido);
 
-router.get('/reporte/ventaspormes',getVentasPorMes);
+router.post('/reporte/ventaspormes',getVentasPorMes);
 
 router.get('/reporte/diamasvendido',getDiaMasVendido);
 
