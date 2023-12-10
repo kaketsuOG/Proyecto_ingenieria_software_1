@@ -4,7 +4,7 @@ import { DetalleReserva } from '../models/detalle_reserva';
 import { Producto } from "../models/producto";
 import sequelize from "sequelize";
 import { Op } from "sequelize";
-import { endOfMonth,parseISO,startOfMonth, subMonths  } from 'date-fns';
+import { endOfMonth,endOfYear,parseISO,startOfMonth, startOfYear, subMonths  } from 'date-fns';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
@@ -301,9 +301,24 @@ export const getMasVendido = async (req: Request, res: Response) => {
 }
 
 export const getVentasPorMes = async (req: Request, res: Response) => {
+
+    const { ano_reporte} = req.body;
+
+
     
-    const fechaActual = new Date();
-    const fechaFormateada = fechaActual.getFullYear();
+
+
+    
+    const fecha = new Date(ano_reporte)
+    const fechaInicio = startOfYear(fecha);
+    const fechaFin = endOfYear(fecha);
+
+    const fechaInicioAno = fechaInicio.toISOString().split('T')[0];
+    const fechaFinAno = fechaFin.toISOString().split('T')[0];
+
+
+
+
 
     const reservas = await Reserva.findAll({
         attributes: [
@@ -312,14 +327,14 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
         ],
         where: {
             FECHA_CREACION: {
-                [Op.gte]: [fechaFormateada],
-                [Op.lte]: [fechaFormateada + 1]
+                [Op.gte]: [fechaInicioAno],
+                [Op.lt]: [fechaFinAno]
             },
-            ESTADO: {[Op.not]: ['Cancelado']}
+            ESTADO: {[Op.not]: ['Cancelada']}
         }
     });
     if (!reservas || reservas.length == 0){
-        res.json({
+        return res.json({
             msg: 'No hay reservas en este año'
         })
     }
