@@ -35,7 +35,7 @@ class Server {
         this.dbConnect();
         this.routes();
         this.startReservaStateCheck()
-        this.firstUser()
+        // this.firstUser()
 
 
     }

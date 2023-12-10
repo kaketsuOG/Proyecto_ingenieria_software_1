@@ -41,7 +41,7 @@ class Server {
         this.dbConnect();
         this.routes();
         this.startReservaStateCheck();
-        this.firstUser();
+        // this.firstUser()
     }
     listen() {
         this.app.listen(this.port, () => {
