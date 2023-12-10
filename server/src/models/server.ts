@@ -78,7 +78,7 @@ class Server {
         }
     }
 
-    startReservaStateCheck() {
+    async startReservaStateCheck() {
         setInterval(async () => {
           try {
             comprobarEstadoReserva()

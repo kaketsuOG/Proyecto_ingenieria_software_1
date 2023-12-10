@@ -79,14 +79,16 @@ class Server {
         });
     }
     startReservaStateCheck() {
-        setInterval(() => __awaiter(this, void 0, void 0, function* () {
-            try {
-                (0, reserva_3.comprobarEstadoReserva)();
-            }
-            catch (error) {
-                console.error('Ha ocurrido un error en el servidor', error);
-            }
-        }), 1500000);
+        return __awaiter(this, void 0, void 0, function* () {
+            setInterval(() => __awaiter(this, void 0, void 0, function* () {
+                try {
+                    (0, reserva_3.comprobarEstadoReserva)();
+                }
+                catch (error) {
+                    console.error('Ha ocurrido un error en el servidor', error);
+                }
+            }), 1500000);
+        });
     }
 }
 exports.default = Server;
