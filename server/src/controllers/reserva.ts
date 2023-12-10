@@ -356,7 +356,6 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
             })
         }
 };
-
 export const getDiaMasVendido = async (req: Request, res: Response) => {
 
     try{
