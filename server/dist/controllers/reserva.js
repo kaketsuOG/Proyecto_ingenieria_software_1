@@ -277,8 +277,12 @@ const getMasVendido = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.getMasVendido = getMasVendido;
 const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const fechaActual = new Date();
-    const fechaFormateada = fechaActual.getFullYear();
+    const { ano_reporte } = req.body;
+    const fecha = new Date(ano_reporte);
+    const fechaInicio = (0, date_fns_1.startOfYear)(fecha);
+    const fechaFin = (0, date_fns_1.endOfYear)(fecha);
+    const fechaInicioAno = fechaInicio.toISOString().split('T')[0];
+    const fechaFinAno = fechaFin.toISOString().split('T')[0];
     const reservas = yield reserva_1.Reserva.findAll({
         attributes: [
             'TOTAL',
@@ -286,14 +290,14 @@ const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function
         ],
         where: {
             FECHA_CREACION: {
-                [sequelize_2.Op.gte]: [fechaFormateada],
-                [sequelize_2.Op.lte]: [fechaFormateada + 1]
+                [sequelize_2.Op.gte]: [fechaInicioAno],
+                [sequelize_2.Op.lt]: [fechaFinAno]
             },
-            ESTADO: { [sequelize_2.Op.not]: ['Cancelado'] }
+            ESTADO: { [sequelize_2.Op.not]: ['Cancelada'] }
         }
     });
     if (!reservas || reservas.length == 0) {
-        res.json({
+        return res.json({
             msg: 'No hay reservas en este año'
         });
     }
