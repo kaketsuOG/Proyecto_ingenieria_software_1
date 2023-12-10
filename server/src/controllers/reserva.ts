@@ -446,6 +446,8 @@ export const comprobarEstadoReserva = async () => {
         console.error(error);
       }
   };
+
+
   pdfMake.vfs = pdfFonts.pdfMake.vfs;
   
   interface TDocumentDefinitions {
@@ -457,7 +459,6 @@ export const comprobarEstadoReserva = async () => {
     const { id } = req.params;
   
     try {
-      // Obtener los detalles de la evidencia por ID
       const reserva = await Reserva.findByPk(id);
       if (!reserva) {
         return res.status(404).send('Rerserva no encontrada');
@@ -471,7 +472,7 @@ export const comprobarEstadoReserva = async () => {
       ],where: {COD_RESERVA: id},
       
     });
-      // Crear la definición del documento PDF
+
       const documentDefinition: TDocumentDefinitions = {
         content: [
           { text: 'Distribuidora Aqua Pura' , style: 'header' },
@@ -500,7 +501,6 @@ export const comprobarEstadoReserva = async () => {
               widths: ['auto', 'auto','auto'],
               body: [
                 ['Producto', 'Precio','Cantidad'],
-                // Filas de productos y cantidades
                 ...detallereserva.map(detalle => [
                   detalle.getDataValue('NOMBRE_PRODUCTO'),
                   detalle.getDataValue('PRECIO_PRODUCTO'),
@@ -526,10 +526,8 @@ export const comprobarEstadoReserva = async () => {
         },
       };
 
-      // Crear el PDF
       const pdfDoc = pdfMake.createPdf(documentDefinition);
 
-  
       // Enviar el PDF como respuesta
       pdfDoc.getBuffer((result: Buffer) => {
         try {
