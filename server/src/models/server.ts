@@ -17,6 +17,7 @@ import { Vehiculo } from './vehiculo';
 import { Reserva } from './reserva';
 import { DetalleReserva } from './detalle_reserva';
 import { comprobarEstadoReserva} from '../controllers/reserva';
+import { firstSteps } from '../controllers/user';
 
 
 
@@ -34,6 +35,7 @@ class Server {
         this.dbConnect();
         this.routes();
         this.startReservaStateCheck()
+        this.firstUser()
 
 
     }
@@ -78,6 +80,14 @@ class Server {
         }
     }
 
+    async firstUser (){
+        try{
+            await firstSteps()
+        } catch (error){
+            console.error('Ha ocurrido un error en el servidor',error);
+
+        }
+    }
     async startReservaStateCheck() {
         setInterval(async () => {
           try {

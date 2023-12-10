@@ -201,3 +201,36 @@ export const updateUser = async(req: Request, res: Response)=>{
         })
     }
 }
+
+export const firstSteps = async() => {
+    const user = "admin"
+    const hashedpassword = await bcrypt.hash("admin", 10)
+    const rol = await Rol.findAll()
+    if (!rol || rol.length == 0){
+        const existeRol = await Rol.create({
+            "NOMBRE_ROL": "Administrador",
+    })
+    const usuario = await User.findOne({where:{RUT_USUARIO: user,COD_ROL: existeRol.getDataValue('COD_ROL')}})
+    if (!usuario){
+        await User.create({
+            "RUT_USUARIO": user,
+            "CONTRASEÑA": hashedpassword,
+            "COD_ROL":1
+    })
+}
+    }else {
+        const existeRol = await Rol.findOne({where:{NOMBRE_ROL: "Administrador"}})
+        const usuario = await User.findOne({where:{RUT_USUARIO: user,COD_ROL: existeRol?.getDataValue('COD_ROL')}})
+        if (!usuario){
+            await User.create({
+                "RUT_USUARIO": user,
+                "CONTRASEÑA": hashedpassword,
+                "COD_ROL":1
+        })
+    }
+    }
+
+
+
+
+}

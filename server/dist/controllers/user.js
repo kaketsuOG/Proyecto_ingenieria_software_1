@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.deleteUser = exports.getUser = exports.loginUser = exports.getUsers = exports.newUser = void 0;
+exports.firstSteps = exports.updateUser = exports.deleteUser = exports.getUser = exports.loginUser = exports.getUsers = exports.newUser = void 0;
 const user_1 = require("../models/user");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -198,3 +198,33 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updateUser = updateUser;
+const firstSteps = () => __awaiter(void 0, void 0, void 0, function* () {
+    const user = "admin";
+    const hashedpassword = yield bcrypt_1.default.hash("admin", 10);
+    const rol = yield rol_1.Rol.findAll();
+    if (!rol || rol.length == 0) {
+        const existeRol = yield rol_1.Rol.create({
+            "NOMBRE_ROL": "Administrador",
+        });
+        const usuario = yield user_1.User.findOne({ where: { RUT_USUARIO: user, COD_ROL: existeRol.getDataValue('COD_ROL') } });
+        if (!usuario) {
+            yield user_1.User.create({
+                "RUT_USUARIO": user,
+                "CONTRASEÑA": hashedpassword,
+                "COD_ROL": 1
+            });
+        }
+    }
+    else {
+        const existeRol = yield rol_1.Rol.findOne({ where: { NOMBRE_ROL: "Administrador" } });
+        const usuario = yield user_1.User.findOne({ where: { RUT_USUARIO: user, COD_ROL: existeRol === null || existeRol === void 0 ? void 0 : existeRol.getDataValue('COD_ROL') } });
+        if (!usuario) {
+            yield user_1.User.create({
+                "RUT_USUARIO": user,
+                "CONTRASEÑA": hashedpassword,
+                "COD_ROL": 1
+            });
+        }
+    }
+});
+exports.firstSteps = firstSteps;

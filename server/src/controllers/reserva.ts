@@ -4,7 +4,7 @@ import { DetalleReserva } from '../models/detalle_reserva';
 import { Producto } from "../models/producto";
 import sequelize from "sequelize";
 import { Op } from "sequelize";
-import { endOfMonth,format,parseISO,startOfMonth, subMonths  } from 'date-fns';
+import { endOfMonth,parseISO,startOfMonth, subMonths  } from 'date-fns';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
