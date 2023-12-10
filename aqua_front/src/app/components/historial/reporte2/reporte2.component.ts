@@ -8,8 +8,8 @@ import { HistorialService } from 'src/app/services/historial.service';
 })
 export class Reporte2Component implements OnInit {
 
-  resultadoMesMasVendido: any;
-  errorObtenerMesMasVendido: any;
+  resultadoVentasPorMes: any;
+  errorObtenerVentasPorMes: any;
   mensajeSinDatos: string = ''; // Mensaje informativo cuando no hay datos
 
   fechaInicio: string = '2023-01-01';
@@ -18,26 +18,27 @@ export class Reporte2Component implements OnInit {
   // Variable booleana para mostrar/ocultar la tabla
   mostrarTabla: boolean = false;
   // Nueva propiedad para almacenar los datos de la tabla
-  datosTablaMasVendido: any[] = [];
+  datosTablaVentasPorMes: any[] = [];
 
   constructor(private historialService: HistorialService) {}
 
   ngOnInit() {
-    this.obtenerMesMasVendido();
+    this.obtenerVentasPorMes();
   }
 
-  obtenerMesMasVendido() {
-    this.historialService.getVentaMes(this.fechaInicio, this.fechaFinal).subscribe(
+  obtenerVentasPorMes() {
+    this.historialService.getVentasPorMes(this.fechaInicio, this.fechaFinal).subscribe(
       (data) => {
         console.log('Respuesta del servidor:', data);
 
         // Verificar si hay datos disponibles
-        if (data) {
-          this.resultadoMesMasVendido = data;
+        if (data && Array.isArray(data)) {
+          this.datosTablaVentasPorMes = data;
+          this.mostrarTabla = true; // Mostrar la tabla si hay datos
           this.mensajeSinDatos = ''; // Limpiar el mensaje informativo si hay datos
         } else {
-          this.resultadoMesMasVendido = null;
-          this.mensajeSinDatos = 'No hay datos disponibles para el mes que más se vendió.';
+          this.mostrarTabla = false; // Ocultar la tabla si no hay datos
+          this.mensajeSinDatos = 'No hay datos disponibles para el periodo especificado.';
         }
       },
       (error) => {
@@ -45,9 +46,10 @@ export class Reporte2Component implements OnInit {
 
         // Extraer el mensaje específico del error
         const mensajeError = error?.error?.msg || 'Error al obtener el reporte. Por favor, intenta de nuevo más tarde.';
-        
-        // Limpiar el resultado en caso de error
-        this.resultadoMesMasVendido = null;
+
+        // Limpiar el resultado y ocultar la tabla en caso de error
+        this.datosTablaVentasPorMes = [];
+        this.mostrarTabla = false;
         this.mensajeSinDatos = mensajeError;
       }
     );

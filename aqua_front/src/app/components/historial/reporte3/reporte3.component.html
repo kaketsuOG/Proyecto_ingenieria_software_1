@@ -1,42 +1,28 @@
 <!-- reporte3.component.html -->
 
-<div class="container mt-4 bg-light p-4 bg-primary">
-    <h1 class="mb-4">Reporte del Día Más Vendido en el Mes</h1>
-    
-    <!-- Selección de rango de fechas -->
-    <div class="row">
-      <div class="col-md-3">
-        <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
-        <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="fechaInicio" />
-      </div>
-      <div class="col-md-3">
-        <label for="fechaFinal" class="form-label">Fecha Final:</label>
-        <input type="date" class="form-control" id="fechaFinal" [(ngModel)]="fechaFinal" />
-      </div>
-      <div class="col-md-3">
-        <button mat-button class="btn btn-primary mt-4" (click)="obtenerMejorDia()">Obtener Reporte</button>
-      </div>
-    </div>
-  
-    <!-- Muestra la información solo si hay resultados -->
-    <div *ngIf="resultadoMejorDia" class="mt-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Día más vendido:</h5>
-          <p class="card-text">{{ resultadoMejorDia.dia }}</p>
-        </div>
-      </div>
-      <div class="card mt-4">
-        <div class="card-body">
-          <h5 class="card-title">Total vendido en el día:</h5>
-          <p class="card-text">{{ resultadoMejorDia.total }}</p>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Muestra un mensaje si hay un error -->
-    <div *ngIf="errorObtenerMejorDia" class="alert alert-danger mt-4">
-      {{ errorObtenerMejorDia.error.msg }}
-    </div>
+<!-- reporte3.component.html -->
+
+<div class="container mt-4">
+  <h2>Reporte 3: Día Más Vendido</h2>
+
+  <!-- Mostrar mensaje informativo si no hay datos -->
+  <div *ngIf="mensajeSinDatos" class="alert alert-info mt-3">
+    {{ mensajeSinDatos }}
   </div>
-  
+
+  <!-- Mostrar tabla si hay datos disponibles -->
+  <table class="table" *ngIf="resultadoDiaMasVendido && resultadoDiaMasVendido.length > 0">
+    <thead>
+      <tr>
+        <th>Día de la Semana</th>
+        <th>Cantidad de Ventas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let venta of resultadoDiaMasVendido">
+        <td>{{ venta.dia }}</td>
+        <td>{{ venta.cantidadVentas }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

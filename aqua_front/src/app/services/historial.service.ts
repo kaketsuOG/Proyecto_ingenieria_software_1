@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -29,12 +29,19 @@ export class HistorialService {
       return this.http.post<any>(`${this.apiUrl}/reporte/masvendido`, { fecha_inicio: fechaInicio, fecha_final: fechaFinal });
     }
 
-    getVentaMes(fechaInicio: string, fechaFinal: string): Observable<any> {
-      return this.http.post<any>(`${this.apiUrl}/reporte/ventaspormes`, { fecha_inicio: fechaInicio, fecha_final: fechaFinal });
-    }
+     // Método para obtener el reporte de ventas por mes
+  getVentasPorMes(fechaInicio: string, fechaFinal: string): Observable<any> {
+    // Configurar parámetros de la solicitud GET
+    const params = new HttpParams()
+      .set('fechaInicio', fechaInicio)
+      .set('fechaFinal', fechaFinal);
 
-    getVentaDia(fechaInicio: string, fechaFinal: string): Observable<any> {
-      return this.http.post<any>(`${this.apiUrl}/reporte/diamasvendido`, { fecha_inicio: fechaInicio, fecha_final: fechaFinal });
+    // Realizar la solicitud GET al backend
+    return this.http.get<any>(`${this.apiUrl}/reporte/ventaspormes`, { params });
+  }
+
+    getDiaMasVendido(): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/reporte/diamasvendido`);
     }
   
     // Otros métodos relacionados con el historial...
