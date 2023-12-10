@@ -18,7 +18,7 @@ router.get('/estado/:estado', getReservasByEstado);
 
 router.get('/ciudad/:ciudad', getReservasByCiudad);
 
-router.get('/reporte/masvendido',getMasVendido);
+router.post('/reporte/masvendido',getMasVendido);
 
 router.get('/reporte/ventaspormes',getVentasPorMes);
 

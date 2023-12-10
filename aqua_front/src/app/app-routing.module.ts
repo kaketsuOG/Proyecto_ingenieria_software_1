@@ -25,6 +25,8 @@ import { InventarioCreateComponent } from './components/inventario/create/create
 import { InventarioEditComponent } from './components/inventario/edit/edit.component';
 import { HistorialComponent } from './components/historial/historial.component';
 import { Reporte1Component } from './components/historial/reporte1/reporte1.component'; // Asegúrate de importar Reporte1Component
+import { Reporte2Component } from './components/historial/reporte2/reporte2.component';
+import { Reporte3Component } from './components/historial/reporte3/reporte3.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -48,6 +50,8 @@ const routes: Routes = [
   { path: 'inventario/edit/:id', component: InventarioEditComponent},
   { path: 'historial', component: HistorialComponent },
   { path: 'reporte1', component: Reporte1Component },
+  { path: 'reporte2', component: Reporte2Component },
+  { path: 'reporte3', component: Reporte3Component },
 
 
  //{ path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },

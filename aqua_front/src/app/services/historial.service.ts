@@ -28,6 +28,14 @@ export class HistorialService {
     getMasVendido(fechaInicio: string, fechaFinal: string): Observable<any> {
       return this.http.post<any>(`${this.apiUrl}/reporte/masvendido`, { fecha_inicio: fechaInicio, fecha_final: fechaFinal });
     }
+
+    getVentaMes(fechaInicio: string, fechaFinal: string): Observable<any> {
+      return this.http.post<any>(`${this.apiUrl}/reporte/ventaspormes`, { fecha_inicio: fechaInicio, fecha_final: fechaFinal });
+    }
+
+    getVentaDia(fechaInicio: string, fechaFinal: string): Observable<any> {
+      return this.http.post<any>(`${this.apiUrl}/reporte/diamasvendido`, { fecha_inicio: fechaInicio, fecha_final: fechaFinal });
+    }
   
     // Otros métodos relacionados con el historial...
   }

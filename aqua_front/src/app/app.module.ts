@@ -47,7 +47,9 @@ import { ReservaComponent } from './components/reserva/reserva.component';
 import { InventarioCreateComponent } from './components/inventario/create/create.component';
 import { InventarioEditComponent } from './components/inventario/edit/edit.component';
 import { HistorialComponent } from './components/historial/historial.component';
-
+import { Reporte1Component } from './components/historial/reporte1/reporte1.component';
+import { Reporte2Component } from './components/historial/reporte2/reporte2.component';
+import { Reporte3Component } from './components/historial/reporte3/reporte3.component';
 
 
 
@@ -76,6 +78,9 @@ import { HistorialComponent } from './components/historial/historial.component';
     InventarioCreateComponent,
     InventarioEditComponent,
     HistorialComponent,
+    Reporte1Component,
+    Reporte2Component,
+    Reporte3Component,
   ],
   imports: [
     BrowserModule,

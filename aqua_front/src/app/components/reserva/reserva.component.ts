@@ -77,7 +77,7 @@ export class ReservaComponent implements OnInit {
             console.log('Pedido realizado con éxito:', response);
 
             // Obtener el cod_reserva de la respuesta
-            const cod_reserva = response.cod_reserva;
+            const cod_reserva = response.reserva.COD_RESERVA;
 
             // Realizar la solicitud GET para obtener información adicional
             this.reservaService.getInformacionReserva(cod_reserva).subscribe({
@@ -106,11 +106,11 @@ export class ReservaComponent implements OnInit {
         });
     }
   }
-  descargarPDF(cod_reserva: number): void {
+  async descargarPDF(cod_reserva: number): Promise<void> {
     
      console.log(cod_reserva); // Verifica el valor en la consola
 
-    this.reservaService.getInformacionReserva(cod_reserva).subscribe({
+    await this.reservaService.getInformacionReserva(cod_reserva).subscribe({
       next: (pdfBlob: Blob) => {
         // Crear un objeto Blob con el contenido del PDF
         const blob = new Blob([pdfBlob], { type: 'application/pdf' });
@@ -120,6 +120,10 @@ export class ReservaComponent implements OnInit {
         link.href = window.URL.createObjectURL(blob);
         link.download = `Reserva_${cod_reserva}.pdf`;
         link.target = '_blank';
+
+        console.log(link.href)
+
+        window.open(link.href, '_blank');
 
         // Agregar el enlace al DOM y simular un clic para iniciar la descarga
         document.body.appendChild(link);

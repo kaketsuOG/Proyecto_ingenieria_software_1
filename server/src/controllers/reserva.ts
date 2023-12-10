@@ -235,6 +235,7 @@ export const deleteReserva = async (req: Request, res: Response) => {
 };
 
 export const getMasVendido = async (req: Request, res: Response) => {
+
     const {fecha_inicio, fecha_final} = req.body;
 
     const productos = await DetalleReserva.findAll({attributes: [[sequelize.col('Producto.NOMBRE_PRODUCTO'), 'NOMBRE_PRODUCTO'], 'CANTIDAD'],
@@ -254,7 +255,6 @@ export const getMasVendido = async (req: Request, res: Response) => {
         ],
         
       });
-
 
     if(!productos || productos.length == 0){
         res.status(400).json({

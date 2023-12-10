@@ -31,8 +31,12 @@ export class ReservaService {
     };
 
 
-    return this.http.post(url, body).pipe(
-      tap(() => {
+    return this.http.post<any[]>(url, body).pipe(
+      tap((response) => {
+
+        const result = response
+
+        console.log(result[0])
         // Resto del código
       })
     );
@@ -40,6 +44,7 @@ export class ReservaService {
 
   getInformacionReserva(cod_reserva: number): Observable<Blob> {
     const pdfUrl = `${this.apiUrl}/reserva/generarpdf/${cod_reserva}`; // Ajusta la URL según tu API
+    window.open(pdfUrl);
     return this.http.get(pdfUrl, { responseType: 'blob' });
   }
   
