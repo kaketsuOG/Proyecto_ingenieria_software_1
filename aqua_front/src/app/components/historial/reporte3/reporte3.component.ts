@@ -8,32 +8,35 @@ import { HistorialService } from 'src/app/services/historial.service';
 })
 export class Reporte3Component implements OnInit {
 
-  // Propiedades para almacenar los resultados y posibles errores
-  resultadoMejorDia: any;
-  errorObtenerMejorDia: any;
-
-  // Propiedad para almacenar la fecha seleccionada
-  fechaInicio: string = '2023-01-01';
-  fechaFinal: string = '2023-12-31';
+  resultadoDiaMasVendido: any;
+  errorObtenerDiaMasVendido: any;
+  mensajeSinDatos: string = '';
 
   constructor(private historialService: HistorialService) {}
 
   ngOnInit() {
-    // Puedes realizar alguna lógica de inicialización si es necesario
+    this.obtenerDiaMasVendido();
   }
 
-  // Método para obtener el mejor día del mes
-  obtenerMejorDia() {
-
-    // Llama al servicio para obtener el mejor día
-    this.historialService.getVentaDia(this.fechaInicio, this.fechaFinal).subscribe(
+  obtenerDiaMasVendido() {
+    this.historialService.getDiaMasVendido().subscribe(
       (data) => {
-        // Almacena el resultado
-        this.resultadoMejorDia = data;
+        if (data) {
+          this.resultadoDiaMasVendido = data;
+          this.mensajeSinDatos = '';
+        } else {
+          this.resultadoDiaMasVendido = null;
+          this.mensajeSinDatos = 'No hay datos disponibles para el día más vendido.';
+        }
       },
       (error) => {
-        // Almacena el posible error
-        this.errorObtenerMejorDia = error;
+        console.error('Error al obtener el reporte:', error);
+        const mensajeError =
+          error?.error?.msg ||
+          'Error al obtener el reporte. Por favor, intenta de nuevo más tarde.';
+
+        this.resultadoDiaMasVendido = null;
+        this.mensajeSinDatos = mensajeError;
       }
     );
   }
