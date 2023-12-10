@@ -320,7 +320,7 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
     });
     if (!reservas || reservas.length == 0){
         res.json({
-            msg: 'No hay reservas en esye año'
+            msg: 'No hay reservas en este año'
         })
     }
     try{
@@ -357,42 +357,52 @@ export const getVentasPorMes = async (req: Request, res: Response) => {
         }
 };
 
-// export const getDiaMasVendido = async (req: Request, res: Response) => {
+export const getDiaMasVendido = async (req: Request, res: Response) => {
 
-//     const fechaActual = new Date();
-//     const fechaInicioMes = subMonths(startOfMonth(fechaActual),1);
-//     const fechaFinMes = subMonths(endOfMonth(fechaActual),1);
+    try{
+    const fechaActual = new Date();
+    const fechaInicioMes = subMonths(startOfMonth(fechaActual),1);
+    const fechaFinMes = subMonths(endOfMonth(fechaActual),1);
     
-//     fechaInicioMes.toISOString().split('T')[0];
-//     fechaFinMes.toISOString().split('T')[0];
+    fechaInicioMes.toISOString().split('T')[0];
+    fechaFinMes.toISOString().split('T')[0];
     
-//     const reservas = await Reserva.findAll({where:{FECHA_CREACION: {
-//         [Op.between]:[fechaInicioMes ,fechaFinMes]
-//         }
-//         }
-//     })
-//     const reservasPorDia: Map<String, { cantidad: number}> = new Map();
+    const reservas = await Reserva.findAll({where:{FECHA_CREACION: {
+        [Op.between]:[fechaInicioMes ,fechaFinMes]
+        }
+        }
+    })
+    const reservasPorDia: Map<number, { cantidad: number}> = new Map();
     
-//     for (const reserva of reservas){
-//         const fechaReserva =parseISO(reserva.getDataValue('FECHA_CREACION'))
-//         const numeroDiaSemana = fechaReserva.getDay();
-//         const nombresDiasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-//         const diaDeLaSemana = nombresDiasSemana[numeroDiaSemana];
+    for (const reserva of reservas){
+        const fechaReserva =parseISO(reserva.getDataValue('FECHA_CREACION'))
+        const numeroDiaSemana = fechaReserva.getDay();
+        
 
-//         if (reservasPorDia.has(diaDeLaSemana)) {
-//             const infoDia = reservasPorDia.get(diaDeLaSemana)!;
-//             infoDia.cantidad++;;
-//         } else {
-//             reservasPorDia.set(diaDeLaSemana, { cantidad: 1});
-//         }
-//     }
-//     // const dias = Array.from({ length: 7 }, (_, index) => index + 1);
-//     //     const ventasDia = dias.map(dia => ({
-//     //         dia,
-//     //         cantidadVentas: reservasPorDia.get() || 0,
-//     //     }));
-//     // console.log(reservasPorDia)
-//     }
+
+        if (reservasPorDia.has(numeroDiaSemana)) {
+            const infoDia = reservasPorDia.get(numeroDiaSemana)!;
+            infoDia.cantidad++;;
+        } else {
+            reservasPorDia.set(numeroDiaSemana, { cantidad: 1});
+        }
+    }
+    const nombresDiasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    // console.log(reservasPorDia.get('Domingo')?.cantidad)
+    const dias = Array.from({ length: 7 }, (_, index) => index );
+        const ventasDia = dias.map(dia => ({
+            dia: nombresDiasSemana[dia],
+            cantidadVentas: reservasPorDia.get(dia)?.cantidad || 0,
+        }));
+
+    res.json(ventasDia)
+    } catch(error) {
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al obtener el reporte',
+            error
+        })
+    }
+    }
 
 export const comprobarEstadoReserva = async () => {
     try {

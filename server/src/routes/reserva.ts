@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { pdfReserva,getReserva, getReservas, newReserva, updateReserva, deleteReserva, getMasVendido, getVentasPorMes, getReservasByEstado, getReservasByCiudad} from '../controllers/reserva';
+import { pdfReserva,getReserva, getReservas, newReserva, updateReserva, deleteReserva, getMasVendido, getVentasPorMes, getReservasByEstado, getReservasByCiudad, getDiaMasVendido} from '../controllers/reserva';
 import auth from './auth';
 
 const router = Router();
@@ -22,7 +22,7 @@ router.get('/reporte/masvendido',getMasVendido);
 
 router.get('/reporte/ventaspormes',getVentasPorMes);
 
-// router.get('/reporte/diamasvendido',getDiaMasVendido);
+router.get('/reporte/diamasvendido',getDiaMasVendido);
 
 router.get('/generarpdf/:id',pdfReserva);
 export default router;

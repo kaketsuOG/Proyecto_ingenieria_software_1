@@ -12,12 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.pdfReserva = exports.comprobarEstadoReserva = exports.getVentasPorMes = exports.getMasVendido = exports.deleteReserva = exports.updateReserva = exports.getReservasByCiudad = exports.getReservasByEstado = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
+exports.pdfReserva = exports.comprobarEstadoReserva = exports.getDiaMasVendido = exports.getVentasPorMes = exports.getMasVendido = exports.deleteReserva = exports.updateReserva = exports.getReservasByCiudad = exports.getReservasByEstado = exports.getReservas = exports.getReserva = exports.newReserva = void 0;
 const reserva_1 = require("../models/reserva");
 const detalle_reserva_1 = require("../models/detalle_reserva");
 const producto_1 = require("../models/producto");
 const sequelize_1 = __importDefault(require("sequelize"));
 const sequelize_2 = require("sequelize");
+const date_fns_1 = require("date-fns");
 const pdfmake_1 = __importDefault(require("pdfmake/build/pdfmake"));
 const vfs_fonts_1 = __importDefault(require("pdfmake/build/vfs_fonts"));
 const newReserva = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -293,7 +294,7 @@ const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function
     });
     if (!reservas || reservas.length == 0) {
         res.json({
-            msg: 'No hay reservas en esye año'
+            msg: 'No hay reservas en este año'
         });
     }
     try {
@@ -330,37 +331,51 @@ const getVentasPorMes = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.getVentasPorMes = getVentasPorMes;
-// export const getDiaMasVendido = async (req: Request, res: Response) => {
-//     const fechaActual = new Date();
-//     const fechaInicioMes = subMonths(startOfMonth(fechaActual),1);
-//     const fechaFinMes = subMonths(endOfMonth(fechaActual),1);
-//     fechaInicioMes.toISOString().split('T')[0];
-//     fechaFinMes.toISOString().split('T')[0];
-//     const reservas = await Reserva.findAll({where:{FECHA_CREACION: {
-//         [Op.between]:[fechaInicioMes ,fechaFinMes]
-//         }
-//         }
-//     })
-//     const reservasPorDia: Map<String, { cantidad: number}> = new Map();
-//     for (const reserva of reservas){
-//         const fechaReserva =parseISO(reserva.getDataValue('FECHA_CREACION'))
-//         const numeroDiaSemana = fechaReserva.getDay();
-//         const nombresDiasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-//         const diaDeLaSemana = nombresDiasSemana[numeroDiaSemana];
-//         if (reservasPorDia.has(diaDeLaSemana)) {
-//             const infoDia = reservasPorDia.get(diaDeLaSemana)!;
-//             infoDia.cantidad++;;
-//         } else {
-//             reservasPorDia.set(diaDeLaSemana, { cantidad: 1});
-//         }
-//     }
-//     // const dias = Array.from({ length: 7 }, (_, index) => index + 1);
-//     //     const ventasDia = dias.map(dia => ({
-//     //         dia,
-//     //         cantidadVentas: reservasPorDia.get() || 0,
-//     //     }));
-//     // console.log(reservasPorDia)
-//     }
+const getDiaMasVendido = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const fechaActual = new Date();
+        const fechaInicioMes = (0, date_fns_1.subMonths)((0, date_fns_1.startOfMonth)(fechaActual), 1);
+        const fechaFinMes = (0, date_fns_1.subMonths)((0, date_fns_1.endOfMonth)(fechaActual), 1);
+        fechaInicioMes.toISOString().split('T')[0];
+        fechaFinMes.toISOString().split('T')[0];
+        const reservas = yield reserva_1.Reserva.findAll({ where: { FECHA_CREACION: {
+                    [sequelize_2.Op.between]: [fechaInicioMes, fechaFinMes]
+                }
+            }
+        });
+        const reservasPorDia = new Map();
+        for (const reserva of reservas) {
+            const fechaReserva = (0, date_fns_1.parseISO)(reserva.getDataValue('FECHA_CREACION'));
+            const numeroDiaSemana = fechaReserva.getDay();
+            if (reservasPorDia.has(numeroDiaSemana)) {
+                const infoDia = reservasPorDia.get(numeroDiaSemana);
+                infoDia.cantidad++;
+                ;
+            }
+            else {
+                reservasPorDia.set(numeroDiaSemana, { cantidad: 1 });
+            }
+        }
+        const nombresDiasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        // console.log(reservasPorDia.get('Domingo')?.cantidad)
+        const dias = Array.from({ length: 7 }, (_, index) => index);
+        const ventasDia = dias.map(dia => {
+            var _a;
+            return ({
+                dia: nombresDiasSemana[dia],
+                cantidadVentas: ((_a = reservasPorDia.get(dia)) === null || _a === void 0 ? void 0 : _a.cantidad) || 0,
+            });
+        });
+        res.json(ventasDia);
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'Ha ocurrido un error al obtener el reporte',
+            error
+        });
+    }
+});
+exports.getDiaMasVendido = getDiaMasVendido;
 const comprobarEstadoReserva = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const reservas = yield reserva_1.Reserva.findAll();
