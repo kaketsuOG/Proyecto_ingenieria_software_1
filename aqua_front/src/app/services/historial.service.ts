@@ -30,11 +30,13 @@ export class HistorialService {
     }
 
      // Método para obtener el reporte de ventas por mes
-     getVentasPorMes(ano_reporte: string): Observable<any> {
-      const url = `${this.apiUrl}?ano_reporte=${ano_reporte}`;
-      return this.http.get(url);
+     getVentaPorMes(anoReporte: string): Observable<any> {
+      const options = {
+        params: new HttpParams().set('ano_reporte', anoReporte),
+      };
+    
+      return this.http.get<any>(`${this.apiUrl}/reporte/ventaspormes`, options);
     }
-
     getDiaMasVendido(): Observable<any> {
       return this.http.get<any>(`${this.apiUrl}/reporte/diamasvendido`);
     }

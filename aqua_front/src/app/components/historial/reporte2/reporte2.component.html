@@ -2,23 +2,15 @@
 <div class="container mt-4">
   <h2>Reporte de Ventas por Mes</h2>
 
-  <!-- Formulario para seleccionar el año -->
-  <div class="form-group">
-    <label for="ano_reporte">Seleccione el año:</label>
-    <input type="text" id="ano_reporte" [(ngModel)]="fechaInicio" class="form-control" placeholder="Año (ej. 2023)">
+  <div>
+    <label for="anoReporte">Año:</label>
+    <input type="text" id="anoReporte" [(ngModel)]="anoReporte" placeholder="Año" />
   </div>
 
-  <!-- Botón para obtener el reporte -->
-  <button mat-button class="btn btn-primary" (click)="obtenerVentasPorMes()">Obtener Reporte</button>
+  <button mat-button class="btn btn-primary mt-4" (click)="obtenerVentasPorMes()">Obtener Reporte</button>
 
-  <!-- Mensaje de error o informativo -->
-  <div *ngIf="mensajeSinDatos" class="alert alert-info mt-3">
-    {{ mensajeSinDatos }}
-  </div>
-
-  <!-- Tabla de resultados -->
-  <div *ngIf="mostrarDatos" class="mt-4">
-    <table class="table">
+  <div *ngIf="mostrarDatos">
+    <table class="table mt-4">
       <thead>
         <tr>
           <th>Mes</th>
@@ -27,12 +19,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let venta of resultadoVentasPorMes">
+        <tr *ngFor="let venta of datosTablaVentasPorMes">
           <td>{{ venta.mes }}</td>
           <td>{{ venta.cantidadVentas }}</td>
-          <td>{{ venta.totalDinero | currency:'USD':'symbol':'1.2-2' }}</td>
+          <td>{{ venta.totalDinero }}</td>
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div *ngIf="mensajeSinDatos" class="alert alert-info mt-3">
+    {{ mensajeSinDatos }}
   </div>
 </div>
