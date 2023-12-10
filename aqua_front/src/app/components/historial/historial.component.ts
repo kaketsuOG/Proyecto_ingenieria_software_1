@@ -71,6 +71,25 @@ export class HistorialComponent implements OnInit {
       }
     );
   }
-  
 
+  redirectReporte1() {
+    // Redirige a la página de registro (reemplaza 'nombre-de-ruta' con la ruta real)
+    this.router.navigate(['reporte1']);
+  
+  }
+
+  redirectReporte2() {
+    // Redirige a la página de registro (reemplaza 'nombre-de-ruta' con la ruta real)
+    this.router.navigate(['reporte2']);
+  
+  }
+
+  redirectReporte3() {
+    // Redirige a la página de registro (reemplaza 'nombre-de-ruta' con la ruta real)
+    this.router.navigate(['reporte3']);
+  
+  }
+
+
+  
 }

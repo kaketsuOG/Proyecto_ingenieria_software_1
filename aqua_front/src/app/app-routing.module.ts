@@ -23,6 +23,8 @@ import { UempleadosComponent } from './components/uempleados/usuarios.component'
 import { VempleadosComponent } from './components/vempleados/vehiculo.component';
 import { InventarioCreateComponent } from './components/inventario/create/create.component';
 import { InventarioEditComponent } from './components/inventario/edit/edit.component';
+import { HistorialComponent } from './components/historial/historial.component';
+import { Reporte1Component } from './components/historial/reporte1/reporte1.component'; // Asegúrate de importar Reporte1Component
 
 const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -44,7 +46,8 @@ const routes: Routes = [
   { path: 'vempleados', component: VempleadosComponent},
   { path: 'inventario/create', component: InventarioCreateComponent},
   { path: 'inventario/edit/:id', component: InventarioEditComponent},
-
+  { path: 'historial', component: HistorialComponent },
+  { path: 'reporte1', component: Reporte1Component },
 
 
  //{ path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },

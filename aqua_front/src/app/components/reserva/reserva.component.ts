@@ -76,6 +76,16 @@ export class ReservaComponent implements OnInit {
             // Éxito: Aquí puedes realizar acciones adicionales después de realizar el pedido
             console.log('Pedido realizado con éxito:', response);
 
+            // Obtener el cod_reserva de la respuesta
+            const cod_reserva = response.cod_reserva;
+
+            // Realizar la solicitud GET para obtener información adicional
+            this.reservaService.getInformacionReserva(cod_reserva).subscribe({
+              next: (informacionReserva) => {
+                // Aquí puedes manejar la información adicional, por ejemplo, abrir el PDF
+                console.log('Información adicional de la reserva:', informacionReserva);
+
+
             // Restablecer campos después de realizar el pedido
             this.nombreCliente = '';
             this.celularCliente = '';
@@ -84,11 +94,44 @@ export class ReservaComponent implements OnInit {
             this.apellidoCliente = '';
             this.productos.forEach((producto) => (producto.cantidadPedido = 0));
           },
+          error: (errorGetReserva) => {
+            console.error('Error al obtener información adicional de la reserva:', errorGetReserva);
+          }
+        });
+      },
           error: (error: any) => {
             // Error: Manejar el error
             console.log('Error al realizar el pedido:', error);
           },
         });
     }
+  }
+  descargarPDF(cod_reserva: number): void {
+    
+     console.log(cod_reserva); // Verifica el valor en la consola
+
+    this.reservaService.getInformacionReserva(cod_reserva).subscribe({
+      next: (pdfBlob: Blob) => {
+        // Crear un objeto Blob con el contenido del PDF
+        const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+
+        // Crear un enlace para descargar el PDF
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = `Reserva_${cod_reserva}.pdf`;
+        link.target = '_blank';
+
+        // Agregar el enlace al DOM y simular un clic para iniciar la descarga
+        document.body.appendChild(link);
+        link.click();
+
+        // Eliminar el enlace del DOM
+        document.body.removeChild(link);
+      },
+      error: (error) => {
+        console.error('Error al obtener el PDF de la reserva:', error);
+        // Manejar el error según sea necesario
+      },
+    });
   }
 }

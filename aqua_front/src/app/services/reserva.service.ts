@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse  } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -37,6 +37,12 @@ export class ReservaService {
       })
     );
   }
+
+  getInformacionReserva(cod_reserva: number): Observable<Blob> {
+    const pdfUrl = `${this.apiUrl}/reserva/generarpdf/${cod_reserva}`; // Ajusta la URL según tu API
+    return this.http.get(pdfUrl, { responseType: 'blob' });
+  }
+  
 }
 
 export interface Cliente {

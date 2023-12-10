@@ -1,1 +1,14 @@
-<p>reporte1 works!</p>
+<!-- reporte1.component.html -->
+
+<div>
+  <h1>Reporte de Productos Más Vendidos</h1>
+  <button mat-button class="mat-primary" (click)="obtenerMasVendido()">Obtener Reporte</button>
+
+  <div *ngIf="resultadoMasVendido">
+    <p>Producto más vendido: {{ resultadoMasVendido.idProducto.NOMBRE_PRODUCTO }}</p>
+    <p>Cantidad vendida: {{ resultadoMasVendido.cantidadMayor }}</p>
+  </div>
+  <div *ngIf="errorObtenerMasVendido">
+    <p>Error al obtener el reporte: {{ errorObtenerMasVendido.message }}</p>
+  </div>
+</div>

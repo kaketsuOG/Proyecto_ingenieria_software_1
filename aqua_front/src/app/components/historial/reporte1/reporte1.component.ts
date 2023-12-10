@@ -1,46 +1,37 @@
-import { Component } from '@angular/core';
-import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from '@angular/core';
+
 import { HistorialService } from 'src/app/services/historial.service';
 
 @Component({
-  selector: 'app-reporte',
-  templateUrl: './reporte.component.html',
+  selector: 'app-reporte1',
+  templateUrl: './reporte1.component.html',
+  styleUrls: ['./reporte1.component.css']
 })
-export class ReporteComponent {
-  fechaInicio: NgbDateStruct;
-  fechaFinal: NgbDateStruct;
-  reporte: any;  // Esta variable almacenará el resultado del reporte
+export class Reporte1Component implements OnInit {
 
-  constructor(private calendar: NgbCalendar, private reservaService: HistorialService) {}
+  resultadoMasVendido: any; // Debes declarar la propiedad resultadoMasVendido
+  errorObtenerMasVendido: any; // Debes declarar la propiedad errorObtenerMasVendido
 
-  abrirCalendario() {
-    this.calendar.navigateTo();
+  
+  constructor(private historialService: HistorialService) {}
+
+  ngOnInit() {
+    this.obtenerMasVendido();
   }
 
-  // Método para ejecutar el reporte
-  ejecutarReporte() {
-    // Formatea las fechas seleccionadas para enviarlas al servicio
-    const fechaInicioStr = this.formatoFecha(this.fechaInicio);
-    const fechaFinalStr = this.formatoFecha(this.fechaFinal);
+  obtenerMasVendido() {
+    const fechaInicio = '2023-01-01'; // Ajusta según tus necesidades
+    const fechaFinal = '2023-12-31'; // Ajusta según tus necesidades
 
-    // Llama al servicio para obtener el reporte
-    this.reservaService.obtenerReporteMasVendido(fechaInicioStr, fechaFinalStr)
-      .subscribe(
-        (data) => {
-          // Almacena el resultado del reporte
-          this.reporte = data;
-        },
-        (error) => {
-          console.error('Error al obtener el reporte:', error);
-        }
-      );
-  }
-
-  // Método para formatear la fecha al formato requerido
-  formatoFecha(fecha: NgbDateStruct): string {
-    if (fecha) {
-      return `${fecha.year}-${fecha.month}-${fecha.day}`;
-    }
-    return null;
+    this.historialService.getMasVendido(fechaInicio, fechaFinal).subscribe(
+      (data) => {
+        console.log('Respuesta del servidor:', data);
+        // Procesa la respuesta del servidor según tus necesidades
+      },
+      (error) => {
+        console.error('Error al obtener el reporte:', error);
+        // Maneja el error según tus necesidades
+      }
+    );
   }
 }
