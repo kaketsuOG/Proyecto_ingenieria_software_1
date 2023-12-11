@@ -5,11 +5,11 @@ import { agregarProductos, deleteProducto, getProducto, getProductos, newProduct
 import auth from './auth';
 const router = Router();
 const upload = multer({ dest: './uploads' });
-router.get('/list',getProductos);
-router.get('/:cod_producto',getProducto);
-router.post('/',upload.single('imagen'), newProducto);
-router.post('/:cod_producto/uploadImagen',upload.single('imagen'), uploadImagen);
-router.delete('/:cod_producto',deleteProducto);
-router.put('/:cod_producto',updateProducto);
-router.patch('/agregar/:cod_producto',agregarProductos);
+router.get('/list', auth,getProductos);
+router.get('/:cod_producto',auth,getProducto);
+router.post('/',auth,upload.single('imagen'), newProducto);
+router.post('/:cod_producto/uploadImagen',auth,upload.single('imagen'), uploadImagen);
+router.delete('/:cod_producto',auth,deleteProducto);
+router.put('/:cod_producto',auth,updateProducto);
+router.patch('/agregar/:cod_producto',auth,agregarProductos);
 export default router;

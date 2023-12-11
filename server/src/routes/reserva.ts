@@ -6,23 +6,23 @@ const router = Router();
 
 router.post('/', newReserva);
 
-router.get('/list', getReservas);
+router.get('/list', auth, getReservas);
 
 router.get('/:cod_reserva', getReserva);
 
-router.put('/:cod_reserva', updateReserva);
+router.put('/:cod_reserva', auth, updateReserva);
 
-router.delete('/:cod_reserva', deleteReserva);
+router.delete('/:cod_reserva', auth, deleteReserva);
 
 router.get('/estado/:estado', getReservasByEstado);
 
-router.get('/ciudad/:ciudad', getReservasByCiudad);
+router.get('/ciudad/:ciudad', auth, getReservasByCiudad);
 
-router.post('/reporte/masvendido',getMasVendido);
+router.post('/reporte/masvendido', auth, auth,getMasVendido);
 
-router.post('/reporte/ventaspormes',getVentasPorMes);
+router.post('/reporte/ventaspormes',auth, getVentasPorMes);
 
-router.get('/reporte/diamasvendido',getDiaMasVendido);
+router.get('/reporte/diamasvendido', auth, getDiaMasVendido);
 
 router.get('/generarpdf/:id',pdfReserva);
 export default router;
