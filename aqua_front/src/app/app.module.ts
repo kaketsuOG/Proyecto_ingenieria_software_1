@@ -104,7 +104,7 @@ import { Reporte3Component } from './components/historial/reporte3/reporte3.comp
     }), LayoutModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, // ToastrModule added
   ],
   providers: [UsuarioService, ReservaService,
-   // { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }
+   { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

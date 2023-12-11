@@ -64,7 +64,7 @@ showEmpleadosInfo = false;
 
   logOut() {
     localStorage.removeItem('token');
-    this.router.navigate(['/login'])
+    this.router.navigate(['/inicio'])
 
   
 }}
