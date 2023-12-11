@@ -6,12 +6,10 @@ import routesUser from '../routes/user';
 import routesProducto from '../routes/producto';
 import routesVehiculo from '../routes/vehiculo';
 import routesDispo_fecha from '../routes/dispo_fecha';
-import routesDet_horario_entrega from '../routes/det_horario_entrega';
 import routesReserva from '../routes/reserva';
 import routesDet_reserva from '../routes/detalle_reserva';
 import { User } from './user';
 import { Disponibilidad_fecha } from './dispo_fecha';
-import { Detalle_horario_entrega } from './det_horario_entrega'
 import { Producto } from './producto';
 import { Vehiculo } from './vehiculo';
 import { Reserva } from './reserva';
@@ -53,7 +51,6 @@ class Server {
         this.app.use('/api/productos', routesProducto);
         this.app.use('/api/vehiculos', routesVehiculo);
         this.app.use('/api/dispo_fechas', routesDispo_fecha);
-        this.app.use('/api/det_horario_entrega', routesDet_horario_entrega);
         this.app.use('/api/reserva', routesReserva);
         this.app.use('/api/det_reserva_producto', routesDet_reserva);
     }
@@ -70,7 +67,6 @@ class Server {
             await Rol.sync()
             await User.sync()
             await Producto.sync()
-            await Detalle_horario_entrega.sync()
             await Disponibilidad_fecha.sync()
             await Reserva.sync()
             await DetalleReserva.sync()
