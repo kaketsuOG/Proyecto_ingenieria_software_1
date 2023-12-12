@@ -39,6 +39,32 @@
     margin-left: 0px;
   
   }
+
+  .fa-solid {
+    color: rgb(0, 0, 0);
+  }
+
+  .empleados-row i{
+    margin-right: 10px; /* Ajusta según sea necesario */
+    font-size: 30px;
+  }
+  .vehiculos-row i{
+    margin-right: 11px; /* Ajusta según sea necesario */
+    font-size: 37.5px;
+  }
+  .inventario-row i{
+    margin-right: 10px; /* Ajusta según sea necesario */
+    font-size: 30px;
+  }
+  .historial-row i {
+    margin-left: 3.9px;
+    margin-right: 14px; /* Ajusta según sea necesario */
+    font-size: 40px;
+  }
+  
+
+
+  
   
   
   

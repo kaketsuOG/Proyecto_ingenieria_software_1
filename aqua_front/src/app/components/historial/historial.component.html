@@ -1,12 +1,45 @@
 <div class="container">
-    <mat-toolbar>
-      <span>historial de reservas</span>
-      <span class="filler"></span>
-      <button mat-button class="mat-primary" (click)="redirectReporte1()">Productos Más Vendidos</button>
-      <button mat-button class="mat-primary" (click)="redirectReporte2()">Ventas por mes</button>
-      <button mat-button class="mat-primary" (click)="redirectReporte3()">Promedio de venta por dia</button>
-    </mat-toolbar>
+  <mat-toolbar>
+    <span>Historial de reservas</span>
+    <span class="filler"></span>
+    <button mat-button class="mat-primary" (click)="redirectReporte1()">Productos Más Vendidos</button>
+    <button mat-button class="mat-primary" (click)="redirectReporte2()">Ventas por mes</button>
+    <button mat-button class="mat-primary" (click)="redirectReporte3()">Promedio de venta por día</button>
+  </mat-toolbar>
    
+  <div class="filtro-container">
+    <mat-form-field>
+      <mat-label>Filtrar por</mat-label>
+      <mat-select [(ngModel)]="filtroSeleccionado">
+        <mat-option value="estado">Estado</mat-option>
+        <mat-option value="ciudad">Ciudad</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div *ngIf="filtroSeleccionado === 'estado'">
+      <mat-form-field>
+        <mat-label>Estado</mat-label>
+        <mat-select [(ngModel)]="selectedEstado">
+          <mat-option value="">Todos</mat-option>
+          <mat-option *ngFor="let estado of opcionesEstado" [value]="estado">{{ estado }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="filtroSeleccionado === 'ciudad'">
+      <mat-form-field>
+        <mat-label>Ciudad</mat-label>
+        <mat-select [(ngModel)]="selectedCiudad">
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="Rancagua">Rancagua</mat-option>
+          <mat-option value="Requinoa">Requinoa</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <button mat-button class="mat-primary" (click)="filtrarReservas()">Filtrar</button>
+  </div>
+
     <table 
       mat-table
       [dataSource]="reserva"

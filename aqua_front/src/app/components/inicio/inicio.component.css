@@ -27,7 +27,7 @@
   background:#1acaf1;
   text-decoration: none;
   border-radius: 2rem;
-  margin-left: 260px;
+  margin-left: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,7 +81,7 @@ body{
 
 /* caracteristicas del titulo 'productos' */
 .tittleP{
-  margin-top: 60rem;
+  margin-top: 63rem;
   margin-bottom: 4rem;
   font-size: 80px;
   font-weight: 600;
@@ -137,34 +137,46 @@ body{
 
 /* caracteristicas contenido sección nosotros */
 .p{
+  width: 60rem;
   text-align: center;
   font-size: 18px;
 }
 
 /* caracteristicas sección contacto */
 .Contact{
-  height: 100%;
+  height: 65%;
   background: #000000f9;
 }
 
 /* caracteristicas titulo 'contacto' */
-.tittleC{
-  margin-bottom: 2rem;
-  font-size: 80px;
+.tittleH{
+  margin-top: -3rem;
+  margin-bottom: 3rem;
+  font-size: 40px;
   font-weight: 600;
   color: #fffffff9;
 }
 
+.tittleC{
+  margin-top: -3rem;
+  margin-bottom: 3rem;
+  font-size: 40px;
+  font-weight: 600;
+  color: #fffffff9;
+}
+
+.tittleL{
+  margin-top: -3rem;
+  margin-bottom: 3rem;
+  font-size: 40px;
+  font-weight: 600;
+  color: #fffffff9;
+}
 /* caracteristicas contenido de contacto */
 .parrafoC{
   color: #ffffff;
   margin-bottom: 1rem;
   font-size: 18px;
-}
-
-/* caracteristicas de imagen en sección contacto */
-.cont{
-  margin-top: 20px;
 }
 
 /* caracteristicas icono de WhatsApp */
@@ -175,4 +187,46 @@ body{
 /* caracteristicas icono de Gmail */
 .fa-regular{
   color: #1acaf1;
+}
+
+.fa-location-dot{
+  color: #f1411a;
+}
+
+.column-container {
+  margin-top: 2rem; 
+}
+
+.contact-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5rem; 
+  
+}
+
+.columnH {
+  width: 55%; 
+  margin-left: 3rem;
+}
+
+.columnC {
+  width: 55%; 
+  margin-left: 5rem;
+}
+
+.columnL {
+  width: 55%; 
+  margin-left: 5rem;
+}
+
+@media (max-width: 768px) {
+  .contact-info {
+    flex-direction: column;
+  }
+
+  .column {
+    width: 100%;
+    margin-bottom: 10px; 
+    margin-right: 0; 
+  }
 }

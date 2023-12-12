@@ -38,6 +38,15 @@ export class HistorialService {
     getDiaMasVendido(): Observable<any> {
       return this.http.get<any>(`${this.apiUrl}/reporte/diamasvendido`);
     }
+
+    getReservasByEstado(estado: string): Observable<any[]> {
+      return this.http.get<any[]>(`${this.apiUrl}/estado/${estado}`);
+    }
+  
+    getReservasByCiudad(ciudad: string): Observable<any[]> {
+      return this.http.get<any[]>(`${this.apiUrl}/ciudad/${ciudad}`);
+    }
+    
   
     // Otros métodos relacionados con el historial...
   }

@@ -50,7 +50,9 @@ import { HistorialComponent } from './components/historial/historial.component';
 import { Reporte1Component } from './components/historial/reporte1/reporte1.component';
 import { Reporte2Component } from './components/historial/reporte2/reporte2.component';
 import { Reporte3Component } from './components/historial/reporte3/reporte3.component';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
@@ -95,6 +97,9 @@ import { Reporte3Component } from './components/historial/reporte3/reporte3.comp
     MatSortModule,
     MatPaginatorModule,
     CommonModule,
+    MatSelectModule,
+    MatInputModule,
+    MatFormFieldModule,
     ReservaModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot({
@@ -104,7 +109,7 @@ import { Reporte3Component } from './components/historial/reporte3/reporte3.comp
     }), LayoutModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, // ToastrModule added
   ],
   providers: [UsuarioService, ReservaService,
-   { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }
+   // { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
