@@ -7,7 +7,7 @@ const express_1 = require("express");
 const user_1 = require("../controllers/user");
 const auth_1 = __importDefault(require("./auth"));
 const router = (0, express_1.Router)();
-router.post('/', auth_1.default, user_1.newUser);
+router.post('/', user_1.newUser);
 router.post('/login', user_1.loginUser); // login no llevaria validateToken pq es en el login donde se cre y se devuelve para q lo capturen
 router.get('/list',  user_1.getUsers);
 router.get('/:rut_usuario', auth_1.default, user_1.getUser); // si quieren q se verifique el token de la sesion se debe agregar validateToken. ej: router.get('/:rut_usuario',validateToken,getUser);
