@@ -7,6 +7,10 @@ import routesProducto from '../routes/producto';
 import routesVehiculo from '../routes/vehiculo';
 import routesReserva from '../routes/reserva';
 import routesDet_reserva from '../routes/detalle_reserva';
+import routesCliente from '../routes/cliente';
+import routesFacturas from '../routes/facturas';
+import routesCarrito from '../routes/carrito';
+import routesDetalle_factura from '../routes/detalle_factura';
 import metodosRoutes from './routes/metodos_de_pago';
 import depositosRoutes from './routes/deposito';
 import tarjetasRoutes from './routes/datos_de_tarjeta';
@@ -18,6 +22,10 @@ import { Vehiculo } from './vehiculo';
 import { Reserva } from './reserva';
 import { DetalleReserva } from './detalle_reserva';
 import { comprobarEstadoReserva} from '../controllers/reserva';
+import { Cliente } from './cliente';
+import { Carrito } from './carrito';
+import { Facturas } from './facturas';
+import { Detalle_factura } from './detalle_factura';
 import { firstSteps } from './controllers/user';
 import { metodos } from './metodos_de_pago';
 import { depositos } from './deposito';
@@ -66,6 +74,10 @@ class Server {
         this.app.use('/api/tarjeta', RoutesTarjeta);
         this.app.use('/api/pago', RoutesPago);
         this.app.use('/api/transacciones', RoutesTransacciones);
+        this.app.use('/api/cliente', routesCliente);
+        this.app.use('/api/carrito', routesCarrito);
+        this.app.use('/api/facturas', routesFacturas);
+        this.app.use('/api/detalle_factura', routesDetalle_factura);
     }
 
     midlewares() {
@@ -87,6 +99,10 @@ class Server {
             await pagos.sync()
             await transacciones.sync()
             await tarjetas.sync()
+            await Cliente.sync()
+            await Facturas.sync()
+            await Detalle_factura.sync()
+            await Carrito.sync()
 
         } catch (error) {
             console.error('No se ha podido conectar a la base de datos');
