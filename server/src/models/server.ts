@@ -18,7 +18,12 @@ import { Vehiculo } from './vehiculo';
 import { Reserva } from './reserva';
 import { DetalleReserva } from './detalle_reserva';
 import { comprobarEstadoReserva} from '../controllers/reserva';
-import { firstSteps } from '../controllers/user';
+import { firstSteps } from './controllers/user';
+import { metodos } from './metodos_de_pago';
+import { depositos } from './deposito';
+import { tarjetas } from './datos_de_tarjetas';
+import { pagos } from './pagos';
+import { transacciones } from './transaccion';
 
 
 
@@ -77,6 +82,11 @@ class Server {
             await Producto.sync()
             await Reserva.sync()
             await DetalleReserva.sync()
+            await metodos.sync()
+            await deposito.sync()
+            await pagos.sync()
+            await transacciones.sync()
+            await tarjetas.sync()
 
         } catch (error) {
             console.error('No se ha podido conectar a la base de datos');
