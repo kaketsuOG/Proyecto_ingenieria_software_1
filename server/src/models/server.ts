@@ -7,6 +7,11 @@ import routesProducto from '../routes/producto';
 import routesVehiculo from '../routes/vehiculo';
 import routesReserva from '../routes/reserva';
 import routesDet_reserva from '../routes/detalle_reserva';
+import metodosRoutes from './routes/metodos_de_pago';
+import depositosRoutes from './routes/deposito';
+import tarjetasRoutes from './routes/datos_de_tarjeta';
+import pagosRoutes from './routes/pagos';
+import transaccionesRoutes from './routes/transaccion';
 import { User } from './user';
 import { Producto } from './producto';
 import { Vehiculo } from './vehiculo';
@@ -14,6 +19,7 @@ import { Reserva } from './reserva';
 import { DetalleReserva } from './detalle_reserva';
 import { comprobarEstadoReserva} from '../controllers/reserva';
 import { firstSteps } from '../controllers/user';
+
 
 
 
@@ -50,6 +56,11 @@ class Server {
         this.app.use('/api/vehiculos', routesVehiculo);
         this.app.use('/api/reserva', routesReserva);
         this.app.use('/api/det_reserva_producto', routesDet_reserva);
+        this.app.use('/api/metodo', RoutesMetodo);
+        this.app.use('/api/deposito', RoutesDeposito);
+        this.app.use('/api/tarjeta', RoutesTarjeta);
+        this.app.use('/api/pago', RoutesPago);
+        this.app.use('/api/transacciones', RoutesTransacciones);
     }
 
     midlewares() {
