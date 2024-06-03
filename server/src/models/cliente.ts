@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
+import { Rol } from './rol';
 
 export const Cliente = sequelize.define(
     'Cliente',
@@ -17,3 +18,5 @@ export const Cliente = sequelize.define(
         timestamps: false,
     }
 );
+
+Cliente.belongsTo(Rol, { foreignKey: 'COD_ROL' });

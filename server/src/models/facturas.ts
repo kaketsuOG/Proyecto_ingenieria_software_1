@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
+import { Cliente } from './cliente';
+
 
 export const Facturas = sequelize.define(
     'Facturas',
@@ -16,3 +18,5 @@ export const Facturas = sequelize.define(
         timestamps: false,
     }
 );
+
+Facturas.belongsTo(Cliente, { foreignKey: 'COD_CLIENTE' });
