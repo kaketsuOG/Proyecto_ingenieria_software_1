@@ -11,17 +11,17 @@ import routesCliente from '../routes/cliente';
 import routesFacturas from '../routes/facturas';
 import routesCarrito from '../routes/carrito';
 import routesDetalle_factura from '../routes/detalle_factura';
-import metodosRoutes from './routes/metodos_de_pago';
-import depositosRoutes from './routes/deposito';
-import tarjetasRoutes from './routes/datos_de_tarjeta';
-import pagosRoutes from './routes/pagos';
-import transaccionesRoutes from './routes/transaccion';
+import metodosRoutes from '../routes/metodos_de_pago';
+import depositosRoutes from '../routes/deposito';
+import tarjetasRoutes from '../routes/datos_de_tarjeta';
+import pagosRoutes from '../routes/pagos';
+import transaccionesRoutes from '../routes/transaccion';
 import { User } from './user';
 import { Producto } from './producto';
 import { Vehiculo } from './vehiculo';
 import { Reserva } from './reserva';
 import { DetalleReserva } from './detalle_reserva';
-import { comprobarEstadoReserva} from '../controllers/reserva';
+import { comprobarEstadoReserva } from '../controllers/reserva';
 import { Cliente } from './cliente';
 import { Carrito } from './carrito';
 import { Facturas } from './facturas';
@@ -109,23 +109,23 @@ class Server {
         }
     }
 
-    async firstUser (){
-        try{
+    async firstUser() {
+        try {
             await firstSteps()
-        } catch (error){
-            console.error('Ha ocurrido un error en el servidor',error);
+        } catch (error) {
+            console.error('Ha ocurrido un error en el servidor', error);
 
         }
     }
     async startReservaStateCheck() {
         setInterval(async () => {
-          try {
-            comprobarEstadoReserva()
-            
-          } catch (error) {
-            console.error('Ha ocurrido un error en el servidor',error);
-          }
+            try {
+                comprobarEstadoReserva()
+
+            } catch (error) {
+                console.error('Ha ocurrido un error en el servidor', error);
+            }
         }, 1500000);
-      }
+    }
 }
 export default Server;

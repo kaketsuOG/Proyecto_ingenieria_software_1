@@ -4,7 +4,7 @@ import sequelize from '../db/connection';
 export const deposito = sequelize.define(
     'deposito',
     {
-        COD_BANCO: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+        COD_BANCO: { type: DataTypes.INTEGER, primaryKey: true },
         NOMBRE_BANCO: { type: DataTypes.STRING(255) },
         NUMERO_DE_CUENTA: { type: DataTypes.INTEGER },
     },

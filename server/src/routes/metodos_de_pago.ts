@@ -1,18 +1,22 @@
-import express from 'express';
-import {
-  getAllMetodos,
-  getMetodoById,
-  createMetodo,
-  updateMetodo,
-  deleteMetodo,
-} from '../controllers/metodos_de_pago.controller';
+import { Router } from 'express';
+import { getAllMetodos, getMetodo, createMetodo, updateMetodo, deleteMetodo } from '../controllers/metodos_de_pago';
+import auth from './auth';
 
-const router = express.Router();
+const router = Router();
 
-router.get('/metodos', getAllMetodos);
-router.get('/metodos/:id', getMetodoById);
-router.post('/metodos', createMetodo);
-router.put('/metodos/:id', updateMetodo);
-router.delete('/metodos/:id', deleteMetodo);
+// Obtener todos los métodos de pago
+router.get('/list', auth, getAllMetodos);
+
+// Obtener un método de pago por su código
+router.get('/:cod_metodo_de_pago', auth, getMetodo);
+
+// Crear un nuevo método de pago
+router.post('/', auth, createMetodo);
+
+// Actualizar un método de pago por su código
+router.put('/:cod_metodo_de_pago', auth, updateMetodo);
+
+// Eliminar un método de pago por su código
+router.delete('/:cod_metodo_de_pago', auth, deleteMetodo);
 
 export default router;

@@ -1,18 +1,22 @@
-import express from 'express';
-import {
-  getAllPagos,
-  getPagoById,
-  createPago,
-  updatePago,
-  deletePago,
-} from '../controllers/pagos.controller';
+import { Router } from 'express';
+import { getAllPagos, getPago, createPago, updatePago, deletePago } from '../controllers/pagos';
+import auth from './auth';
 
-const router = express.Router();
+const router = Router();
 
-router.get('/pagos', getAllPagos);
-router.get('/pagos/:id', getPagoById);
-router.post('/pagos', createPago);
-router.put('/pagos/:id', updatePago);
-router.delete('/pagos/:id', deletePago);
+// Obtener todos los pagos
+router.get('/list', auth, getAllPagos);
+
+// Obtener un pago por su código
+router.get('/:cod_pago', auth, getPago);
+
+// Crear un nuevo pago
+router.post('/', auth, createPago);
+
+// Actualizar un pago por su código
+router.put('/:cod_pago', auth, updatePago);
+
+// Eliminar un pago por su código
+router.delete('/:cod_pago', auth, deletePago);
 
 export default router;

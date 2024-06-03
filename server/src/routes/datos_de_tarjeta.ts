@@ -1,18 +1,22 @@
-import express from 'express';
-import {
-  getAllDatosTarjeta,
-  getDatoTarjetaById,
-  createDatoTarjeta,
-  updateDatoTarjeta,
-  deleteDatoTarjeta,
-} from '../controllers/datos_de_tarjeta.controller';
+import { Router } from 'express';
+import { getAllDatosTarjeta, getDatoTarjeta, createDatoTarjeta, updateDatoTarjeta, deleteDatoTarjeta } from '../controllers/datos_de_tarjeta';
+import auth from './auth';
 
-const router = express.Router();
+const router = Router();
 
-router.get('/datos-tarjeta', getAllDatosTarjeta);
-router.get('/datos-tarjeta/:id', getDatoTarjetaById);
-router.post('/datos-tarjeta', createDatoTarjeta);
-router.put('/datos-tarjeta/:id', updateDatoTarjeta);
-router.delete('/datos-tarjeta/:id', deleteDatoTarjeta);
+// Obtener todos los datos de tarjeta
+router.get('/list', auth, getAllDatosTarjeta);
+
+// Obtener un dato de tarjeta por su ID
+router.get('/:numero', auth, getDatoTarjeta);
+
+// Crear un nuevo dato de tarjeta
+router.post('/', auth, createDatoTarjeta);
+
+// Actualizar un dato de tarjeta por su ID
+router.put('/:numero', auth, updateDatoTarjeta);
+
+// Eliminar un dato de tarjeta por su ID
+router.delete('/:numero', auth, deleteDatoTarjeta);
 
 export default router;

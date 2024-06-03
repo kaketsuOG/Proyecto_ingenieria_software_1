@@ -1,18 +1,22 @@
-import express from 'express';
-import {
-  getAllTransacciones,
-  getTransaccionById,
-  createTransaccion,
-  updateTransaccion,
-  deleteTransaccion,
-} from '../controllers/transaccion.controller';
+import { Router } from 'express';
+import { getAllTransacciones, getTransaccion, createTransaccion, updateTransaccion, deleteTransaccion } from '../controllers/transaccion';
+import auth from './auth';
 
-const router = express.Router();
+const router = Router();
 
-router.get('/transacciones', getAllTransacciones);
-router.get('/transacciones/:id', getTransaccionById);
-router.post('/transacciones', createTransaccion);
-router.put('/transacciones/:id', updateTransaccion);
-router.delete('/transacciones/:id', deleteTransaccion);
+// Obtener todas las transacciones
+router.get('/list', auth, getAllTransacciones);
+
+// Obtener una transacción por su COD
+router.get('/:cod_transaccion', auth, getTransaccion);
+
+// Crear una nueva transacción
+router.post('/', auth, createTransaccion);
+
+// Actualizar una transacción por su COD
+router.put('/:cod_transaccion', auth, updateTransaccion);
+
+// Eliminar una transacción por su COD
+router.delete('/:cod_transaccion', auth, deleteTransaccion);
 
 export default router;

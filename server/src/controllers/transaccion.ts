@@ -1,73 +1,84 @@
+import { Request, Response } from 'express';
 import { transaccion } from '../models/transaccion';
 import { pagos } from '../models/pagos';
 
 // Obtener todas las transacciones
-export const getAllTransacciones = async (req, res) => {
+export const getAllTransacciones = async (req: Request, res: Response) => {
   try {
     const transacciones = await transaccion.findAll({
       include: [
         { model: pagos, attributes: ['COD_PAGO'] },
       ],
+      attributes: ['COD_TRANSACCION', 'COD_PAGO', 'FECHA_PAGO', 'ESTADO_TRANSACCION']
     });
     res.json(transacciones);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener las transacciones.' });
   }
 };
 
-// Obtener una transacción por su ID
-export const getTransaccionById = async (req, res) => {
+// Obtener una transacción por su COD
+export const getTransaccion = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const transaccion = await transaccion.findByPk(req.params.id, {
+    const transaccionEncontrada = await transaccion.findByPk(id, {
       include: [
         { model: pagos, attributes: ['COD_PAGO'] },
       ],
+      attributes: ['COD_TRANSACCION', 'COD_PAGO', 'FECHA_PAGO', 'ESTADO_TRANSACCION']
     });
-    if (!transaccion) {
-      return res.status(404).json({ message: 'Transacción no encontrada' });
+    if (!transaccionEncontrada) {
+      return res.status(404).json({ error: 'Transacción no encontrada.' });
     }
-    res.json(transaccion);
+    res.json(transaccionEncontrada);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener la transacción.' });
   }
 };
 
 // Crear una nueva transacción
-export const createTransaccion = async (req, res) => {
+export const createTransaccion = async (req: Request, res: Response) => {
+  const { COD_PAGO } = req.body;
   try {
-    const { COD_PAGO } = req.body;
     const nuevaTransaccion = await transaccion.create({ COD_PAGO });
     res.status(201).json(nuevaTransaccion);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error(error);
+    res.status(400).json({ error: 'Error al crear la transacción.' });
   }
 };
 
 // Actualizar una transacción
-export const updateTransaccion = async (req, res) => {
+export const updateTransaccion = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { ESTADO_TRANSACCION } = req.body;
   try {
-    const transaccion = await transaccion.findByPk(req.params.id);
-    if (!transaccion) {
-      return res.status(404).json({ message: 'Transacción no encontrada' });
+    const transaccionEncontrada = await transaccion.findByPk(id);
+    if (!transaccionEncontrada) {
+      return res.status(404).json({ error: 'Transacción no encontrada.' });
     }
-    const { ESTADO_TRANSACCION } = req.body;
-    await transaccion.update({ ESTADO_TRANSACCION });
-    res.json(transaccion);
+    await transaccionEncontrada.update({ ESTADO_TRANSACCION });
+    res.json(transaccionEncontrada);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error(error);
+    res.status(400).json({ error: 'Error al actualizar la transacción.' });
   }
 };
 
 // Eliminar una transacción
-export const deleteTransaccion = async (req, res) => {
+export const deleteTransaccion = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const transaccion = await transaccion.findByPk(req.params.id);
-    if (!transaccion) {
-      return res.status(404).json({ message: 'Transacción no encontrada' });
+    const transaccionEncontrada = await transaccion.findByPk(id);
+    if (!transaccionEncontrada) {
+      return res.status(404).json({ error: 'Transacción no encontrada.' });
     }
-    await transaccion.destroy();
-    res.json({ message: 'Transacción eliminada correctamente' });
+    await transaccionEncontrada.destroy();
+    res.json({ mensaje: 'Transacción eliminada correctamente.' });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ error: 'Error al eliminar la transacción.' });
   }
 };

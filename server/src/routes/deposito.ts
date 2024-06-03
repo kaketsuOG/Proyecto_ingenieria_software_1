@@ -1,18 +1,22 @@
-import express from 'express';
-import {
-  getAllDepositos,
-  getDepositoById,
-  createDeposito,
-  updateDeposito,
-  deleteDeposito,
-} from '../controllers/deposito.controller';
+import { Router } from 'express';
+import { getAllDepositos, getDeposito, createDeposito, updateDeposito, deleteDeposito } from '../controllers/deposito';
+import auth from './auth';
 
-const router = express.Router();
+const router = Router();
 
-router.get('/depositos', getAllDepositos);
-router.get('/depositos/:id', getDepositoById);
-router.post('/depositos', createDeposito);
-router.put('/depositos/:id', updateDeposito);
-router.delete('/depositos/:id', deleteDeposito);
+// Obtener todos los depósitos
+router.get('/list', auth, getAllDepositos);
+
+// Obtener un depósito por su código de banco
+router.get('/:cod_banco', auth, getDeposito);
+
+// Crear un nuevo depósito
+router.post('/', auth, createDeposito);
+
+// Actualizar un depósito por su código de banco
+router.put('/:cod_banco', auth, updateDeposito);
+
+// Eliminar un depósito por su código de banco
+router.delete('/:cod_banco', auth, deleteDeposito);
 
 export default router;
