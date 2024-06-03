@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/connection';
+import { pagos } from './pagos';
 
 export const transaccion = sequelize.define(
     'transaccion',
@@ -14,3 +15,5 @@ export const transaccion = sequelize.define(
         timestamps: false,
     }
 );
+
+transaccion.belongsTo(pagos, { foreignKey: 'COD_PAGO' });
