@@ -11,11 +11,11 @@ import routesCliente from '../routes/cliente';
 import routesFacturas from '../routes/facturas';
 import routesCarrito from '../routes/carrito';
 import routesDetalle_factura from '../routes/detalle_factura';
-import metodosRoutes from '../routes/metodos_de_pago';
-import depositosRoutes from '../routes/deposito';
-import tarjetasRoutes from '../routes/datos_de_tarjeta';
-import pagosRoutes from '../routes/pagos';
-import transaccionesRoutes from '../routes/transaccion';
+import routesMetodos from '../routes/metodos_de_pago';
+import routesDepositos from '../routes/deposito';
+import routesTarjetas from '../routes/datos_de_tarjeta';
+import routesPagos from '../routes/pagos';
+import routesTransacciones from '../routes/transaccion';
 import { User } from './user';
 import { Producto } from './producto';
 import { Vehiculo } from './vehiculo';
@@ -25,13 +25,13 @@ import { comprobarEstadoReserva } from '../controllers/reserva';
 import { Cliente } from './cliente';
 import { Carrito } from './carrito';
 import { Facturas } from './facturas';
-import { Detalle_factura } from './detalle_factura';
-import { firstSteps } from './controllers/user';
-import { metodos } from './metodos_de_pago';
-import { depositos } from './deposito';
-import { tarjetas } from './datos_de_tarjetas';
+import { Detalle_Factura } from './detalle_factura';
+import { firstSteps } from '../controllers/user';
+import { metodos_de_pago } from './metodos_de_pago';
+import { deposito } from './deposito';
+import { datos_de_tarjeta } from './datos_de_tarjeta';
 import { pagos } from './pagos';
-import { transacciones } from './transaccion';
+import { transaccion } from './transaccion';
 
 
 
@@ -69,11 +69,11 @@ class Server {
         this.app.use('/api/vehiculos', routesVehiculo);
         this.app.use('/api/reserva', routesReserva);
         this.app.use('/api/det_reserva_producto', routesDet_reserva);
-        this.app.use('/api/metodo', RoutesMetodo);
-        this.app.use('/api/deposito', RoutesDeposito);
-        this.app.use('/api/tarjeta', RoutesTarjeta);
-        this.app.use('/api/pago', RoutesPago);
-        this.app.use('/api/transacciones', RoutesTransacciones);
+        this.app.use('/api/metodos_de_pago', routesMetodos);
+        this.app.use('/api/deposito', routesDepositos);
+        this.app.use('/api/tarjeta', routesTarjetas);
+        this.app.use('/api/pago', routesPagos);
+        this.app.use('/api/transacciones', routesTransacciones);
         this.app.use('/api/cliente', routesCliente);
         this.app.use('/api/carrito', routesCarrito);
         this.app.use('/api/facturas', routesFacturas);
@@ -94,14 +94,14 @@ class Server {
             await Producto.sync()
             await Reserva.sync()
             await DetalleReserva.sync()
-            await metodos.sync()
+            await metodos_de_pago.sync()
             await deposito.sync()
             await pagos.sync()
-            await transacciones.sync()
-            await tarjetas.sync()
+            await transaccion.sync()
+            await datos_de_tarjeta.sync()
             await Cliente.sync()
             await Facturas.sync()
-            await Detalle_factura.sync()
+            await Detalle_Factura.sync()
             await Carrito.sync()
 
         } catch (error) {
