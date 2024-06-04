@@ -24,7 +24,8 @@
     "mysql2": "^3.6.1",
     "pdfmake": "^0.2.8",
     "sequelize": "^6.33.0",
-    "transbank-sdk": "^5.0.0"
+    "transbank-sdk": "^5.0.0",
+    "transbank-sdk-node": "^3.4.18"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
